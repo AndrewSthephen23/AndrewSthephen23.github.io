@@ -1,17 +1,144 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
+import Skills from "../components/Skills.astro";
+import Experience from "../components/Experience.astro";
+import SelectedWorks from "../components/SelectedWorks.astro";
+import UserReports from "../components/UserReports.astro";
+import Contact from "../components/Contact.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Portafolio NeoBrutal // CTF">
+	<section
+		class="min-h-screen flex flex-col justify-center items-center px-4 pt-20 relative overflow-hidden border-b-4 border-black"
+	>
+		<div
+			class="absolute top-1/3 left-[10%] w-16 h-16 bg-neo-blue border-4 border-black shadow-hard animate-bounce hidden lg:block"
+		>
+		</div>
+		<div
+			class="absolute bottom-1/3 right-[10%] w-24 h-24 bg-neo-pink rounded-full border-4 border-black shadow-hard hidden lg:block animate-pulse"
+		>
+		</div>
+
+		<div
+			class="absolute top-20 right-20 text-9xl opacity-5 font-black select-none pointer-events-none"
+		>
+			PWNED
+		</div>
+
+		<div class="relative z-10 text-center max-w-5xl">
+			<div
+				class="inline-block bg-neo-white border-2 border-black px-4 py-1 mb-6 shadow-hard reveal"
+			>
+				<span
+					class="font-mono font-bold text-neo-green bg-black px-2 mr-2"
+					>●</span
+				>
+				<span class="font-mono font-bold">SYSTEM STATUS: ONLINE</span>
+			</div>
+
+			<h1
+				class="text-[13vw] md:text-[10vw] leading-[0.8] font-black uppercase tracking-tighter mb-6 reveal mix-blend-darken"
+			>
+				PENTESTER<br />
+				<span
+					class="text-white text-stroke-black"
+					style="-webkit-text-stroke: 3px black;">JUNIOR</span
+				>
+			</h1>
+
+			<p
+				class="font-mono text-lg md:text-2xl max-w-2xl mx-auto mb-10 bg-neo-yellow border-2 border-black p-4 shadow-hard reveal"
+			>
+				Rompiendo sistemas y documentando el proceso. <br />
+				<b>Pentesting • Reverse Eng • Web Security</b>
+			</p>
+
+			<div class="flex flex-col md:flex-row justify-center gap-6 reveal">
+				<a
+					href="#projects"
+					class="bg-black text-white border-2 border-black px-10 py-5 text-xl font-bold shadow-hard hover:bg-neo-green hover:text-black hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
+				>
+					VER WRITE-UPS
+				</a>
+				<a
+					href="#"
+					class="bg-neo-white text-black border-2 border-black px-10 py-5 text-xl font-bold shadow-hard hover:bg-neo-pink hover:text-black hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover flex items-center justify-center gap-2"
+				>
+					<i class="ri-terminal-box-line"></i> VER ARSENAL
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<div class="border-b-4 border-black bg-neo-blue py-3 relative z-20">
+		<div class="marquee-container font-mono font-bold text-2xl text-white">
+			<div class="marquee-content">
+				/// HACK THE BOX /// TRY HACK ME /// CAPTURE THE FLAG ///
+				PENTESTER /// VULNERABILITY ASSESSMENT /// ENUMERATION ///
+				SCANNING /// RED TEAM /// INFORMATION GATHERING /// EXPLOITATION
+				/// POST-EXPLOITATION ///
+			</div>
+		</div>
+	</div>
+
+	<section
+		id="about"
+		class="py-24 px-4 max-w-7xl mx-auto border-x-4 border-black bg-white my-12 shadow-hard-lg"
+	>
+		<div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+			<div class="md:col-span-4 reveal">
+				<div
+					class="aspect-square bg-gray-200 border-4 border-black relative shadow-hard overflow-hidden group"
+				>
+					<div
+						class="w-full h-full bg-neo-black text-neo-green flex items-center justify-center font-mono"
+					>
+						/NO_IMAGE_YET/
+					</div>
+					<span
+						class="absolute top-2 left-2 bg-neo-red text-white px-2 font-mono text-xs border border-black z-10"
+						>ROOT.JPG</span
+					>
+				</div>
+			</div>
+			<div class="md:col-span-8 flex flex-col justify-center reveal">
+				<h2 class="text-6xl font-black uppercase mb-6">Who am I?</h2>
+				<p class="font-mono text-xl leading-relaxed mb-6">
+					Soy un entusiasta de la ciberseguridad que cree que la web
+					se ha vuelto demasiado aburrida. Traigo la <span
+						class="bg-neo-yellow px-1 border border-black"
+						>estética cruda</span
+					> de vuelta a mis reportes.
+				</p>
+				<p
+					class="font-mono text-lg mb-8 text-gray-600 border-l-4 border-neo-purple pl-4"
+				>
+					> Me considero un hacker ético en formación.<br />
+					> Experiencia en plataformas como Hack The Box y TryHackMe.<br
+					/>
+					> Mi objetivo es documentar mi camino en la ciberseguridad de
+					manera clara y divertida.
+				</p>
+				<div class="flex gap-4">
+					<div
+						class="bg-neo-black text-white px-4 py-2 font-mono text-sm border-2 border-transparent"
+					>
+						📍 LOCATION: LOCALHOST
+					</div>
+					<div
+						class="bg-neo-green text-black px-4 py-2 font-mon text-sm border-2 border-black"
+					>
+						🟢 STATUS: AVAILABLE
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<Skills />
+	<Experience />
+	<SelectedWorks />
+	<UserReports />
+	<Contact />
+</Layout>

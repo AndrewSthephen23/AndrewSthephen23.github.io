@@ -1,0 +1,97 @@
+---
+// Aquí definimos tu historial. Es mucho más fácil editar este bloque
+// que buscar entre cientos de líneas de HTML luego.
+const experiences = [
+    {
+        role: "Pentester & CTF Player",
+        period: "2025 - PRESENTE",
+        company: "@ HACK THE BOX & TRYHACKME",
+        bgColor: "bg-neo-green",
+        textColor: "text-neo-green",
+        description: [
+            "Resolución activa de máquinas vulnerables enfocadas en Pentesting Web y escalada de privilegios.",
+            "Documentación técnica y publicación de Write-Ups detallados de cada vulnerabilidad explotada.",
+            "Práctica constante de técnicas de Red Teaming y uso de herramientas como Metasploit y Shodan.",
+        ],
+    },
+    {
+        role: "Backend & API Developer",
+        period: "2026 - PRESENTE",
+        company: "@ PROYECTO SERVIDOR UBUNTU",
+        bgColor: "bg-neo-blue",
+        textColor: "text-neo-blue",
+        description: [
+            "Administración y despliegue en servidor propio corriendo Ubuntu 24.04.2 LTS.",
+            "Desarrollo de scripts en entornos Python para la automatización de reportes.",
+            "Implementación de sincronización de datos fluida con el ERP Odoo a través de su API.",
+        ],
+    },
+    {
+        role: "Data Analyst / BI",
+        period: "2025 - 2026",
+        company: "@ INDUSEGUR",
+        bgColor: "bg-neo-yellow",
+        textColor: "text-neo-yellow",
+        description: [
+            "Diseño y maquetación de dashboards interactivos utilizando Power BI.",
+            "Visualización de métricas complejas para facilitar la toma de decisiones.",
+            "Limpieza, formateo y estructuración de bases de datos para reportes automatizados.",
+        ],
+    },
+    {
+        role: "Security Tooling Dev",
+        period: "2025 - 2026",
+        company: "@ MCPSAFETYSCANNER",
+        bgColor: "bg-neo-pink",
+        textColor: "text-neo-pink",
+        description: [
+            "Desarrollo de herramienta propia orientada al escaneo de seguridad.",
+            "Generación automática de reportes técnicos para auditorías rápidas y eficientes.",
+            "Integración de automatizaciones para reducir el tiempo de análisis de vulnerabilidades.",
+        ],
+    },
+];
+---
+
+<section id="experience" class="py-24 px-4 max-w-7xl mx-auto">
+    <h2
+        class="text-5xl md:text-8xl font-black uppercase mb-12 tracking-tighter text-center"
+    >
+        Experience<span class="text-neo-red">_Log</span>
+    </h2>
+
+    <div class="relative border-l-4 border-black ml-4 md:ml-10 space-y-12">
+        {
+            experiences.map((exp) => (
+                <div class="reveal relative pl-8 md:pl-16">
+                    <div
+                        class={`absolute -left-[14px] top-2 w-6 h-6 border-4 border-black ${exp.bgColor}`}
+                    />
+
+                    <div class="bg-white border-4 border-black p-6 shadow-hard hover:shadow-hard-xl transition-all group">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b-2 border-dashed border-gray-300 pb-4 mb-4">
+                            <h3 class="text-3xl font-black uppercase group-hover:translate-x-2 transition-transform">
+                                {exp.role}
+                            </h3>
+                            <span class="font-mono font-bold bg-neo-black text-white px-2 py-1 mt-2 md:mt-0">
+                                {exp.period}
+                            </span>
+                        </div>
+
+                        <p
+                            class={`font-mono text-xl mb-4 font-bold ${exp.textColor}`}
+                        >
+                            {exp.company}
+                        </p>
+
+                        <ul class="list-disc list-inside font-mono text-gray-700 space-y-2">
+                            {exp.description.map((item) => (
+                                <li>{item}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</section>

@@ -1,0 +1,115 @@
+---
+// Definimos tus proyectos aquí. Puedes cambiar las imágenes más adelante.
+const projects = [
+    {
+        title: "MCPSafetyScanner",
+        description:
+            "Herramienta de escaneo de seguridad y automatización. Diseñada para auditorías rápidas y reportes técnicos.",
+        image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de código/hacker
+        tags: ["Python", "Security", "Automation"],
+        link: "#",
+        hoverColor: "text-neo-red",
+    },
+    {
+        title: "Odoo API Sync",
+        description:
+            "Sincronización bidireccional entre servidores externos y Odoo ERP mediante XML-RPC para automatización comercial.",
+        image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de servidor
+        tags: ["Python", "XML-RPC", "Ubuntu Server"],
+        link: "#",
+        hoverColor: "text-neo-blue",
+    },
+    {
+        title: "Indusegur Analytics",
+        description:
+            "Dashboard interactivo de inteligencia de negocios (BI) para la visualización de métricas y limpieza de bases de datos.",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de datos
+        tags: ["Power BI", "Data Analysis", "SQL"],
+        link: "#",
+        hoverColor: "text-neo-pink",
+    },
+    {
+        title: "CTF Write-Ups",
+        description:
+            "Colección documentada de resolución de máquinas vulnerables (HackTheBox & TryHackMe) aplicando técnicas de pentesting.",
+        image: "https://images.unsplash.com/photo-1510511459019-5d6450c2807e?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de terminal
+        tags: ["Pentesting", "CTF", "Markdown"],
+        link: "/blog", // Enlace a tu blog (que crearemos luego si quieres)
+        hoverColor: "text-neo-orange",
+    },
+];
+---
+
+<section
+    id="projects"
+    class="py-24 bg-neo-yellow border-t-4 border-black px-4 overflow-hidden relative"
+>
+    <div class="max-w-7xl mx-auto">
+        <h2
+            class="text-6xl md:text-9xl font-black mb-16 uppercase tracking-tighter text-white drop-shadow-[4px_4px_0_rgba(0,0,0,1)]"
+            style="-webkit-text-stroke: 3px black;"
+        >
+            Selected Works
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {
+                projects.map((project, index) => (
+                    <article
+                        class={`reveal group bg-white border-4 border-black p-4 shadow-hard ${index % 2 !== 0 ? "md:mt-20" : ""}`}
+                    >
+                        <div class="bg-black border-2 border-black aspect-video relative overflow-hidden mb-6 group-hover:shadow-none transition-all">
+                            <div class="absolute top-2 left-2 bg-black text-white px-2 py-1 font-mono text-xs border border-white/20 z-10">
+                                PROYECTO_0{index + 1}
+                            </div>
+                            <img
+                                src={project.image}
+                                alt={project.title}
+                                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0 duration-500"
+                            />
+                        </div>
+
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3
+                                    class={`text-4xl font-black uppercase mb-2 transition-colors glitch-hover group-hover:${project.hoverColor}`}
+                                >
+                                    {project.title}
+                                </h3>
+                                <p class="font-mono text-sm mb-4 max-w-xs text-gray-700">
+                                    {project.description}
+                                </p>
+
+                                <div class="flex gap-2 font-mono text-xs font-bold flex-wrap">
+                                    {project.tags.map((tag) => (
+                                        <span class="bg-neo-black text-white px-2 py-1 border border-black">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <a
+                                href={project.link}
+                                target="_blank"
+                                class="w-12 h-12 flex-shrink-0 border-2 border-black bg-neo-green flex items-center justify-center hover:bg-black hover:text-white transition-all cursor-hover shadow-hard-sm ml-4 mt-2"
+                            >
+                                <i class="ri-arrow-right-up-line text-2xl" />
+                            </a>
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+
+        <div class="text-center mt-24">
+            <a
+                href="https://github.com/tu-usuario"
+                target="_blank"
+                class="inline-block bg-neo-black text-white px-12 py-5 font-bold font-mono text-xl hover:bg-neo-white hover:text-black border-4 border-black transition-all shadow-hard hover:shadow-none cursor-hover"
+            >
+                VIEW ALL REPOS ON GITHUB
+            </a>
+        </div>
+    </div>
+</section>

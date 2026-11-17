@@ -12,7 +12,6 @@ import {
 } from "../../lib/blog";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import { site } from "../../data/site";
 import Callout from "../../components/mdx/Callout.astro";
 import Terminal from "../../components/mdx/Terminal.astro";
 import Flag from "../../components/mdx/Flag.astro";
@@ -47,7 +46,16 @@ const minutes = readingMinutes(post.body);
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
-<Layout title={`${post.data.title} // ${site.alias}`}>
+<Layout
+    title={post.data.title}
+    description={post.data.description}
+    image={post.data.image}
+    imageAlt={post.data.title}
+    type="article"
+    publishedTime={post.data.pubDate}
+    modifiedTime={post.data.updatedDate}
+    tags={post.data.tags}
+>
     <article class="pt-32 pb-24 px-4">
         <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-12">
             <!-- ── Columna principal ── -->

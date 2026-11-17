@@ -1,16 +1,50 @@
 ---
 import "../styles/global.css";
+import type { ImageMetadata } from "astro";
 import { Icon } from "astro-icon/components";
+import SEO from "../components/SEO.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import MobileMenu from "../components/MobileMenu.astro";
 import { site, socials } from "../data/site";
+import { seo } from "../data/seo";
+import { navLinks, navCta, ariaCurrent } from "../data/nav";
+import { themeToken } from "../lib/theme";
 
 interface Props {
+    /** Título de la página; la plantilla añade " // alias". */
     title: string;
+    /** Description propia de la página (SEO y tarjetas al compartir). */
+    description?: string;
+    /** Imagen OG (portada de astro:assets o ruta); por defecto la del sitio. */
+    image?: ImageMetadata | string;
+    imageAlt?: string;
+    type?: "website" | "article";
+    publishedTime?: Date;
+    modifiedTime?: Date;
+    tags?: string[];
+    noindex?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, ...seoProps } = Astro.props;
 
-// Resalta el enlace del blog cuando estamos en /blog o /blog/*
-const onBlog = Astro.url.pathname.startsWith("/blog");
+// ══ CONFIG DE TEMAS (LEGO) ══════════════════════════════════════
+// Cada slot apunta a una pieza de src/styles/themes/.
+// Para cambiar de pieza: 1) importa el tema en global.css,
+// 2) cambia el nombre del slot aquí. Ver docs/GUIA_TEMAS.md.
+const THEME_SLOTS = { light: "dev", dark: "hacker" };
+// ════════════════════════════════════════════════════════════════
+
+// Color de superficie de cada slot, leído del token --t-surface de su pieza.
+function surfaceOf(theme: string): string {
+    const color = themeToken(theme, "surface");
+    if (!color) throw new Error(`El tema "${theme}" no define --t-surface`);
+    return color;
+}
+const themeColors = {
+    light: surfaceOf(THEME_SLOTS.light),
+    dark: surfaceOf(THEME_SLOTS.dark),
+};
+
 ---
 
 <!doctype html>
@@ -18,30 +52,38 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Iconos: generados por scripts/generate-brand-assets.mjs (npm run brand) -->
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <title>{title}</title>
-        <script is:inline>
-            // ══ CONFIG DE TEMAS (LEGO) ══════════════════════════════
-            // Cada slot apunta a una pieza de src/styles/themes/.
-            // Para cambiar de pieza: 1) importa el tema en global.css,
-            // 2) cambia el nombre del slot aquí. Ver docs/GUIA_TEMAS.md.
-            const THEME_SLOTS = { light: "dev", dark: "hacker" };
-            // ════════════════════════════════════════════════════════
-
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <SEO title={title} themeColors={themeColors} {...seoProps} />
+        <!-- Anti-FOUC: fija el tema antes de pintar (los slots vienen del frontmatter). -->
+        <script is:inline define:vars={{ THEME_SLOTS }}>
             const root = document.documentElement;
             root.dataset.themeLight = THEME_SLOTS.light;
             root.dataset.themeDark = THEME_SLOTS.dark;
 
-            let theme = localStorage.getItem("theme");
+            let theme = null;
+            try {
+                theme = localStorage.getItem("theme");
+            } catch {
+                /* almacenamiento bloqueado: se usa la preferencia del SO */
+            }
             if (theme !== THEME_SLOTS.light && theme !== THEME_SLOTS.dark) {
                 theme = window.matchMedia("(prefers-color-scheme: dark)")
                     .matches
                     ? THEME_SLOTS.dark
                     : THEME_SLOTS.light;
             }
+            const mode = theme === THEME_SLOTS.dark ? "dark" : "light";
             root.dataset.theme = theme;
-            root.dataset.mode =
-                theme === THEME_SLOTS.dark ? "dark" : "light";
+            root.dataset.mode = mode;
+
+            // theme-color del tema activo (valores en data-light / data-dark).
+            document
+                .querySelectorAll('meta[name="theme-color"]')
+                .forEach((m) => m.setAttribute("content", m.dataset[mode]));
         </script>
     </head>
     <body
@@ -61,9 +103,20 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
         >
         </div>
 
-        <nav class="fixed top-0 w-full z-50 px-4 py-4 pointer-events-none">
+        <!-- Saltar al contenido: fuera de pantalla hasta recibir foco.
+             El destino <main id="main"> lo añade la Fase 5. -->
+        <a
+            href="#main"
+            class="fixed top-4 left-4 z-[70] -translate-y-[200%] focus:translate-y-0 bg-primary text-on-accent border-2 border-ink px-4 py-2 font-mono font-bold shadow-hard"
+            >Saltar al contenido</a
+        >
+
+        <nav
+            aria-label="Principal"
+            class="fixed top-0 w-full z-50 px-4 py-4 pointer-events-none"
+        >
             <div
-                class="max-w-7xl mx-auto flex justify-between items-center pointer-events-auto"
+                class="max-w-7xl mx-auto flex justify-between items-center gap-3 pointer-events-auto"
             >
                 <a
                     href="/"
@@ -73,55 +126,45 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
                 </a>
 
                 <div class="flex items-center gap-3">
-                    <div
+                    <ul
                         class="hidden md:flex gap-4 bg-panel border-2 border-ink p-2 shadow-hard"
                     >
-                        <a
-                            href="/#about"
-                            class="px-3 py-1 font-mono font-bold text-sm hover:bg-ink hover:text-surface transition-colors cursor-hover"
-                            >/ABOUT</a
-                        >
-                        <a
-                            href="/#skills"
-                            class="px-3 py-1 font-mono font-bold text-sm hover:bg-ink hover:text-surface transition-colors cursor-hover"
-                            >/SKILLS</a
-                        >
-                        <a
-                            href="/#experience"
-                            class="px-3 py-1 font-mono font-bold text-sm hover:bg-ink hover:text-surface transition-colors cursor-hover"
-                            >/LOGS</a
-                        >
-                        <a
-                            href="/#projects"
-                            class="px-3 py-1 font-mono font-bold text-sm hover:bg-ink hover:text-surface transition-colors cursor-hover"
-                            >/WORK</a
-                        >
-                        <a
-                            href="/blog"
-                            aria-current={onBlog ? "page" : undefined}
-                            class:list={[
-                                "px-3 py-1 font-mono font-bold text-sm transition-colors cursor-hover",
-                                onBlog
-                                    ? "bg-ink text-surface"
-                                    : "hover:bg-ink hover:text-surface",
-                            ]}
-                            >/BLOG</a
-                        >
-                        <a
-                            href="/#contact"
-                            class="px-3 py-1 font-mono font-bold text-sm bg-primary text-on-accent border border-ink hover:bg-secondary transition-colors cursor-hover"
-                            >HIRE ME</a
-                        >
-                    </div>
+                        {
+                            navLinks.map((link) => {
+                                const current = ariaCurrent(link, Astro.url.pathname);
+                                return (
+                                    <li class="flex">
+                                        <a
+                                            href={link.href}
+                                            aria-current={current}
+                                            class:list={[
+                                                "px-3 py-1 font-mono font-bold text-sm transition-colors cursor-hover",
+                                                current
+                                                    ? "bg-ink text-surface"
+                                                    : "hover:bg-ink hover:text-surface",
+                                            ]}
+                                        >
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                );
+                            })
+                        }
+                        <li class="flex">
+                            <a
+                                href={navCta.href}
+                                class="px-3 py-1 font-mono font-bold text-sm bg-primary text-on-accent border border-ink hover:bg-secondary transition-colors cursor-hover"
+                                >{navCta.label}</a
+                            >
+                        </li>
+                    </ul>
 
-                    <button
-                        id="theme-toggle"
-                        aria-label="Cambiar tema"
-                        class="bg-panel border-2 border-ink px-3 py-2 font-mono font-bold text-sm shadow-hard hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
-                    >
-                        <span data-mode-label="light">☀ DEV</span>
-                        <span data-mode-label="dark">☾ HACKER</span>
-                    </button>
+                    <!-- En móvil el toggle vive dentro del menú -->
+                    <ThemeToggle
+                        class="hidden md:inline-block bg-panel border-2 border-ink px-3 py-2 font-mono font-bold text-sm shadow-hard hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
+                    />
+
+                    <MobileMenu />
                 </div>
             </div>
         </nav>
@@ -180,31 +223,37 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
                         }
                     </div>
                 </div>
+                <div>
+                    <h3
+                        class="font-bold text-success mb-4 border-b border-box-line pb-2"
+                    >
+                        FEED
+                    </h3>
+                    <a
+                        href={seo.rss.path}
+                        class="inline-flex items-center gap-2 hover:text-primary transition-colors cursor-hover"
+                    >
+                        <Icon name="ri:rss-fill" aria-hidden="true" class="text-2xl" />
+                        RSS de write-ups
+                    </a>
+                </div>
             </div>
             <div
                 class="text-center mt-16 pt-8 border-t border-box-line text-box-muted text-sm"
             >
                 <p>© 2026 // SYSTEM_END</p>
             </div>
+            <!-- Marca de agua decorativa: el texto va en ::before (no es
+                 contenido, así que no cuenta para el contraste de axe). -->
             <div
-                class="absolute bottom-0 left-0 w-full text-[20vw] font-black text-box-ink opacity-[0.03] leading-none select-none pointer-events-none text-center"
+                aria-hidden="true"
+                class="absolute bottom-0 left-0 w-full text-[20vw] font-black text-box-ink opacity-[0.03] leading-none select-none pointer-events-none text-center before:content-['BRUTAL']"
             >
-                BRUTAL
             </div>
         </footer>
 
         <script>
-            // ── Toggle de tema (los slots vienen del script inline del head)
-            const rootEl = document.documentElement;
-            const themeToggle = document.getElementById("theme-toggle");
-            themeToggle?.addEventListener("click", () => {
-                const light = rootEl.dataset.themeLight ?? "dev";
-                const dark = rootEl.dataset.themeDark ?? "hacker";
-                const next = rootEl.dataset.theme === dark ? light : dark;
-                rootEl.dataset.theme = next;
-                rootEl.dataset.mode = next === dark ? "dark" : "light";
-                localStorage.setItem("theme", next);
-            });
+            // (El toggle de tema vive en src/components/ThemeToggle.astro)
 
             // ── Cursor personalizado (los colores viven en CSS/temas)
             // Solo con ratón real y sin reduced-motion. La clase

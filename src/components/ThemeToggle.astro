@@ -1,0 +1,53 @@
+---
+// ════════════════════════════════════════════════════════════
+// Botón de tema (slots light/dark). Puede haber varios en la página
+// (nav de escritorio y menú móvil): todos comparten la misma lógica y
+// se mantienen sincronizados porque el estado vive en <html data-mode>.
+// Las etiquetas visibles se muestran/ocultan por CSS según data-mode.
+// ════════════════════════════════════════════════════════════
+interface Props {
+    class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<button type="button" data-theme-toggle class={className}>
+    <!-- Nombre accesible = "Cambiar tema, actual: DEV|HACKER" (incluye el texto visible). -->
+    <span class="sr-only">Cambiar tema, actual:</span>
+    <span data-mode-label="light"><span aria-hidden="true">☀ </span>DEV</span>
+    <span data-mode-label="dark"><span aria-hidden="true">☾ </span>HACKER</span>
+</button>
+
+<script>
+    // Los slots vienen del script anti-FOUC del <head> (data-theme-light/-dark).
+    const root = document.documentElement;
+
+    function applyTheme(next: string) {
+        const dark = root.dataset.themeDark ?? "hacker";
+        const mode = next === dark ? "dark" : "light";
+        root.dataset.theme = next;
+        root.dataset.mode = mode;
+        try {
+            localStorage.setItem("theme", next);
+        } catch {
+            /* almacenamiento bloqueado: el tema dura hasta recargar */
+        }
+        // theme-color = superficie del tema activo (data-light / data-dark).
+        document
+            .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+            .forEach((m) => {
+                const color = m.dataset[mode];
+                if (color) m.content = color;
+            });
+    }
+
+    document
+        .querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")
+        .forEach((btn) =>
+            btn.addEventListener("click", () => {
+                const light = root.dataset.themeLight ?? "dev";
+                const dark = root.dataset.themeDark ?? "hacker";
+                applyTheme(root.dataset.theme === dark ? light : dark);
+            }),
+        );
+</script>

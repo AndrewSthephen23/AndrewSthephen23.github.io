@@ -18,6 +18,7 @@ empaquetados) y con unos pocos scripts vanilla.
 | `astro-expressive-code` | Bloques de código con marco de terminal y botón copiar |
 | `astro-icon` + `@iconify-json/ri` | Iconos Remix como SVG inline |
 | Fontsource | Space Grotesk y JetBrains Mono self-hosted |
+| `@astrojs/sitemap` + `@astrojs/rss` | Sitemap y feed RSS del blog |
 | `@astrojs/check` + TypeScript | Verificación de tipos |
 
 Requiere Node 24 (ver `.nvmrc`).
@@ -30,24 +31,29 @@ npm run dev       # servidor de desarrollo en http://localhost:4321
 npm run check     # verificación de tipos y diagnósticos de Astro
 npm run build     # genera el sitio estático en dist/
 npm run preview   # sirve dist/ localmente para revisar el build
+npm run brand     # regenera favicons, imagen OG y site.webmanifest en public/
 ```
 
 ## Estructura
 
 ```
 ├── docs/                  Planes y guías (roadmap, temas, cómo publicar)
-├── public/                Archivos servidos tal cual (favicon, cv.pdf)
-├── scripts/               check-contrast.mjs: auditoría de contraste de los temas
+├── public/                Archivos servidos tal cual (favicons, OG, manifest, cv.pdf)
+├── scripts/               generate-brand-assets.mjs (favicons e imagen OG) y check-contrast.mjs (contraste de los temas)
 └── src/
     ├── components/        Secciones de la home (Skills, Experience, Contact…)
     │   └── mdx/           Componentes para posts: <Callout>, <Terminal>, <Flag>
     ├── content/blog/      Posts en .md / .mdx  ← aquí se escribe
     ├── content.config.ts  Schema (Zod) del frontmatter de los posts
     ├── assets/            Imágenes propias optimizadas (avatar, projects/)
-    ├── data/              site.ts (perfil, avatar, CV), projects.ts, certs.ts
+    ├── data/site.ts       Datos del perfil: alias, GitHub, email, redes, ubicación, avatar, CV
+    ├── data/projects.ts   Proyectos de Selected Works
+    ├── data/certs.ts      Certificaciones y badges
+    ├── data/seo.ts        Descripción por defecto, imagen OG y datos del RSS
+    ├── data/nav.ts        Enlaces del nav (escritorio y menú móvil)
     ├── layouts/           Layout.astro: <head>, nav, footer y config de temas
     ├── lib/blog.ts        Utilidades del blog (orden, relacionados, tiempo de lectura)
-    ├── pages/             Rutas: /, /blog, /blog/[slug] y la 404
+    ├── pages/             Rutas: /, /blog, /blog/[slug], la 404, /rss.xml y /robots.txt
     └── styles/
         ├── global.css     Fuentes, puente tokens → Tailwind y estilos base
         └── themes/        Un archivo por tema (dev.css, hacker.css, _plantilla.css)

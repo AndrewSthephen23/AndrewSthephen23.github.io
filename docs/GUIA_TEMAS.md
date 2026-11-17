@@ -136,6 +136,10 @@ Además: `color-scheme: light | dark` (controles nativos y scrollbars).
   a `_plantilla.css` y a **TODOS** los temas existentes.
 - Los overrides de sabor van **en el archivo del tema**, jamás en `global.css`
   ni en los componentes.
+- Los **acentos como texto** solo sobre `box` o en titulares grandes. Sobre
+  `surface`/`panel` claros, el texto pequeño va en `ink`/`muted` y el acento
+  como relleno (`bg-* text-on-accent`), subrayado o borde. Nunca verde
+  fósforo como texto sobre fondo claro.
 
 ---
 
@@ -238,9 +242,14 @@ para construir la pieza completa sin ambigüedad:
 - [ ] Skills: hover de TODAS las tiles legible (texto sobre cada acento).
 - [ ] Experience: los 4 `textColor` de empresas legibles sobre panel.
 - [ ] Selected Works: título hueco (stroke) visible sobre el fondo `primary`.
-- [ ] User Reports: tarjetas y estrellas visibles sobre box.
+- [ ] Certs & Badges (solo si `src/data/certs.ts` tiene entradas): tarjetas, badges de tipo y enlace VERIFICAR legibles sobre box.
 - [ ] Contact: inputs en foco (fondo primary + texto on-accent), botón submit.
 - [ ] Footer: links, hovers y divisores.
 - [ ] Toggle: alternar 5 veces seguidas — sin flash al recargar (anti-FOUC).
 - [ ] Selección de texto (`Ctrl+A`) legible.
-- [ ] Contraste AA en texto normal (usa el inspector o https://webaim.org/resources/contrastchecker/).
+- [ ] Contraste AA: `node scripts/check-contrast.mjs` (calcula los pares
+      texto/fondo reales de cada pieza y sale con error si alguno no llega a
+      4.5:1 en texto normal o 3:1 en texto grande/bordes). Si añades un uso
+      nuevo de un token como texto, añade el par a `PAIRS` en ese script.
+- [ ] Movimiento reducido: con `prefers-reduced-motion: reduce` (DevTools →
+      Rendering) no se mueve nada y el contenido `.reveal` se ve.

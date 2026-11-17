@@ -1,0 +1,99 @@
+{
+  "date": "2026-11-16",
+  "target": "astro preview (npm run preview -- --port 4402), build de la rama feat/fase-5-a11y-pulido",
+  "tool": "lighthouse@12 (npx), Chrome headless, form factor móvil por defecto",
+  "theme_note": "dev = prefers-color-scheme light, hacker = dark (el sitio elige el tema por esa preferencia sin localStorage)",
+  "reports": [
+    {
+      "file": "2026-11-16-home-dev-mobile.report.html",
+      "url": "http://localhost:4402/",
+      "scores": {
+        "performance": 99,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 90
+      },
+      "metrics": {
+        "FCP": "1.7 s",
+        "LCP": "1.7 s",
+        "TBT": "0 ms",
+        "CLS": "0.019"
+      },
+      "failing": [
+        "color-contrast",
+        "label-content-name-mismatch",
+        "meta-description"
+      ]
+    },
+    {
+      "file": "2026-11-16-home-hacker-mobile.report.html",
+      "url": "http://localhost:4402/",
+      "scores": {
+        "performance": 99,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 90
+      },
+      "metrics": {
+        "FCP": "1.7 s",
+        "LCP": "1.7 s",
+        "TBT": "0 ms",
+        "CLS": "0.02"
+      },
+      "failing": [
+        "color-contrast",
+        "label-content-name-mismatch",
+        "meta-description"
+      ]
+    },
+    {
+      "file": "2026-11-16-post-htb-lame-dev-mobile.report.html",
+      "url": "http://localhost:4402/blog/htb-lame/",
+      "scores": {
+        "performance": 98,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 90
+      },
+      "metrics": {
+        "FCP": "1.8 s",
+        "LCP": "1.8 s",
+        "TBT": "0 ms",
+        "CLS": "0.028"
+      },
+      "failing": [
+        "color-contrast",
+        "label-content-name-mismatch",
+        "meta-description"
+      ]
+    },
+    {
+      "file": "2026-11-16-post-htb-lame-hacker-mobile.report.html",
+      "url": "http://localhost:4402/blog/htb-lame/",
+      "scores": {
+        "performance": 98,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 90
+      },
+      "metrics": {
+        "FCP": "1.8 s",
+        "LCP": "1.8 s",
+        "TBT": "0 ms",
+        "CLS": "0.027"
+      },
+      "failing": [
+        "color-contrast",
+        "label-content-name-mismatch",
+        "meta-description"
+      ]
+    }
+  ],
+  "lighthouseVersion": "12.8.2",
+  "pendiente_fuera_de_esta_rama": {
+    "color-contrast": "Texto decorativo BRUTAL del footer (opacity 0.03). Zona de la Fase 4 (footer); comunicado a fase-4.",
+    "label-content-name-mismatch": "aria-label=\"Cambiar tema\" del toggle oculta el texto visible. Zona de la Fase 4; ya corregido en feat/fase-4-movil-seo (ThemeToggle.astro), pendiente de integrar.",
+    "meta-description": "SEO de la Fase 4 (componente SEO en Layout)."
+  },
+  "nota": "Medido sobre esta rama sola, antes de integrar la Fase 4. Con los tres puntos anteriores resueltos se espera accesibilidad y SEO ≥95; hay que volver a medir tras fusionar ambas fases."
+}

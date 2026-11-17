@@ -3,8 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import Skills from "../components/Skills.astro";
 import Experience from "../components/Experience.astro";
 import SelectedWorks from "../components/SelectedWorks.astro";
-import UserReports from "../components/UserReports.astro";
+import Certs from "../components/Certs.astro";
 import Contact from "../components/Contact.astro";
+import Avatar from "../components/Avatar.astro";
 import { Icon } from "astro-icon/components";
 import { site } from "../data/site";
 ---
@@ -15,15 +16,18 @@ import { site } from "../data/site";
 	>
 		<div
 			class="absolute top-1/3 left-[10%] w-16 h-16 bg-info border-4 border-ink shadow-hard animate-bounce hidden lg:block"
+			aria-hidden="true"
 		>
 		</div>
 		<div
 			class="absolute bottom-1/3 right-[10%] w-24 h-24 bg-secondary rounded-full border-4 border-ink shadow-hard hidden lg:block animate-pulse"
+			aria-hidden="true"
 		>
 		</div>
 
 		<div
 			class="absolute top-20 right-20 text-9xl opacity-5 font-black select-none pointer-events-none"
+			aria-hidden="true"
 		>
 			PWNED
 		</div>
@@ -34,7 +38,7 @@ import { site } from "../data/site";
 			>
 				<span
 					class="font-mono font-bold text-success bg-box px-2 mr-2"
-					>●</span
+					aria-hidden="true">●</span
 				>
 				<span class="font-mono font-bold">SYSTEM STATUS: ONLINE</span>
 			</div>
@@ -64,14 +68,14 @@ import { site } from "../data/site";
 					href="#skills"
 					class="bg-panel text-ink border-2 border-ink px-10 py-5 text-xl font-bold shadow-hard hover:bg-secondary hover:text-on-accent hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover flex items-center justify-center gap-2"
 				>
-					<Icon name="ri:terminal-box-line" /> VER ARSENAL
+					<Icon name="ri:terminal-box-line" aria-hidden="true" /> VER ARSENAL
 				</a>
 			</div>
 		</div>
 	</section>
 
 	<div
-		class="marquee-bar border-b-4 border-ink bg-info py-3 relative z-20 text-white"
+		class="marquee-bar border-b-4 border-ink bg-info py-3 relative z-20 text-on-accent"
 	>
 		<div class="marquee-container font-mono font-bold text-2xl">
 			<div class="marquee-content">
@@ -89,19 +93,7 @@ import { site } from "../data/site";
 	>
 		<div class="grid grid-cols-1 md:grid-cols-12 gap-12">
 			<div class="md:col-span-4 reveal">
-				<div
-					class="aspect-square bg-soft border-4 border-ink relative shadow-hard overflow-hidden group"
-				>
-					<div
-						class="w-full h-full bg-box text-success flex items-center justify-center font-mono"
-					>
-						/NO_IMAGE_YET/
-					</div>
-					<span
-						class="absolute top-2 left-2 bg-danger text-white px-2 font-mono text-xs border border-ink z-10"
-						>ROOT.JPG</span
-					>
-				</div>
+				<Avatar />
 			</div>
 			<div class="md:col-span-8 flex flex-col justify-center reveal">
 				<h2 class="text-6xl font-black uppercase mb-6">Who am I?</h2>
@@ -142,6 +134,6 @@ import { site } from "../data/site";
 	<Skills />
 	<Experience />
 	<SelectedWorks />
-	<UserReports />
+	<Certs />
 	<Contact />
 </Layout>

@@ -3,7 +3,7 @@
 #
 # Uso local:   bash .github/scripts/check-placeholders.sh [directorio]   (por defecto: src)
 # Sale con 1 si encuentra alguno, 0 si está limpio.
-# En GitHub Actions emite además una anotación ::warning por coincidencia.
+# En GitHub Actions emite además una anotación ::error por coincidencia.
 set -uo pipefail
 
 DIR="${1:-src}"
@@ -27,7 +27,7 @@ for pattern in "${PATTERNS[@]}"; do
     rest="${line#*:}"
     lineno="${rest%%:*}"
     if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
-      echo "::warning file=${file},line=${lineno},title=Placeholder::Patrón '${pattern}' encontrado"
+      echo "::error file=${file},line=${lineno},title=Placeholder::Patrón '${pattern}' encontrado"
     else
       echo "${file}:${lineno}: '${pattern}'"
     fi

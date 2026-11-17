@@ -71,9 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # INFORMATIVO por ahora: hoy src/ todavía contiene placeholders y CDNs
-      # que elimina la Fase 0. Al fusionar la Fase 0, quitar
-      # `continue-on-error` para que este paso pase a ser BLOQUEANTE.
+      # BLOQUEANTE: falla si reaparecen placeholders o CDNs en src/
+      # (tu-usuario, href="#", Unsplash, Google Fonts, jsDelivr).
       - name: Buscar placeholders en src/
-        continue-on-error: true
         run: bash .github/scripts/check-placeholders.sh src

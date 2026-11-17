@@ -68,8 +68,8 @@ html {
 }
 
 body {
-    cursor: none;
-    /* Oculta el cursor del SO para usar el personalizado */
+    /* El cursor del SO se mantiene por defecto; solo se oculta cuando el
+       cursor custom está activo (ver "Cursor personalizado" más abajo). */
     color: var(--t-ink);
     background-color: var(--t-surface);
     background-image:
@@ -87,6 +87,12 @@ body {
     -webkit-text-stroke: 3px var(--t-ink);
 }
 
+/* Contorno para titulares sobre rellenos de acento (p. ej. bg-primary):
+   on-accent garantiza contraste con el relleno en todos los temas. */
+.text-stroke-on-accent {
+    -webkit-text-stroke: 3px var(--t-on-accent);
+}
+
 /* Blend del hero: cada tema puede redefinirlo (ver hacker.css) */
 .blend-darken {
     mix-blend-mode: darken;
@@ -101,8 +107,13 @@ body {
     display: none;
 }
 
-/* ── Cursor personalizado ── */
+/* ── Cursor personalizado ──
+   Mejora progresiva: por defecto se ve el cursor nativo y #cursor está
+   oculto. El script del Layout añade `.has-custom-cursor` a <html> solo
+   si hay ratón real (pointer: fine + hover), sin reduced-motion, y tras el
+   primer movimiento. Si el JS falla, el cursor nativo sigue ahí. */
 #cursor {
+    display: none;
     position: fixed;
     width: 24px;
     height: 24px;
@@ -121,6 +132,45 @@ body {
     background-color: var(--t-primary);
     mix-blend-mode: normal;
     border: 2px solid var(--t-ink);
+}
+
+/* Sobre campos de texto se oculta: manda el cursor de texto nativo */
+#cursor.is-text,
+#cursor.is-out {
+    opacity: 0;
+}
+
+@media (pointer: fine) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .has-custom-cursor #cursor {
+        display: block;
+    }
+
+    .has-custom-cursor,
+    .has-custom-cursor * {
+        cursor: none;
+    }
+
+    /* Los campos editables conservan el indicador de texto del SO */
+    .has-custom-cursor :is(input, textarea, select, [contenteditable="true"]) {
+        cursor: text;
+    }
+
+    .has-custom-cursor select {
+        cursor: pointer;
+    }
+}
+
+/* ── Foco visible ──
+   Anillo grueso con la tinta del tema (estilo neobrutalista), solo con
+   teclado. Dentro de bloques oscuros (box) usa la tinta de box para no
+   desaparecer (en dev, ink y box son el mismo negro). */
+:focus-visible {
+    outline: 3px solid var(--t-ink);
+    outline-offset: 3px;
+}
+
+.bg-box :focus-visible {
+    outline-color: var(--t-box-ink);
 }
 
 /* ── Animaciones ── */
@@ -148,17 +198,20 @@ body {
     }
 }
 
-/* Reveal Animation */
-.reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
+/* Reveal Animation
+   Solo se oculta el contenido cuando el script del Layout ha marcado
+   <html> con `.js-reveal` (y nunca con reduced-motion): sin JS, todo se ve. */
+@media (prefers-reduced-motion: no-preference) {
+    .js-reveal .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
 
-.reveal.active {
-    opacity: 1;
-    --tw-translate-y: 0px;
-    transform: translateY(0);
+    .js-reveal .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -199,12 +252,21 @@ body {
     color: var(--t-danger);
 }
 
+/* Enlaces: texto en tinta (AA en ambos temas) y el acento en el subrayado;
+   info como texto sobre crema solo llega a 3.6:1. */
 .prose-neo a:not(.heading-anchor) {
-    color: var(--t-info);
+    color: var(--t-ink);
     font-weight: 700;
     text-decoration: underline;
-    text-decoration-thickness: 2px;
+    text-decoration-color: var(--t-info);
+    text-decoration-thickness: 3px;
     text-underline-offset: 3px;
+}
+
+.prose-neo a:not(.heading-anchor):hover {
+    background-color: var(--t-info);
+    color: var(--t-on-accent);
+    text-decoration-color: var(--t-ink);
 }
 
 /* Anchors de headings (rehype-autolink): heredan el estilo del título */
@@ -263,7 +325,8 @@ body {
     content: ">";
     position: absolute;
     left: 0;
-    color: var(--t-success);
+    /* Nunca verde fósforo sobre fondo claro: el marcador va en tinta */
+    color: var(--t-ink);
     font-weight: 800;
 }
 
@@ -339,5 +402,46 @@ body {
 
     100% {
         transform: translate(0)
+    }
+}
+
+/* ════════════════════════════════════════════════════════════
+   MOVIMIENTO REDUCIDO (prefers-reduced-motion: reduce)
+   ────────────────────────────────────────────────────────────
+   Se detienen marquee, bounce, pulse, glitch y cualquier animación o
+   transición; el scroll deja de ser suave y el cursor custom no se
+   activa. El contenido con .reveal queda visible (ver arriba). Los
+   overrides de sabor de los temas quedan cubiertos por estas reglas.
+   ════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+    html,
+    html.scroll-smooth {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        animation-delay: 0s !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* El marquee no se desplaza: el texto se reparte en líneas legibles */
+    .marquee-content {
+        animation: none !important;
+        width: auto;
+        flex-wrap: wrap;
+    }
+
+    .glitch-hover:hover {
+        animation: none !important;
+    }
+
+    #cursor {
+        display: none !important;
     }
 }

@@ -24,11 +24,13 @@ const counts = {
 >
     <section class="pt-32 pb-16 px-4 max-w-7xl mx-auto">
         <!-- Cabecera tipo terminal -->
-        <div class="reveal mb-4 font-mono text-sm text-muted">
+        <p
+            class="reveal mb-4 inline-block bg-box text-box-ink border-2 border-ink px-3 py-1 font-mono text-sm"
+        >
             <span class="text-success">root@m3ow5n0ir</span>:<span
                 class="text-info">~/blog</span
             >$ ls -la
-        </div>
+        </p>
 
         <h1
             class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-6 reveal"
@@ -45,7 +47,12 @@ const counts = {
         </p>
 
         <!-- Filtros por categoría -->
-        <div class="flex flex-wrap gap-3 mb-12 reveal" id="filters">
+        <div
+            class="flex flex-wrap gap-3 mb-12 reveal"
+            id="filters"
+            role="group"
+            aria-label="Filtrar por categoría"
+        >
             <button
                 data-filter="all"
                 aria-pressed="true"

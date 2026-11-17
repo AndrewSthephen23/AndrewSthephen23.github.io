@@ -1,6 +1,11 @@
 ---
-// Flag — spoiler que oculta una flag/valor sensible hasta hacer click.
+// Flag — spoiler que oculta una flag/valor sensible hasta activarlo.
 // Uso en .mdx:  <Flag>HTB{ejemplo_de_flag}</Flag>  o  <Flag label="user.txt">...</Flag>
+//
+// Accesibilidad: es un <button> (Tab + Enter/Espacio) que alterna entre
+// oculto y visible. El estado se anuncia con aria-pressed y, mientras está
+// oculto, el valor queda fuera del árbol accesible (aria-hidden) para que el
+// lector de pantalla no lo "destripe"; en su lugar anuncia "(oculta)".
 import { Icon } from "astro-icon/components";
 
 interface Props {
@@ -13,13 +18,18 @@ const { label = "FLAG" } = Astro.props;
     type="button"
     class="flag-spoiler group inline-flex items-center gap-2 my-1 bg-box text-success border-2 border-ink px-3 py-1 font-mono text-sm shadow-hard-sm cursor-hover align-middle"
     data-revealed="false"
-    aria-label={`Revelar ${label}`}
+    aria-pressed="false"
+    title={`Mostrar u ocultar ${label}`}
 >
     <!-- Candado cerrado/abierto: el CSS muestra uno u otro según data-revealed -->
     <Icon name="ri:lock-2-line" class="flag-icon-locked" aria-hidden="true" />
     <Icon name="ri:lock-unlock-line" class="flag-icon-unlocked" aria-hidden="true" />
+    <span class="sr-only">Mostrar</span>
     <span class="text-box-muted text-xs uppercase font-bold">{label}:</span>
-    <span class="flag-value blur-sm select-none transition-all"><slot /></span>
+    <span class="flag-value blur-sm select-none transition-all" aria-hidden="true"
+        ><slot /></span
+    >
+    <span class="flag-hidden-note sr-only">(oculta)</span>
 </button>
 
 <style>
@@ -30,6 +40,9 @@ const { label = "FLAG" } = Astro.props;
     .flag-spoiler[data-revealed="true"] {
         cursor: text;
     }
+    .flag-spoiler[data-revealed="true"] .flag-hidden-note {
+        display: none;
+    }
     /* :global porque el <svg> lo renderiza <Icon>, fuera del scope de este componente */
     .flag-spoiler[data-revealed="false"] :global(.flag-icon-unlocked),
     .flag-spoiler[data-revealed="true"] :global(.flag-icon-locked) {
@@ -39,11 +52,25 @@ const { label = "FLAG" } = Astro.props;
 
 <script>
     // Delegación: un único listener cubre todas las <Flag> de la página.
+    // El evento click también llega con Enter/Espacio (es un <button>).
     document.addEventListener("click", (e) => {
         const btn = (e.target as HTMLElement).closest<HTMLElement>(
             ".flag-spoiler",
         );
-        if (!btn || btn.dataset.revealed === "true") return;
-        btn.dataset.revealed = "true";
+        if (!btn) return;
+        // Si ya está visible y el usuario está seleccionando el texto de la
+        // flag para copiarla, no la vuelvas a ocultar.
+        if (
+            btn.dataset.revealed === "true" &&
+            String(window.getSelection() ?? "").length > 0
+        )
+            return;
+        const revealed = btn.dataset.revealed !== "true";
+        btn.dataset.revealed = String(revealed);
+        btn.setAttribute("aria-pressed", String(revealed));
+        btn.querySelector(".flag-value")?.setAttribute(
+            "aria-hidden",
+            String(!revealed),
+        );
     });
 </script>

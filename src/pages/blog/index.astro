@@ -1,0 +1,186 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+    getPublishedPosts,
+    readingMinutes,
+    formatDate,
+    CATEGORY_META,
+    DIFFICULTY_META,
+} from "../../lib/blog";
+
+const posts = await getPublishedPosts();
+
+// Conteo por categoría para la barra de "sistema de archivos".
+const counts = {
+    writeup: posts.filter((p) => p.data.category === "writeup").length,
+    proyecto: posts.filter((p) => p.data.category === "proyecto").length,
+    blog: posts.filter((p) => p.data.category === "blog").length,
+};
+---
+
+<Layout title="Blog & Write-Ups // M3ow5N0IR">
+    <section class="pt-32 pb-16 px-4 max-w-7xl mx-auto">
+        <!-- Cabecera tipo terminal -->
+        <div class="reveal mb-4 font-mono text-sm text-muted">
+            <span class="text-success">root@m3ow5n0ir</span>:<span
+                class="text-info">~/blog</span
+            >$ ls -la
+        </div>
+
+        <h1
+            class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-6 reveal"
+        >
+            Write-Ups<span class="text-danger">_&_Logs</span>
+        </h1>
+
+        <p
+            class="font-mono text-lg max-w-2xl mb-10 bg-primary text-on-accent border-2 border-ink p-4 shadow-hard reveal"
+        >
+            Documentación de máquinas resueltas, retos CTF y proyectos.
+            Cada entrada es el proceso completo: enumeración, explotación y
+            lecciones aprendidas.
+        </p>
+
+        <!-- Filtros por categoría -->
+        <div class="flex flex-wrap gap-3 mb-12 reveal" id="filters">
+            <button
+                data-filter="all"
+                aria-pressed="true"
+                class="filter-btn is-active bg-ink text-surface border-2 border-ink px-4 py-2 font-mono font-bold text-sm shadow-hard-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all cursor-hover"
+            >
+                TODOS [{posts.length}]
+            </button>
+            <button
+                data-filter="writeup"
+                aria-pressed="false"
+                class="filter-btn bg-panel text-ink border-2 border-ink px-4 py-2 font-mono font-bold text-sm shadow-hard-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all cursor-hover"
+            >
+                WRITEUPS [{counts.writeup}]
+            </button>
+            <button
+                data-filter="proyecto"
+                aria-pressed="false"
+                class="filter-btn bg-panel text-ink border-2 border-ink px-4 py-2 font-mono font-bold text-sm shadow-hard-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all cursor-hover"
+            >
+                PROYECTOS [{counts.proyecto}]
+            </button>
+            <button
+                data-filter="blog"
+                aria-pressed="false"
+                class="filter-btn bg-panel text-ink border-2 border-ink px-4 py-2 font-mono font-bold text-sm shadow-hard-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all cursor-hover"
+            >
+                BLOG [{counts.blog}]
+            </button>
+        </div>
+
+        {
+            posts.length === 0 && (
+                <div class="border-4 border-dashed border-muted p-12 text-center font-mono text-muted">
+                    // NO_POSTS_YET — crea un .md en src/content/blog/
+                </div>
+            )
+        }
+
+        <!-- Grid de posts -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="post-grid">
+            {
+                posts.map((post) => {
+                    const cat = CATEGORY_META[post.data.category];
+                    const diff = post.data.difficulty
+                        ? DIFFICULTY_META[post.data.difficulty]
+                        : null;
+                    return (
+                        <article
+                            class="post-card reveal group bg-panel border-4 border-ink shadow-hard hover:shadow-hard-lg hover:-translate-y-1 transition-all"
+                            data-category={post.data.category}
+                        >
+                            <a href={`/blog/${post.id}/`} class="block p-6">
+                                <div class="flex items-center gap-2 mb-4 flex-wrap">
+                                    <span
+                                        class={`${cat.badge} px-2 py-1 font-mono text-xs font-black border-2 border-ink`}
+                                    >
+                                        {cat.label}
+                                    </span>
+                                    {diff && (
+                                        <span
+                                            class={`${diff.badge} px-2 py-1 font-mono text-xs font-black border-2 border-ink`}
+                                        >
+                                            {diff.label}
+                                        </span>
+                                    )}
+                                    {post.data.platform && (
+                                        <span class="bg-box text-box-ink px-2 py-1 font-mono text-xs font-bold border-2 border-ink">
+                                            {post.data.platform}
+                                        </span>
+                                    )}
+                                    {post.data.draft && (
+                                        <span class="bg-warning text-on-accent px-2 py-1 font-mono text-xs font-black border-2 border-ink">
+                                            DRAFT
+                                        </span>
+                                    )}
+                                </div>
+
+                                <h2 class="text-3xl font-black uppercase leading-tight mb-3 group-hover:text-danger transition-colors">
+                                    {post.data.title}
+                                </h2>
+
+                                <p class="font-mono text-sm text-muted mb-6 line-clamp-3">
+                                    {post.data.description}
+                                </p>
+
+                                <div class="flex items-center justify-between font-mono text-xs text-muted border-t-2 border-dashed border-muted pt-4">
+                                    <span>{formatDate(post.data.pubDate)}</span>
+                                    <span>
+                                        {readingMinutes(post.body)} MIN READ
+                                    </span>
+                                </div>
+
+                                {post.data.tags.length > 0 && (
+                                    <div class="flex flex-wrap gap-2 mt-4">
+                                        {post.data.tags.slice(0, 4).map((tag) => (
+                                            <span class="font-mono text-[10px] text-muted">
+                                                #{tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                            </a>
+                        </article>
+                    );
+                })
+            }
+        </div>
+    </section>
+</Layout>
+
+<script>
+    // Filtro de categorías client-side.
+    const buttons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+    const cards = document.querySelectorAll<HTMLElement>(".post-card");
+
+    buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const filter = btn.dataset.filter;
+
+            buttons.forEach((b) => {
+                b.classList.remove("is-active", "bg-ink", "text-surface");
+                b.classList.add("bg-panel", "text-ink");
+            });
+            btn.classList.add("is-active", "bg-ink", "text-surface");
+            btn.classList.remove("bg-panel", "text-ink");
+
+            buttons.forEach((b) =>
+                b.setAttribute("aria-pressed", String(b === btn)),
+            );
+
+            cards.forEach((card) => {
+                const show =
+                    filter === "all" || card.dataset.category === filter;
+                card.style.display = show ? "" : "none";
+                // Asegura que las tarjetas mostradas sean visibles aunque
+                // el observer de .reveal aún no las haya activado.
+                if (show) card.classList.add("active");
+            });
+        });
+    });
+</script>

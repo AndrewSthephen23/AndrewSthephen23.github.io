@@ -49,7 +49,8 @@ Cambiar de estilo = crear otra pieza y cambiar un nombre aquí. Nada más.
 | `src/styles/themes/hacker.css` | Pieza "HACKER" (slot dark actual) | No |
 | `src/styles/themes/_plantilla.css` | Plantilla para copiar | Se copia |
 | `src/styles/global.css` | Puente tokens→Tailwind + imports de temas | Solo añadir 1 `@import` |
-| `src/layouts/Layout.astro` | `THEME_SLOTS` + etiquetas del botón toggle | Solo el slot y la etiqueta |
+| `src/layouts/Layout.astro` | `THEME_SLOTS` (frontmatter) | Solo el slot |
+| `src/components/ThemeToggle.astro` | Etiquetas del botón toggle (nav y menú móvil) | Solo la etiqueta |
 
 ---
 
@@ -118,7 +119,8 @@ Además: `color-scheme: light | dark` (controles nativos y scrollbars).
    ```js
    const THEME_SLOTS = { light: "dev", dark: "mi-tema" };  // reemplaza hacker
    ```
-7. Actualiza la **etiqueta del botón** toggle en el nav (los `<span data-mode-label>`).
+7. Actualiza la **etiqueta del botón** toggle en `src/components/ThemeToggle.astro`
+   (los `<span data-mode-label>`; el mismo componente se usa en el nav y en el menú móvil).
 8. `npm run dev` y pasa el **checklist de QA** (sección 7).
 
 > Los temas que no están en un slot no ocupan lugar en la mente del usuario:

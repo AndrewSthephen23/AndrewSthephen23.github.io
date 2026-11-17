@@ -53,7 +53,7 @@ Estado revisado contra el código el 2026-11-16. La fase indica dónde se resuel
 | P6 | **Accesibilidad:** `cursor: none` global, sin `prefers-reduced-motion`, `target="_blank"` sin `rel`. | Medio. | ⬜ | 0 y 5 |
 | P7 | **Contenido placeholder:** `github.com/tu-usuario`, 4 imágenes de Unsplash, `/NO_IMAGE_YET/`, socials y botón del hero con `href="#"`, README de la plantilla, 3 posts de ejemplo. | Medio — resta profesionalismo inmediato. | ⬜ | 0, 5 y 6 |
 | P8 | **Formulario de contacto sin `action`** (el `mailto` sí funciona). | Medio. | ⬜ | 0 |
-| P9 | `site` en `astro.config.mjs`. | Bajo pero bloqueante para P3. | 🟨 Valor provisional `*.pages.dev` | 6 |
+| P9 | `site` en `astro.config.mjs`. | Bajo pero bloqueante para P3. | ✅ Resuelto (GitHub Pages) | 6 |
 | P10 | El script de `Layout.astro` no se re-ejecuta con View Transitions. | Bajo. | ⬜ | 7 |
 | P11 | **Sin verificación de tipos ni página 404.** No hay `astro check` ni `404.astro`. | Bajo. | ⬜ | G y 0 |
 
@@ -204,10 +204,13 @@ Hoy el repositorio es local, con dos commits y sin remoto. La propuesta es que G
 
 ### 3.8 Despliegue
 
-- **Cloudflare Pages conectado al repo de GitHub (recomendado):** despliega `main` y crea una URL de preview por PR, sin configurar `base`. El `site` provisional ya asume `*.pages.dev`.
-- **GitHub Pages (alternativa):** todo queda en GitHub con la Action `withastro/action`, pero no hay previews por PR y hace falta `base` salvo que el repo sea `usuario.github.io` o haya dominio propio.
-- El deploy se adelanta (va después de la Fase 0): validar SEO, móvil y Lighthouse sobre una URL real es más fiable que en local.
-- Dominio propio si lo hay (actualizar `site`).
+> **✅ Decidido e implementado (2026-11-16): GitHub Pages.**
+
+- El repo se llama `AndrewSthephen23.github.io`, así que el sitio se sirve en la raíz de <https://andrewsthephen23.github.io> y no hace falta `base`.
+- El despliegue es un job de GitHub Actions (`deploy` en `ci.yml`): se ejecuta solo en `main` y solo si pasan `check`, `build` y la verificación de placeholders.
+- GitHub Pages no ofrece previews por PR; en los PRs el sitio compilado queda como artifact descargable.
+- Alternativa descartada por ahora: Cloudflare Pages (previews por PR). Migrar sería cambiar `site` y el job `deploy`.
+- Dominio propio, si lo hay: configurarlo en Pages y actualizar `site`.
 - Regla de contenido: solo writeups de máquinas y retos retirados.
 
 ---
@@ -238,15 +241,11 @@ Todo es integración oficial o estándar del ecosistema Astro; sin frameworks JS
 
 **Decisiones abiertas**
 
-2. **Hosting:** Cloudflare Pages (recomendado, previews por PR) o GitHub Pages (todo en GitHub). Ver §3.8.
-3. **Visibilidad del repo:** público (recomendado; habilita giscus y suma al portafolio) o privado.
-4. **Nombre/branding:** el nav y los títulos dicen `M3ow5N0IR`, el footer `CTF_HACKER.`. Unificar a un solo alias.
-5. **Idioma:** el sitio mezcla ES/EN (títulos en inglés, prosa en español). Mantener ese estilo o hacerlo consistente.
-6. **`UserReports`:** ¿hay testimonios reales? Si no, transformar en "Certs & Badges" o eliminar.
-7. **Formulario de contacto:** servicio externo (Web3Forms / Formspree) o solo `mailto`.
-8. **Posts de ejemplo:** reemplazarlos por writeups reales o dejarlos como `draft` antes del primer deploy.
-9. **Dominio final:** se puede empezar con el subdominio del hosting.
+2. **Idioma:** el sitio mezcla ES/EN (títulos en inglés, prosa en español). Mantener ese estilo o hacerlo consistente.
+3. **Dominio propio:** opcional; hoy se usa el subdominio de GitHub Pages.
 
 **Decisiones cerradas**
 
+- Branding unificado a `M3ow5N0IR`; `UserReports` convertido en "Certs & Badges"; formulario de contacto por `mailto` (2026-11-16).
+- Hosting: GitHub Pages, con repo público `AndrewSthephen23.github.io` (2026-11-16). Los posts de ejemplo quedan en borrador.
 - Refactor de tokens antes del blog (hecho, Fase 1) y arquitectura de temas tipo LEGO (2026-07-07).

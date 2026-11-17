@@ -48,7 +48,10 @@ const counts = {
 
         <!-- Filtros por categoría -->
         <div
-            class="flex flex-wrap gap-3 mb-12 reveal"
+            class:list={[
+                "flex flex-wrap gap-3 mb-12 reveal",
+                posts.length === 0 && "hidden",
+            ]}
             id="filters"
             role="group"
             aria-label="Filtrar por categoría"
@@ -85,8 +88,12 @@ const counts = {
 
         {
             posts.length === 0 && (
-                <div class="border-4 border-dashed border-muted p-12 text-center font-mono text-muted">
-                    // NO_POSTS_YET — crea un .md en src/content/blog/
+                <div class="border-4 border-dashed border-ink bg-panel p-12 text-center font-mono">
+                    <p class="text-2xl font-black mb-2">// EN_CONSTRUCCIÓN</p>
+                    <p>
+                        Los primeros write-ups se están redactando. Vuelve
+                        pronto.
+                    </p>
                 </div>
             )
         }

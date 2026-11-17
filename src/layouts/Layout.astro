@@ -47,7 +47,12 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
     <body
         class="font-display antialiased selection:bg-ink selection:text-surface"
     >
-        <div id="cursor" class="hidden lg:block"></div>
+        <script is:inline>
+            // Marca que hay JS antes de pintar: solo entonces .reveal oculta
+            // el contenido para animarlo (sin JS todo queda visible).
+            document.documentElement.classList.add("js-reveal");
+        </script>
+        <div id="cursor" aria-hidden="true"></div>
 
         <div
             class="fixed top-0 left-0 h-2 bg-success z-[60] border-b-2 border-ink"
@@ -199,23 +204,49 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
             });
 
             // ── Cursor personalizado (los colores viven en CSS/temas)
+            // Solo con ratón real y sin reduced-motion. La clase
+            // .has-custom-cursor (que oculta el cursor nativo) se pone en el
+            // primer movimiento: si este script no corre, queda el nativo.
             const cursor = document.getElementById("cursor");
+            const cursorQuery = window.matchMedia(
+                "(pointer: fine) and (hover: hover) and (prefers-reduced-motion: no-preference)",
+            );
             if (cursor) {
-                document.addEventListener("mousemove", (e) => {
+                const HOVER = ".cursor-hover, a, button, summary, label";
+                const TEXT = "input, textarea, select, [contenteditable='true']";
+
+                const onMove = (e: MouseEvent) => {
+                    if (!cursorQuery.matches) return;
+                    document.documentElement.classList.add("has-custom-cursor");
+                    cursor.classList.remove("is-out");
                     cursor.style.left = e.clientX + "px";
                     cursor.style.top = e.clientY + "px";
+                };
+                document.addEventListener("mousemove", onMove, {
+                    passive: true,
                 });
 
-                const hoverElements = document.querySelectorAll(
-                    ".cursor-hover, a, button, input, textarea",
+                // Delegación: cubre también elementos añadidos después.
+                document.addEventListener("mouseover", (e) => {
+                    const target = e.target as Element | null;
+                    const onText = !!target?.closest(TEXT);
+                    cursor.classList.toggle("is-text", onText);
+                    cursor.classList.toggle(
+                        "is-hover",
+                        !onText && !!target?.closest(HOVER),
+                    );
+                });
+                document.documentElement.addEventListener("mouseleave", () =>
+                    cursor.classList.add("is-out"),
                 );
-                hoverElements.forEach((el) => {
-                    el.addEventListener("mouseenter", () =>
-                        cursor.classList.add("is-hover"),
-                    );
-                    el.addEventListener("mouseleave", () =>
-                        cursor.classList.remove("is-hover"),
-                    );
+
+                // Si cambia la preferencia (p. ej. se activa reduced-motion
+                // o se conecta una pantalla táctil), vuelve al cursor nativo.
+                cursorQuery.addEventListener("change", () => {
+                    if (!cursorQuery.matches)
+                        document.documentElement.classList.remove(
+                            "has-custom-cursor",
+                        );
                 });
             }
 

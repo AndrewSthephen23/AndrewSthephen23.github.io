@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { Icon } from "astro-icon/components";
 import { site, socials } from "../data/site";
+import { seo } from "../data/seo";
 
 interface Props {
     title: string;
@@ -171,6 +172,20 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
                             )
                         }
                     </div>
+                </div>
+                <div>
+                    <h3
+                        class="font-bold text-success mb-4 border-b border-box-line pb-2"
+                    >
+                        FEED
+                    </h3>
+                    <a
+                        href={seo.rss.path}
+                        class="inline-flex items-center gap-2 hover:text-primary transition-colors cursor-hover"
+                    >
+                        <Icon name="ri:rss-fill" aria-hidden="true" class="text-2xl" />
+                        RSS de write-ups
+                    </a>
                 </div>
             </div>
             <div

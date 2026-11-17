@@ -3,7 +3,7 @@
    ────────────────────────────────────────────────────────────
    Mood: crudo, juguetón, editorial. Fondo crema con rejilla,
    bordes negros gruesos, sombras duras negras, acentos saturados.
-   Implementa el contrato de tokens --t-* (ver GUIA_TEMAS.md).
+   Implementa el contrato de tokens --t-* (ver docs/GUIA_TEMAS.md).
    ════════════════════════════════════════════════════════════ */
 
 :root,
@@ -39,6 +39,6 @@
     --t-danger: #FF2A2A;                /* error / glitch (rojo) */
 
     /* ── Tipografía ── */
-    --t-font-display: "Space Grotesk", sans-serif;
+    --t-font-display: "Space Grotesk Variable", "Space Grotesk", sans-serif;
     --t-font-mono: "JetBrains Mono", monospace;
 }

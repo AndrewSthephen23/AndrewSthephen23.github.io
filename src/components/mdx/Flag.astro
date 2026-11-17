@@ -1,6 +1,8 @@
 ---
 // Flag — spoiler que oculta una flag/valor sensible hasta hacer click.
 // Uso en .mdx:  <Flag>HTB{ejemplo_de_flag}</Flag>  o  <Flag label="user.txt">...</Flag>
+import { Icon } from "astro-icon/components";
+
 interface Props {
     label?: string;
 }
@@ -13,7 +15,9 @@ const { label = "FLAG" } = Astro.props;
     data-revealed="false"
     aria-label={`Revelar ${label}`}
 >
-    <i class="ri-lock-2-line flag-icon"></i>
+    <!-- Candado cerrado/abierto: el CSS muestra uno u otro según data-revealed -->
+    <Icon name="ri:lock-2-line" class="flag-icon-locked" aria-hidden="true" />
+    <Icon name="ri:lock-unlock-line" class="flag-icon-unlocked" aria-hidden="true" />
     <span class="text-box-muted text-xs uppercase font-bold">{label}:</span>
     <span class="flag-value blur-sm select-none transition-all"><slot /></span>
 </button>
@@ -26,6 +30,11 @@ const { label = "FLAG" } = Astro.props;
     .flag-spoiler[data-revealed="true"] {
         cursor: text;
     }
+    /* :global porque el <svg> lo renderiza <Icon>, fuera del scope de este componente */
+    .flag-spoiler[data-revealed="false"] :global(.flag-icon-unlocked),
+    .flag-spoiler[data-revealed="true"] :global(.flag-icon-locked) {
+        display: none;
+    }
 </style>
 
 <script>
@@ -36,7 +45,5 @@ const { label = "FLAG" } = Astro.props;
         );
         if (!btn || btn.dataset.revealed === "true") return;
         btn.dataset.revealed = "true";
-        const icon = btn.querySelector(".flag-icon");
-        icon?.classList.replace("ri-lock-2-line", "ri-lock-unlock-line");
     });
 </script>

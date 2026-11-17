@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap');
+/* ── Fuentes self-hosted (Fontsource): se empaquetan en _astro/, sin CDN ──
+   Space Grotesk es variable (familia "Space Grotesk Variable", 300–700).
+   JetBrains Mono: solo los pesos que usa el sitio (normal, bold y 800,
+   que también cubre font-black). Los temas las nombran en --t-font-*. */
+@import "@fontsource-variable/space-grotesk/wght.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/700.css";
+@import "@fontsource/jetbrains-mono/800.css";
 @import "tailwindcss";
 
 /* ════════════════════════════════════════════════════════════
@@ -10,7 +17,7 @@
      2. Encájalo en un slot en THEME_SLOTS (Layout.astro).
    Los componentes NUNCA usan colores directos: solo utilidades
    semánticas (bg-surface, text-ink, border-ink, shadow-hard...).
-   Guía completa: GUIA_TEMAS.md
+   Guía completa: docs/GUIA_TEMAS.md
    ════════════════════════════════════════════════════════════ */
 @import "./themes/dev.css";
 @import "./themes/hacker.css";

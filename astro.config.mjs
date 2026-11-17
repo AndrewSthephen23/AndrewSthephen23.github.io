@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import expressiveCode from 'astro-expressive-code';
 import mdx from '@astrojs/mdx';
+import icon from 'astro-icon';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
@@ -31,6 +32,8 @@ export default defineConfig({
       },
     }),
     mdx(),
+    // Iconos SVG inline (set Remix: `ri:*`) en vez de la fuente de RemixIcon por CDN.
+    icon(),
   ],
 
   markdown: {

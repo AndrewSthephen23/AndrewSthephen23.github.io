@@ -5,9 +5,11 @@ import Experience from "../components/Experience.astro";
 import SelectedWorks from "../components/SelectedWorks.astro";
 import UserReports from "../components/UserReports.astro";
 import Contact from "../components/Contact.astro";
+import { Icon } from "astro-icon/components";
+import { site } from "../data/site";
 ---
 
-<Layout title="Portafolio NeoBrutal // CTF">
+<Layout title={`Portafolio // ${site.alias}`}>
 	<section
 		class="min-h-screen flex flex-col justify-center items-center px-4 pt-20 relative overflow-hidden border-b-4 border-ink"
 	>
@@ -59,10 +61,10 @@ import Contact from "../components/Contact.astro";
 					VER WRITE-UPS
 				</a>
 				<a
-					href="#"
+					href="#skills"
 					class="bg-panel text-ink border-2 border-ink px-10 py-5 text-xl font-bold shadow-hard hover:bg-secondary hover:text-on-accent hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover flex items-center justify-center gap-2"
 				>
-					<i class="ri-terminal-box-line"></i> VER ARSENAL
+					<Icon name="ri:terminal-box-line" /> VER ARSENAL
 				</a>
 			</div>
 		</div>
@@ -120,11 +122,13 @@ import Contact from "../components/Contact.astro";
 					manera clara y divertida.
 				</p>
 				<div class="flex gap-4">
-					<div
-						class="bg-box text-box-ink px-4 py-2 font-mono text-sm border-2 border-transparent"
-					>
-						📍 LOCATION: LOCALHOST
-					</div>
+					{
+						site.location && (
+							<div class="bg-box text-box-ink px-4 py-2 font-mono text-sm border-2 border-transparent">
+								📍 LOCATION: {site.location}
+							</div>
+						)
+					}
 					<div
 						class="bg-success text-on-accent px-4 py-2 font-mono text-sm border-2 border-ink"
 					>

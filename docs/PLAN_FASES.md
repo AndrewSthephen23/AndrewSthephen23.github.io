@@ -11,8 +11,8 @@
 
 | Fase | Tema | Estado | Nota |
 |------|------|--------|------|
-| G | Repositorio y GitHub | ⬜ | **Nueva y prioritaria.** Sin remoto; Fases 1–3 sin commitear. |
-| 0 | Fundaciones y limpieza | 🟨 | Se saltó: solo `site` (provisional) está hecho. |
+| G | Repositorio y GitHub | 🟨 | Hecha (2026-11-16) salvo proteger `main`, que espera a que el repo sea público. |
+| 0 | Fundaciones y limpieza | 🟨 | Hecha (2026-11-16) salvo los datos personales de `src/data/site.ts`. |
 | 1 | Sistema de temas | 🟨 | Todo implementado; falta el QA visual. |
 | 2 | Blog: infraestructura | ✅ | |
 | 3 | Blog: lectura avanzada | ✅ | |
@@ -21,15 +21,15 @@
 | 5 | Accesibilidad, rendimiento, pulido | ⬜ | |
 | 7 | Extras (backlog) | ⬜ | |
 
-`npm run build` pasa (5 páginas). Los números de fase se conservan porque otros documentos
+`npm run check` y `npm run build` pasan (6 páginas) y el CI de GitHub Actions los ejecuta en cada push y PR. El seguimiento tarea a tarea está en los issues y milestones del repo. Los números de fase se conservan porque otros documentos
 y comentarios del código los referencian; **el orden de ejecución es el de esta tabla**
 (ver [Orden y dependencias](#orden-y-dependencias)).
 
-### Riesgos que hay que cerrar ya
+### Pendiente antes de publicar
 
-1. **Trabajo sin respaldo.** Las Fases 1–3 (11 archivos modificados, ~1 800 líneas, más 10 rutas nuevas) existen solo en el disco local: no hay commit ni remoto. Un fallo de disco las borra.
-2. **El sitio sigue cargando desde CDNs** (Google Fonts en `global.css`, RemixIcon en `Layout.astro`) y con placeholders visibles (`github.com/tu-usuario`, socials `href="#"`, imágenes de Unsplash, `/NO_IMAGE_YET/`).
-3. **Los 3 posts son de ejemplo.** No deben llegar a producción como si fueran contenido propio.
+1. **Datos personales** en `src/data/site.ts` (con `email` vacío no se muestran ni el email ni el formulario).
+2. **QA visual** en ambos temas: la Fase 0 cambió fuentes e iconos y no se ha revisado en navegador.
+3. **Imágenes de Unsplash y `/NO_IMAGE_YET/`** (Fase 5) y **los 3 posts de ejemplo** (Fase 6).
 
 ---
 
@@ -39,28 +39,28 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 
 **G.1 — Poner el trabajo a salvo**
 
-- ⬜ Añadir `.gitattributes` con `* text=auto eol=lf` (hoy Git avisa de conversión LF→CRLF en cada archivo).
-- ⬜ Commitear lo pendiente en commits separados por fase, no en uno solo:
+- ✅ Añadir `.gitattributes` con `* text=auto eol=lf` (hoy Git avisa de conversión LF→CRLF en cada archivo).
+- ✅ Commitear lo pendiente en commits separados por fase, no en uno solo:
   `feat(themes): sistema de temas LEGO` · `feat(blog): content collections y páginas` · `feat(blog): componentes MDX, TOC y relacionados` · `docs: planes y guías`.
-- ⬜ Renombrar la rama `master` → `main`.
-- ⬜ Crear el repositorio en GitHub y hacer el primer `push`. Decidir visibilidad: **público** recomendado (un portafolio con código abierto es parte del portafolio).
+- ✅ Renombrar la rama `master` → `main`.
+- ✅ Crear el repositorio en GitHub y hacer el primer `push`. Creado **privado** por ahora; pasarlo a público cuando el contenido sea real (un portafolio con código abierto es parte del portafolio).
 
 **G.2 — Calidad automática**
 
-- ⬜ Instalar `@astrojs/check` + `typescript` y añadir el script `"check": "astro check"`.
-- ⬜ GitHub Action `ci.yml`: en cada push y PR ejecuta `npm ci`, `npm run check` y `npm run build`.
-- ⬜ Paso de CI que falle si reaparecen placeholders (`tu-usuario`, `href="#"`, `unsplash`) — convierte el criterio de salida de la Fase 0 en algo verificado por máquina.
-- ⬜ Dependabot (`.github/dependabot.yml`) para npm y para las propias Actions, agrupado y semanal.
-- ⬜ Proteger `main`: exigir que el CI pase antes de fusionar.
+- ✅ Instalar `@astrojs/check` + `typescript` y añadir el script `"check": "astro check"`.
+- ✅ GitHub Action `ci.yml`: en cada push y PR ejecuta `npm ci`, `npm run check` y `npm run build`.
+- 🟨 (hoy solo avisa: queda Unsplash, Fase 5) Paso de CI que falle si reaparecen placeholders (`tu-usuario`, `href="#"`, `unsplash`) — convierte el criterio de salida de la Fase 0 en algo verificado por máquina.
+- ✅ Dependabot (`.github/dependabot.yml`) para npm y para las propias Actions, agrupado y semanal.
+- 🟨 (GitHub lo exige público o Pro; issue #12) Proteger `main`: exigir que el CI pase antes de fusionar.
 
 **G.3 — Flujo de trabajo**
 
-- ⬜ Una rama y un PR por fase o por post (`feat/fase-0-limpieza`, `post/htb-nombre`). El PR obtiene build check y, tras la Fase 6, URL de preview.
-- ⬜ Mensajes con Conventional Commits (`feat:`, `fix:`, `docs:`, `post:`).
-- ⬜ Pasar este roadmap a GitHub: un **milestone por fase** y un **issue por tarea**; este archivo queda como visión general y deja de mantenerse casilla a casilla.
-- ⬜ Plantilla de PR con el checklist de publicación (ambos temas revisados, `draft: false`, máquina retirada, sin credenciales en capturas).
-- ⬜ `LICENSE`: MIT para el código y CC BY-NC 4.0 para el contenido de `src/content/`.
-- ⬜ Metadatos del repo: descripción, topics (`astro`, `portfolio`, `ctf-writeups`), URL del sitio, y fijarlo en el perfil.
+- ✅ Una rama y un PR por fase o por post (`feat/fase-0-limpieza`, `post/htb-nombre`). El PR obtiene build check y, tras la Fase 6, URL de preview.
+- ✅ Mensajes con Conventional Commits (`feat:`, `fix:`, `docs:`, `post:`).
+- ✅ Pasar este roadmap a GitHub: un **milestone por fase** y un **issue por tarea**; este archivo queda como visión general y deja de mantenerse casilla a casilla.
+- ✅ Plantilla de PR con el checklist de publicación (ambos temas revisados, `draft: false`, máquina retirada, sin credenciales en capturas).
+- ✅ `LICENSE`: MIT para el código y CC BY-NC 4.0 para el contenido de `src/content/`.
+- 🟨 (falta URL del sitio y fijarlo en el perfil) Metadatos del repo: descripción, topics (`astro`, `portfolio`, `ctf-writeups`), URL del sitio, y fijarlo en el perfil.
 
 **Criterio de salida:** `git status` limpio, `main` en GitHub, CI en verde, y abrir un PR ejecuta el build solo.
 
@@ -71,15 +71,15 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 *Objetivo: dejar el proyecto listo para crecer sin deuda técnica.*
 
 - 🟨 `site` en `astro.config.mjs`: hay un valor provisional (`m3ow5n0ir.pages.dev`); confirmarlo al desplegar (Fase 6).
-- ⬜ Self-host de fuentes: instalar `@fontsource-variable/space-grotesk` + `@fontsource/jetbrains-mono`, importarlas en `global.css`, eliminar el `@import` de Google Fonts (línea 1).
-- ⬜ Reemplazar RemixIcon CDN (`Layout.astro`) por `astro-icon` con `@iconify-json/ri`.
-- ⬜ `rel="noopener noreferrer"` en todo `target="_blank"` (hoy: `SelectedWorks.astro`); ningún link interno con `target="_blank"`.
-- ⬜ Unificar branding: el nav y los títulos del blog dicen `M3ow5N0IR`, el footer `CTF_HACKER.`. Elegir un alias y aplicarlo.
-- ⬜ Reemplazar placeholders: GitHub real (`SelectedWorks.astro`), socials del footer (`Layout.astro`), botón `href="#"` del hero (`index.astro`), ubicación real.
-- ⬜ Formulario de contacto: el `<form>` de `Contact.astro` no tiene `action`. Conectarlo a un servicio (Web3Forms / Formspree) o dejar solo el `mailto`.
-- ⬜ Página `404.astro` propia con el estilo del sitio.
-- ⬜ Escribir `README.md` propio (sigue siendo el de la plantilla de Astro): qué es, comandos, estructura y enlaces a las guías.
-- ⬜ Mover `PLAN_*.md`, `GUIA_TEMAS.md` y `COMO_PUBLICAR.md` a `docs/` y corregir los enlaces entre ellos.
+- ✅ Self-host de fuentes: instalar `@fontsource-variable/space-grotesk` + `@fontsource/jetbrains-mono`, importarlas en `global.css`, eliminar el `@import` de Google Fonts (línea 1).
+- ✅ Reemplazar RemixIcon CDN (`Layout.astro`) por `astro-icon` con `@iconify-json/ri`.
+- ✅ `rel="noopener noreferrer"` en todo `target="_blank"` (hoy: `SelectedWorks.astro`); ningún link interno con `target="_blank"`.
+- ✅ Unificar branding: el nav y los títulos del blog dicen `M3ow5N0IR`, el footer `CTF_HACKER.`. Elegir un alias y aplicarlo.
+- 🟨 (faltan `email`, `linkedin`, `hackthebox`, `tryhackme` y `location` en `src/data/site.ts`) Reemplazar placeholders: GitHub real (`SelectedWorks.astro`), socials del footer (`Layout.astro`), botón `href="#"` del hero (`index.astro`), ubicación real.
+- ✅ Formulario de contacto: el `<form>` de `Contact.astro` no tiene `action`. Conectarlo a un servicio (Web3Forms / Formspree) o dejar solo el `mailto`.
+- ✅ Página `404.astro` propia con el estilo del sitio.
+- ✅ Escribir `README.md` propio (sigue siendo el de la plantilla de Astro): qué es, comandos, estructura y enlaces a las guías.
+- ✅ Mover `PLAN_*.md`, `GUIA_TEMAS.md` y `COMO_PUBLICAR.md` a `docs/` y corregir los enlaces entre ellos.
 
 **Criterio de salida:** build sin errores, cero requests a CDNs externos, sin links `#` ni `tu-usuario` (verificado por el CI de G.2).
 

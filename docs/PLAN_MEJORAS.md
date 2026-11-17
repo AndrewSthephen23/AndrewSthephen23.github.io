@@ -33,7 +33,7 @@ El contenido se escribe en **archivos `.md`/`.mdx`** dentro de `src/content/`, g
 ## 2. Estado actual (diagnóstico)
 
 ### Lo que ya funciona bien
-- Base Astro 5 + Tailwind 4 (`@theme` en [global.css](src/styles/global.css)).
+- Base Astro 5 + Tailwind 4 (`@theme` en [global.css](../src/styles/global.css)).
 - Identidad visual fuerte y consistente (paleta neo, sombras duras, marquee, cursor custom).
 - Componentes ya separados: `Skills`, `Experience`, `SelectedWorks`, `UserReports`, `Contact`.
 - Datos de componentes definidos en arrays en el frontmatter (fácil de migrar a archivos de datos).

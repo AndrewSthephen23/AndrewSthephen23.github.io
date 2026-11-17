@@ -1,6 +1,10 @@
 ---
+import { Icon } from "astro-icon/components";
+import { site } from "../data/site";
+
 // Definimos tus proyectos aquí. Puedes cambiar las imágenes más adelante.
-// hoverColor usa SOLO utilidades semánticas del sistema de temas (GUIA_TEMAS.md).
+// `link` es opcional: sin él, la flecha lleva al perfil de GitHub (src/data/site.ts).
+// hoverColor usa SOLO utilidades semánticas del sistema de temas (docs/GUIA_TEMAS.md).
 const projects = [
     {
         title: "MCPSafetyScanner",
@@ -8,7 +12,6 @@ const projects = [
             "Herramienta de escaneo de seguridad y automatización. Diseñada para auditorías rápidas y reportes técnicos.",
         image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de código/hacker
         tags: ["Python", "Security", "Automation"],
-        link: "#",
         hoverColor: "group-hover:text-danger",
     },
     {
@@ -17,7 +20,6 @@ const projects = [
             "Sincronización bidireccional entre servidores externos y Odoo ERP mediante XML-RPC para automatización comercial.",
         image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de servidor
         tags: ["Python", "XML-RPC", "Ubuntu Server"],
-        link: "#",
         hoverColor: "group-hover:text-info",
     },
     {
@@ -26,7 +28,6 @@ const projects = [
             "Dashboard interactivo de inteligencia de negocios (BI) para la visualización de métricas y limpieza de bases de datos.",
         image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de datos
         tags: ["Power BI", "Data Analysis", "SQL"],
-        link: "#",
         hoverColor: "group-hover:text-secondary",
     },
     {
@@ -35,7 +36,7 @@ const projects = [
             "Colección documentada de resolución de máquinas vulnerables (HackTheBox & TryHackMe) aplicando técnicas de pentesting.",
         image: "https://images.unsplash.com/photo-1510511459019-5d6450c2807e?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de terminal
         tags: ["Pentesting", "CTF", "Markdown"],
-        link: "/blog", // Enlace a tu blog (que crearemos luego si quieres)
+        link: "/blog",
         hoverColor: "group-hover:text-warning",
     },
 ];
@@ -90,10 +91,14 @@ const projects = [
                             </div>
 
                             <a
-                                href={project.link}
+                                href={project.link ?? site.github}
+                                {...(project.link
+                                    ? {}
+                                    : { target: "_blank", rel: "noopener noreferrer" })}
+                                aria-label={project.link ? `Ver ${project.title}` : `Ver ${project.title} en GitHub`}
                                 class="w-12 h-12 flex-shrink-0 border-2 border-ink bg-success text-on-accent flex items-center justify-center hover:bg-box hover:text-box-ink transition-all cursor-hover shadow-hard-sm ml-4 mt-2"
                             >
-                                <i class="ri-arrow-right-up-line text-2xl" />
+                                <Icon name="ri:arrow-right-up-line" class="text-2xl" />
                             </a>
                         </div>
                     </article>
@@ -103,7 +108,7 @@ const projects = [
 
         <div class="text-center mt-24">
             <a
-                href="https://github.com/tu-usuario"
+                href={site.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-block bg-box text-box-ink px-12 py-5 font-bold font-mono text-xl hover:bg-panel hover:text-ink border-4 border-ink transition-all shadow-hard hover:shadow-none cursor-hover"

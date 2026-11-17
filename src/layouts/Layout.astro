@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import { Icon } from "astro-icon/components";
+import { site, socials } from "../data/site";
 
 interface Props {
     title: string;
@@ -18,15 +20,11 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <title>{title}</title>
-        <link
-            href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
-            rel="stylesheet"
-        />
         <script is:inline>
             // ══ CONFIG DE TEMAS (LEGO) ══════════════════════════════
             // Cada slot apunta a una pieza de src/styles/themes/.
             // Para cambiar de pieza: 1) importa el tema en global.css,
-            // 2) cambia el nombre del slot aquí. Ver GUIA_TEMAS.md.
+            // 2) cambia el nombre del slot aquí. Ver docs/GUIA_TEMAS.md.
             const THEME_SLOTS = { light: "dev", dark: "hacker" };
             // ════════════════════════════════════════════════════════
 
@@ -66,7 +64,7 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
                     href="/"
                     class="bg-panel border-2 border-ink px-4 py-1 text-2xl font-black shadow-hard hover:bg-primary hover:text-on-accent transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none cursor-hover"
                 >
-                    M3ow5N0IR.exe
+                    {site.alias}.exe
                 </a>
 
                 <div class="flex items-center gap-3">
@@ -132,7 +130,7 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
                 class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10"
             >
                 <div class="col-span-1 md:col-span-2">
-                    <h2 class="text-4xl font-black mb-6">CTF_HACKER.</h2>
+                    <h2 class="text-4xl font-black mb-6">{site.alias}.</h2>
                     <p class="text-box-muted max-w-sm">
                         Resolviendo máquinas y construyendo sistemas con
                         estética cruda y código limpio.
@@ -144,17 +142,34 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
                     >
                         SOCIALS
                     </h3>
+                    <!-- Redes desde src/data/site.ts: solo las que tienen URL -->
                     <div class="flex gap-4">
-                        <a
-                            href="#"
-                            class="text-2xl hover:text-info transition-colors cursor-hover"
-                            ><i class="ri-code-fill"></i></a
-                        >
-                        <a
-                            href="#"
-                            class="text-2xl hover:text-primary transition-colors cursor-hover"
-                            ><i class="ri-github-fill"></i></a
-                        >
+                        {
+                            socials.map((s) => (
+                                <a
+                                    href={s.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={s.label}
+                                    title={s.label}
+                                    class="inline-flex text-2xl hover:text-primary transition-colors cursor-hover"
+                                >
+                                    <Icon name={s.icon} aria-hidden="true" />
+                                </a>
+                            ))
+                        }
+                        {
+                            site.email && (
+                                <a
+                                    href={`mailto:${site.email}`}
+                                    aria-label="Email"
+                                    title="Email"
+                                    class="inline-flex text-2xl hover:text-info transition-colors cursor-hover"
+                                >
+                                    <Icon name="ri:mail-line" aria-hidden="true" />
+                                </a>
+                            )
+                        }
                     </div>
                 </div>
             </div>

@@ -31,7 +31,7 @@ El sitio nunca habla de colores concretos. Los componentes hablan en **roles**
 
 **Slots:** el sitio tiene 2 slots — `light` y `dark` — y el botón del nav alterna
 entre ellos. Qué pieza ocupa cada slot se decide en **un solo lugar**:
-`THEME_SLOTS` en [Layout.astro](src/layouts/Layout.astro).
+`THEME_SLOTS` en [Layout.astro](../src/layouts/Layout.astro).
 
 ```js
 const THEME_SLOTS = { light: "dev", dark: "hacker" };
@@ -112,7 +112,7 @@ Además: `color-scheme: light | dark` (controles nativos y scrollbars).
 4. *(Opcional)* Añade **overrides de sabor** al final del archivo, siempre con el
    prefijo `[data-theme="mi-tema"]` — texturas, scanlines, forma del cursor,
    el marquee (`.marquee-bar`), el blend del hero (`.blend-darken`). Mira
-   [hacker.css](src/styles/themes/hacker.css) como ejemplo real.
+   [hacker.css](../src/styles/themes/hacker.css) como ejemplo real.
 5. **Importa** en `global.css`: `@import "./themes/mi-tema.css";`
 6. **Encaja la pieza** en su slot en `Layout.astro`:
    ```js

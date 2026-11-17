@@ -1,6 +1,11 @@
 ---
-// Puedes cambiar tu correo aquí
-const email = "tu-correo@gmail.com";
+import { Icon } from "astro-icon/components";
+import { site, socials } from "../data/site";
+
+// Email, ubicación y redes se editan en src/data/site.ts.
+// Sin email: no hay enlace mailto ni formulario; se muestran las redes.
+// Con email: el formulario compone un mailto: (sin backend ni servicios externos).
+const { email, location } = site;
 ---
 
 <section id="contact" class="py-24 px-4 max-w-5xl mx-auto mb-20">
@@ -23,94 +28,171 @@ const email = "tu-correo@gmail.com";
                     de seguridad y desarrollo de proyectos.
                 </p>
                 <div class="space-y-4">
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-12 h-12 bg-box text-box-ink flex items-center justify-center border-2 border-ink"
-                        >
-                            <i class="ri-mail-line text-xl"></i>
-                        </div>
-                        <a
-                            href={`mailto:${email}`}
-                            class="text-xl font-bold hover:bg-info hover:text-white cursor-hover transition-colors"
-                            >{email}</a
-                        >
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-12 h-12 bg-box text-box-ink flex items-center justify-center border-2 border-ink"
-                        >
-                            <i class="ri-map-pin-line text-xl"></i>
-                        </div>
-                        <span class="text-xl font-bold">Remote / Earth</span>
-                    </div>
+                    {
+                        email && (
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-box text-box-ink flex items-center justify-center border-2 border-ink">
+                                    <Icon name="ri:mail-line" class="text-xl" aria-hidden="true" />
+                                </div>
+                                <a
+                                    href={`mailto:${email}`}
+                                    class="text-xl font-bold hover:bg-info hover:text-white cursor-hover transition-colors break-all"
+                                >
+                                    {email}
+                                </a>
+                            </div>
+                        )
+                    }
+                    {
+                        location && (
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-box text-box-ink flex items-center justify-center border-2 border-ink">
+                                    <Icon name="ri:map-pin-line" class="text-xl" aria-hidden="true" />
+                                </div>
+                                <span class="text-xl font-bold">{location}</span>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
 
-            <form
-                id="contact-form"
-                class="space-y-6 bg-soft p-6 border-2 border-ink"
-            >
-                <div class="flex flex-col">
-                    <label class="font-mono font-bold mb-1 uppercase text-xs"
-                        >Identidad</label
+            {
+                email ? (
+                    <form
+                        id="contact-form"
+                        data-email={email}
+                        class="space-y-6 bg-soft p-6 border-2 border-ink"
                     >
-                    <input
-                        type="text"
-                        placeholder="NOMBRE / ALIAS"
-                        required
-                        class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all cursor-hover"
-                    />
-                </div>
+                        <div class="flex flex-col">
+                            <label
+                                for="contact-name"
+                                class="font-mono font-bold mb-1 uppercase text-xs"
+                            >
+                                Identidad
+                            </label>
+                            <input
+                                id="contact-name"
+                                name="name"
+                                type="text"
+                                placeholder="NOMBRE / ALIAS"
+                                required
+                                class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all cursor-hover"
+                            />
+                        </div>
 
-                <div class="flex flex-col">
-                    <label class="font-mono font-bold mb-1 uppercase text-xs"
-                        >Coordenadas (Email)</label
-                    >
-                    <input
-                        type="email"
-                        placeholder="CORREO ELECTRÓNICO"
-                        required
-                        class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all cursor-hover"
-                    />
-                </div>
+                        <div class="flex flex-col">
+                            <label
+                                for="contact-email"
+                                class="font-mono font-bold mb-1 uppercase text-xs"
+                            >
+                                Coordenadas (Email)
+                            </label>
+                            <input
+                                id="contact-email"
+                                name="email"
+                                type="email"
+                                placeholder="CORREO ELECTRÓNICO"
+                                required
+                                class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all cursor-hover"
+                            />
+                        </div>
 
-                <div class="flex flex-col">
-                    <label class="font-mono font-bold mb-1 uppercase text-xs"
-                        >Transmisión</label
-                    >
-                    <textarea
-                        rows="4"
-                        placeholder="DETALLES DEL PROYECTO O VULNERABILIDAD..."
-                        required
-                        class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all resize-none cursor-hover"
-                    ></textarea>
-                </div>
+                        <div class="flex flex-col">
+                            <label
+                                for="contact-message"
+                                class="font-mono font-bold mb-1 uppercase text-xs"
+                            >
+                                Transmisión
+                            </label>
+                            <textarea
+                                id="contact-message"
+                                name="message"
+                                rows="4"
+                                placeholder="DETALLES DEL PROYECTO O VULNERABILIDAD..."
+                                required
+                                class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all resize-none cursor-hover"
+                            ></textarea>
+                        </div>
 
-                <button
-                    type="submit"
-                    class="w-full bg-info text-white font-black text-xl py-4 border-2 border-ink shadow-hard hover:bg-box hover:text-box-ink hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
-                >
-                    TRANSMIT DATA
-                </button>
-            </form>
+                        <button
+                            type="submit"
+                            class="w-full bg-info text-white font-black text-xl py-4 border-2 border-ink shadow-hard hover:bg-box hover:text-box-ink hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
+                        >
+                            TRANSMIT DATA
+                        </button>
+
+                        <p
+                            id="contact-status"
+                            role="status"
+                            hidden
+                            class="flex items-start gap-2 bg-box text-box-ink border-2 border-ink p-3 font-mono text-sm"
+                        >
+                            <Icon
+                                name="ri:checkbox-circle-fill"
+                                class="text-xl text-success shrink-0"
+                                aria-hidden="true"
+                            />
+                            <span>
+                                Abriendo tu cliente de correo con el mensaje
+                                listo. Si no se abre, escríbeme a{" "}
+                                <a
+                                    href={`mailto:${email}`}
+                                    class="text-success font-bold underline cursor-hover break-all"
+                                >
+                                    {email}
+                                </a>
+                                .
+                            </span>
+                        </p>
+                    </form>
+                ) : (
+                    <div class="bg-soft p-6 border-2 border-ink flex flex-col justify-center gap-4">
+                        <p class="font-mono font-bold uppercase text-xs">
+                            Canales abiertos
+                        </p>
+                        {socials.map((s) => (
+                            <a
+                                href={s.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="flex items-center justify-center gap-3 bg-box text-box-ink font-black text-xl py-4 border-2 border-ink shadow-hard hover:bg-primary hover:text-on-accent hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
+                            >
+                                <Icon name={s.icon} aria-hidden="true" />
+                                {s.label.toUpperCase()}
+                            </a>
+                        ))}
+                        <a
+                            href="/blog"
+                            class="flex items-center justify-center gap-3 bg-panel text-ink font-black text-xl py-4 border-2 border-ink shadow-hard hover:bg-secondary hover:text-on-accent hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
+                        >
+                            <Icon name="ri:article-line" aria-hidden="true" />
+                            LEER EL BLOG
+                        </a>
+                    </div>
+                )
+            }
         </div>
     </div>
 </section>
 
 <script>
+    // Sin backend: compone un mailto: con asunto y cuerpo a partir del
+    // formulario y deja visible el enlace directo por si no hay cliente de correo.
     const form = document.getElementById(
         "contact-form",
     ) as HTMLFormElement | null;
-    if (form) {
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            form.innerHTML = `
-        <div class="py-20 text-center">
-          <i class="ri-checkbox-circle-fill text-6xl text-success mb-4 block"></i>
-          <h3 class="text-2xl font-black uppercase">Transmission Received</h3>
-          <p class="font-mono text-sm mt-2">Sistema inicializado. Me pondré en contacto pronto.</p>
-        </div>
-      `;
-        });
-    }
+    form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const name = String(data.get("name") ?? "").trim();
+        const from = String(data.get("email") ?? "").trim();
+        const message = String(data.get("message") ?? "").trim();
+
+        const subject = `Contacto desde el portafolio — ${name}`;
+        const body = `${message}\n\n—\n${name}\n${from}`;
+        const to = form.dataset.email ?? "";
+        window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        document.getElementById("contact-status")?.removeAttribute("hidden");
+    });
 </script>

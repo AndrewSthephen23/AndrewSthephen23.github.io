@@ -5,17 +5,17 @@ export type BlogPost = CollectionEntry<'blog'>;
 
 // ── Metadata visual por categoría (usa roles del sistema de temas) ──
 export const CATEGORY_META = {
-    writeup: { label: 'WRITEUP', badge: 'bg-danger text-white' },
-    proyecto: { label: 'PROYECTO', badge: 'bg-info text-white' },
-    blog: { label: 'BLOG', badge: 'bg-special text-white' },
+    writeup: { label: 'WRITEUP', badge: 'bg-danger text-on-accent' },
+    proyecto: { label: 'PROYECTO', badge: 'bg-info text-on-accent' },
+    blog: { label: 'BLOG', badge: 'bg-special text-on-accent' },
 } as const;
 
 // ── Etiquetas de dificultad (color por nivel) ──
 export const DIFFICULTY_META = {
     easy: { label: 'EASY', badge: 'bg-success text-on-accent' },
     medium: { label: 'MEDIUM', badge: 'bg-warning text-on-accent' },
-    hard: { label: 'HARD', badge: 'bg-danger text-white' },
-    insane: { label: 'INSANE', badge: 'bg-secondary text-white' },
+    hard: { label: 'HARD', badge: 'bg-danger text-on-accent' },
+    insane: { label: 'INSANE', badge: 'bg-secondary text-on-accent' },
 } as const;
 
 /** Posts publicados (sin borradores en prod), ordenados por fecha desc. */

@@ -1,14 +1,15 @@
 ---
 // Aquí definimos tu historial. Es mucho más fácil editar este bloque
 // que buscar entre cientos de líneas de HTML luego.
-// bgColor/textColor usan SOLO utilidades semánticas del sistema de temas (docs/GUIA_TEMAS.md).
+// bgColor usa SOLO utilidades semánticas del sistema de temas (docs/GUIA_TEMAS.md):
+// pinta el punto de la línea de tiempo y la etiqueta de la empresa (texto on-accent,
+// porque los acentos como texto sobre fondos claros no llegan a AA).
 const experiences = [
     {
         role: "Pentester & CTF Player",
         period: "2025 - PRESENTE",
         company: "@ HACK THE BOX & TRYHACKME",
         bgColor: "bg-success",
-        textColor: "text-success",
         description: [
             "Resolución activa de máquinas vulnerables enfocadas en Pentesting Web y escalada de privilegios.",
             "Documentación técnica y publicación de Write-Ups detallados de cada vulnerabilidad explotada.",
@@ -20,7 +21,6 @@ const experiences = [
         period: "2026 - PRESENTE",
         company: "@ PROYECTO SERVIDOR UBUNTU",
         bgColor: "bg-info",
-        textColor: "text-info",
         description: [
             "Administración y despliegue en servidor propio corriendo Ubuntu 24.04.2 LTS.",
             "Desarrollo de scripts en entornos Python para la automatización de reportes.",
@@ -32,7 +32,6 @@ const experiences = [
         period: "2025 - 2026",
         company: "@ INDUSEGUR",
         bgColor: "bg-warning",
-        textColor: "text-warning",
         description: [
             "Diseño y maquetación de dashboards interactivos utilizando Power BI.",
             "Visualización de métricas complejas para facilitar la toma de decisiones.",
@@ -44,7 +43,6 @@ const experiences = [
         period: "2025 - 2026",
         company: "@ MCPSAFETYSCANNER",
         bgColor: "bg-secondary",
-        textColor: "text-secondary",
         description: [
             "Desarrollo de herramienta propia orientada al escaneo de seguridad.",
             "Generación automática de reportes técnicos para auditorías rápidas y eficientes.",
@@ -67,6 +65,7 @@ const experiences = [
                 <div class="reveal relative pl-8 md:pl-16">
                     <div
                         class={`absolute -left-[14px] top-2 w-6 h-6 border-4 border-ink ${exp.bgColor}`}
+                        aria-hidden="true"
                     />
 
                     <div class="bg-panel border-4 border-ink p-6 shadow-hard hover:shadow-hard-xl transition-all group">
@@ -79,10 +78,12 @@ const experiences = [
                             </span>
                         </div>
 
-                        <p
-                            class={`font-mono text-xl mb-4 font-bold ${exp.textColor}`}
-                        >
-                            {exp.company}
+                        <p class="mb-4">
+                            <span
+                                class={`inline-block font-mono text-lg font-bold text-on-accent px-2 py-0.5 border-2 border-ink ${exp.bgColor}`}
+                            >
+                                {exp.company}
+                            </span>
                         </p>
 
                         <ul class="list-disc list-inside font-mono text-muted space-y-2">

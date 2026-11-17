@@ -20,7 +20,7 @@
     /* ── Bloques oscuros ── */
     --t-box: #000000;
     --t-box-ink: #33FF57;
-    --t-box-muted: #4E7A55;
+    --t-box-muted: #5A8A61;             /* ≥4.5:1 sobre box (antes #4E7A55: 4.24) */
     --t-box-line: rgb(51 255 87 / 0.22);
 
     /* ── Efectos ── */
@@ -80,4 +80,10 @@
     mix-blend-mode: normal;
     background-color: var(--t-primary);
     opacity: 0.85;
+}
+
+/* Viñetas de la prosa en verde fósforo: aquí el fondo es oscuro
+   (en dev van en tinta, el verde sobre crema no llega a AA). */
+[data-theme="hacker"] .prose-neo ul > li::before {
+    color: var(--t-success);
 }

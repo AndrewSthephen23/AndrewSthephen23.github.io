@@ -233,12 +233,21 @@ body {
     color: var(--t-danger);
 }
 
+/* Enlaces: texto en tinta (AA en ambos temas) y el acento en el subrayado;
+   info como texto sobre crema solo llega a 3.6:1. */
 .prose-neo a:not(.heading-anchor) {
-    color: var(--t-info);
+    color: var(--t-ink);
     font-weight: 700;
     text-decoration: underline;
-    text-decoration-thickness: 2px;
+    text-decoration-color: var(--t-info);
+    text-decoration-thickness: 3px;
     text-underline-offset: 3px;
+}
+
+.prose-neo a:not(.heading-anchor):hover {
+    background-color: var(--t-info);
+    color: var(--t-on-accent);
+    text-decoration-color: var(--t-ink);
 }
 
 /* Anchors de headings (rehype-autolink): heredan el estilo del título */
@@ -297,7 +306,8 @@ body {
     content: ">";
     position: absolute;
     left: 0;
-    color: var(--t-success);
+    /* Nunca verde fósforo sobre fondo claro: el marcador va en tinta */
+    color: var(--t-ink);
     font-weight: 800;
 }
 

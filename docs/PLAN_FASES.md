@@ -12,7 +12,7 @@
 | Fase | Tema | Estado | Nota |
 |------|------|--------|------|
 | G | Repositorio y GitHub | 🟨 | Hecha (2026-11-16) salvo proteger `main`, que espera a que el repo sea público. |
-| 0 | Fundaciones y limpieza | 🟨 | Hecha (2026-11-16) salvo los datos personales de `src/data/site.ts`. |
+| 0 | Fundaciones y limpieza | ✅ | Hecha y fusionada (2026-11-16). `site` se confirma al desplegar. |
 | 1 | Sistema de temas | 🟨 | Todo implementado; falta el QA visual. |
 | 2 | Blog: infraestructura | ✅ | |
 | 3 | Blog: lectura avanzada | ✅ | |
@@ -27,9 +27,7 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 
 ### Pendiente antes de publicar
 
-1. **Datos personales** en `src/data/site.ts` (con `email` vacío no se muestran ni el email ni el formulario).
-2. **QA visual** en ambos temas: la Fase 0 cambió fuentes e iconos y no se ha revisado en navegador.
-3. **Imágenes de Unsplash y `/NO_IMAGE_YET/`** (Fase 5) y **los 3 posts de ejemplo** (Fase 6).
+1. **Imágenes de Unsplash y `/NO_IMAGE_YET/`** (Fase 5) y **los 3 posts de ejemplo** (Fase 6).
 
 ---
 
@@ -75,7 +73,7 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 - ✅ Reemplazar RemixIcon CDN (`Layout.astro`) por `astro-icon` con `@iconify-json/ri`.
 - ✅ `rel="noopener noreferrer"` en todo `target="_blank"` (hoy: `SelectedWorks.astro`); ningún link interno con `target="_blank"`.
 - ✅ Unificar branding: el nav y los títulos del blog dicen `M3ow5N0IR`, el footer `CTF_HACKER.`. Elegir un alias y aplicarlo.
-- 🟨 (faltan `email`, `linkedin`, `hackthebox`, `tryhackme` y `location` en `src/data/site.ts`) Reemplazar placeholders: GitHub real (`SelectedWorks.astro`), socials del footer (`Layout.astro`), botón `href="#"` del hero (`index.astro`), ubicación real.
+- ✅ Reemplazar placeholders: GitHub real (`SelectedWorks.astro`), socials del footer (`Layout.astro`), botón `href="#"` del hero (`index.astro`), ubicación real.
 - ✅ Formulario de contacto: el `<form>` de `Contact.astro` no tiene `action`. Conectarlo a un servicio (Web3Forms / Formspree) o dejar solo el `mailto`.
 - ✅ Página `404.astro` propia con el estilo del sitio.
 - ✅ Escribir `README.md` propio (sigue siendo el de la plantilla de Astro): qué es, comandos, estructura y enlaces a las guías.
@@ -189,6 +187,7 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 - ⬜ Páginas por tag `/blog/tags/[tag]` y filtro por tag.
 - ⬜ OG images generadas por post (satori / `astro-og-canvas`).
 - ⬜ Sección "actividad" con datos de la API de GitHub (repos fijados, últimos commits) obtenidos en build.
+- ⬜ Migración a Astro 7 (con TypeScript 7 y MDX 8): Dependabot ignora los saltos mayores, se hace a mano.
 - ⬜ Versión EN del sitio (i18n de Astro).
 - ⬜ Página `/projects` con casos de estudio largos.
 - ⬜ Easter eggs modo hacker: konami code, terminal fake, CRT toggleable.

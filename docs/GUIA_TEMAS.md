@@ -240,7 +240,7 @@ para construir la pieza completa sin ambigüedad:
 - [ ] Skills: hover de TODAS las tiles legible (texto sobre cada acento).
 - [ ] Experience: los 4 `textColor` de empresas legibles sobre panel.
 - [ ] Selected Works: título hueco (stroke) visible sobre el fondo `primary`.
-- [ ] User Reports: tarjetas y estrellas visibles sobre box.
+- [ ] Certs & Badges (solo si `src/data/certs.ts` tiene entradas): tarjetas, badges de tipo y enlace VERIFICAR legibles sobre box.
 - [ ] Contact: inputs en foco (fondo primary + texto on-accent), botón submit.
 - [ ] Footer: links, hovers y divisores.
 - [ ] Toggle: alternar 5 veces seguidas — sin flash al recargar (anti-FOUC).

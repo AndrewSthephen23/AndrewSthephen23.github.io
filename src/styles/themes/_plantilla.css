@@ -8,7 +8,7 @@
       se verá roto).
    4. Importa el archivo en src/styles/global.css.
    5. Encájalo en un slot en THEME_SLOTS (src/layouts/Layout.astro).
-   Guía completa y spec de diseño: GUIA_TEMAS.md
+   Guía completa y spec de diseño: docs/GUIA_TEMAS.md
    ════════════════════════════════════════════════════════════ */
 
 [data-theme="mi-tema"] {

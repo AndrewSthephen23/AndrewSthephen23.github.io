@@ -17,7 +17,7 @@
      2. Encájalo en un slot en THEME_SLOTS (Layout.astro).
    Los componentes NUNCA usan colores directos: solo utilidades
    semánticas (bg-surface, text-ink, border-ink, shadow-hard...).
-   Guía completa: GUIA_TEMAS.md
+   Guía completa: docs/GUIA_TEMAS.md
    ════════════════════════════════════════════════════════════ */
 @import "./themes/dev.css";
 @import "./themes/hacker.css";

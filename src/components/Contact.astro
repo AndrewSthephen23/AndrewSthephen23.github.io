@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 // Puedes cambiar tu correo aquí
 const email = "tu-correo@gmail.com";
 ---
@@ -27,7 +29,7 @@ const email = "tu-correo@gmail.com";
                         <div
                             class="w-12 h-12 bg-box text-box-ink flex items-center justify-center border-2 border-ink"
                         >
-                            <i class="ri-mail-line text-xl"></i>
+                            <Icon name="ri:mail-line" class="text-xl" />
                         </div>
                         <a
                             href={`mailto:${email}`}
@@ -39,7 +41,7 @@ const email = "tu-correo@gmail.com";
                         <div
                             class="w-12 h-12 bg-box text-box-ink flex items-center justify-center border-2 border-ink"
                         >
-                            <i class="ri-map-pin-line text-xl"></i>
+                            <Icon name="ri:map-pin-line" class="text-xl" />
                         </div>
                         <span class="text-xl font-bold">Remote / Earth</span>
                     </div>
@@ -93,6 +95,14 @@ const email = "tu-correo@gmail.com";
                     TRANSMIT DATA
                 </button>
             </form>
+            <!-- Mensaje de envío: <template> para que el icono SVG lo renderice Astro -->
+            <template id="contact-sent">
+                <div class="py-20 text-center">
+                    <Icon name="ri:checkbox-circle-fill" class="text-6xl text-success mb-4 mx-auto block" />
+                    <h3 class="text-2xl font-black uppercase">Transmission Received</h3>
+                    <p class="font-mono text-sm mt-2">Sistema inicializado. Me pondré en contacto pronto.</p>
+                </div>
+            </template>
         </div>
     </div>
 </section>
@@ -104,13 +114,10 @@ const email = "tu-correo@gmail.com";
     if (form) {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
-            form.innerHTML = `
-        <div class="py-20 text-center">
-          <i class="ri-checkbox-circle-fill text-6xl text-success mb-4 block"></i>
-          <h3 class="text-2xl font-black uppercase">Transmission Received</h3>
-          <p class="font-mono text-sm mt-2">Sistema inicializado. Me pondré en contacto pronto.</p>
-        </div>
-      `;
+            const sent = document.getElementById(
+                "contact-sent",
+            ) as HTMLTemplateElement | null;
+            if (sent) form.replaceChildren(sent.content.cloneNode(true));
         });
     }
 </script>

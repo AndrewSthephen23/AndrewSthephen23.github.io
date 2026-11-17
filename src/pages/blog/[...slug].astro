@@ -11,6 +11,7 @@ import {
     DIFFICULTY_META,
 } from "../../lib/blog";
 import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
 import Callout from "../../components/mdx/Callout.astro";
 import Terminal from "../../components/mdx/Terminal.astro";
 import Flag from "../../components/mdx/Flag.astro";
@@ -54,7 +55,7 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
                     href="/blog"
                     class="inline-flex items-center gap-2 font-mono text-sm text-muted hover:text-danger transition-colors mb-8 cursor-hover"
                 >
-                    <i class="ri-arrow-left-line"></i> cd ../blog
+                    <Icon name="ri:arrow-left-line" /> cd ../blog
                 </a>
 
                 <div class="flex items-center gap-2 mb-6 flex-wrap">

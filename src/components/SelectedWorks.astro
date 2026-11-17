@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 // Definimos tus proyectos aquí. Puedes cambiar las imágenes más adelante.
 // hoverColor usa SOLO utilidades semánticas del sistema de temas (GUIA_TEMAS.md).
 const projects = [
@@ -93,7 +95,7 @@ const projects = [
                                 href={project.link}
                                 class="w-12 h-12 flex-shrink-0 border-2 border-ink bg-success text-on-accent flex items-center justify-center hover:bg-box hover:text-box-ink transition-all cursor-hover shadow-hard-sm ml-4 mt-2"
                             >
-                                <i class="ri-arrow-right-up-line text-2xl" />
+                                <Icon name="ri:arrow-right-up-line" class="text-2xl" />
                             </a>
                         </div>
                     </article>

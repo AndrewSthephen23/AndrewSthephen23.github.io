@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 // Definimos los testimonios.
 // Los colores usan SOLO utilidades semánticas del sistema de temas (GUIA_TEMAS.md).
 const reports = [
@@ -116,13 +118,9 @@ const reports = [
                         </p>
 
                         <div class={`flex ${report.starColor} gap-1 text-lg`}>
-                            <>
-                                <i class="ri-star-fill" />
-                                <i class="ri-star-fill" />
-                                <i class="ri-star-fill" />
-                                <i class="ri-star-fill" />
-                                <i class="ri-star-fill" />
-                            </>
+                            {Array.from({ length: 5 }, () => (
+                                <Icon name="ri:star-fill" />
+                            ))}
                         </div>
                     </div>
                 ))

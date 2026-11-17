@@ -1,6 +1,8 @@
 ---
 // Callout — caja destacada para notas dentro de un post.
 // Uso en .mdx:  <Callout type="pwned">Texto...</Callout>
+import { Icon } from "astro-icon/components";
+
 interface Props {
     type?: "info" | "warn" | "pwned" | "tip";
     title?: string;
@@ -8,21 +10,22 @@ interface Props {
 
 const { type = "info", title } = Astro.props;
 
+// `icon` es un nombre de Iconify del set Remix (`ri:*`), renderizado como SVG inline.
 const VARIANTS = {
-    info: { accent: "border-l-info", icon: "ri-information-line", label: "INFO" },
+    info: { accent: "border-l-info", icon: "ri:information-line", label: "INFO" },
     warn: {
         accent: "border-l-warning",
-        icon: "ri-alert-line",
+        icon: "ri:alert-line",
         label: "WARNING",
     },
     pwned: {
         accent: "border-l-danger",
-        icon: "ri-skull-2-line",
+        icon: "ri:skull-2-line",
         label: "PWNED",
     },
     tip: {
         accent: "border-l-success",
-        icon: "ri-lightbulb-flash-line",
+        icon: "ri:lightbulb-flash-line",
         label: "TIP",
     },
 } as const;
@@ -37,7 +40,7 @@ const v = VARIANTS[type];
     ]}
 >
     <div class="flex items-center gap-2 mb-2 font-black uppercase text-sm">
-        <i class={v.icon}></i>
+        <Icon name={v.icon} aria-hidden="true" />
         <span>{title ?? v.label}</span>
     </div>
     <div class="callout-body leading-relaxed">

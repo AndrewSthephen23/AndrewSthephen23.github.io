@@ -1,0 +1,36 @@
+---
+// Terminal — bloque estilizado de comando + salida.
+// Uso en .mdx:
+//   <Terminal user="root" host="kali" cmd="nmap -sV 10.10.10.3">
+//   PORT   STATE SERVICE
+//   22/tcp open  ssh
+//   </Terminal>
+// El contenido del slot es la SALIDA del comando (texto plano).
+interface Props {
+    cmd: string;
+    user?: string;
+    host?: string;
+    path?: string;
+}
+
+const { cmd, user = "root", host = "m3ow5n0ir", path = "~" } = Astro.props;
+---
+
+<div class="my-6 border-2 border-ink shadow-hard bg-box text-box-ink font-mono text-sm overflow-hidden">
+    <div class="flex items-center gap-2 px-3 py-2 border-b border-box-line">
+        <span class="h-3 w-3 rounded-full bg-red-500"></span>
+        <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
+        <span class="h-3 w-3 rounded-full bg-green-500"></span>
+        <span class="ml-2 text-box-muted text-xs">terminal</span>
+    </div>
+    <div class="p-4 overflow-x-auto">
+        <div class="whitespace-nowrap">
+            <span class="text-success font-bold">{user}@{host}</span><span
+                class="text-box-muted">:</span
+            ><span class="text-info font-bold">{path}</span><span
+                class="text-box-muted">$ </span
+            ><span>{cmd}</span>
+        </div>
+        <pre class="mt-2 whitespace-pre-wrap text-box-muted"><slot /></pre>
+    </div>
+</div>

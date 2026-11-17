@@ -1,0 +1,55 @@
+---
+// Callout — caja destacada para notas dentro de un post.
+// Uso en .mdx:  <Callout type="pwned">Texto...</Callout>
+interface Props {
+    type?: "info" | "warn" | "pwned" | "tip";
+    title?: string;
+}
+
+const { type = "info", title } = Astro.props;
+
+const VARIANTS = {
+    info: { accent: "border-l-info", icon: "ri-information-line", label: "INFO" },
+    warn: {
+        accent: "border-l-warning",
+        icon: "ri-alert-line",
+        label: "WARNING",
+    },
+    pwned: {
+        accent: "border-l-danger",
+        icon: "ri-skull-2-line",
+        label: "PWNED",
+    },
+    tip: {
+        accent: "border-l-success",
+        icon: "ri-lightbulb-flash-line",
+        label: "TIP",
+    },
+} as const;
+
+const v = VARIANTS[type];
+---
+
+<aside
+    class:list={[
+        "my-6 bg-panel border-2 border-ink border-l-8 shadow-hard p-4 font-mono text-base",
+        v.accent,
+    ]}
+>
+    <div class="flex items-center gap-2 mb-2 font-black uppercase text-sm">
+        <i class={v.icon}></i>
+        <span>{title ?? v.label}</span>
+    </div>
+    <div class="callout-body leading-relaxed">
+        <slot />
+    </div>
+</aside>
+
+<style>
+    .callout-body :global(> :first-child) {
+        margin-top: 0;
+    }
+    .callout-body :global(> :last-child) {
+        margin-bottom: 0;
+    }
+</style>

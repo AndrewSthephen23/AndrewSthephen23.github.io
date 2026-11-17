@@ -1,0 +1,42 @@
+---
+// Flag — spoiler que oculta una flag/valor sensible hasta hacer click.
+// Uso en .mdx:  <Flag>HTB{ejemplo_de_flag}</Flag>  o  <Flag label="user.txt">...</Flag>
+interface Props {
+    label?: string;
+}
+const { label = "FLAG" } = Astro.props;
+---
+
+<button
+    type="button"
+    class="flag-spoiler group inline-flex items-center gap-2 my-1 bg-box text-success border-2 border-ink px-3 py-1 font-mono text-sm shadow-hard-sm cursor-hover align-middle"
+    data-revealed="false"
+    aria-label={`Revelar ${label}`}
+>
+    <i class="ri-lock-2-line flag-icon"></i>
+    <span class="text-box-muted text-xs uppercase font-bold">{label}:</span>
+    <span class="flag-value blur-sm select-none transition-all"><slot /></span>
+</button>
+
+<style>
+    .flag-spoiler[data-revealed="true"] .flag-value {
+        filter: none;
+        user-select: text;
+    }
+    .flag-spoiler[data-revealed="true"] {
+        cursor: text;
+    }
+</style>
+
+<script>
+    // Delegación: un único listener cubre todas las <Flag> de la página.
+    document.addEventListener("click", (e) => {
+        const btn = (e.target as HTMLElement).closest<HTMLElement>(
+            ".flag-spoiler",
+        );
+        if (!btn || btn.dataset.revealed === "true") return;
+        btn.dataset.revealed = "true";
+        const icon = btn.querySelector(".flag-icon");
+        icon?.classList.replace("ri-lock-2-line", "ri-lock-unlock-line");
+    });
+</script>

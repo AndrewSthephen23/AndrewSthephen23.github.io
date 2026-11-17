@@ -126,7 +126,7 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
             </div>
         </nav>
 
-        <!-- Destino del enlace "Saltar al contenido" (.skip-link en global.css) -->
+        <!-- Destino del enlace "Saltar al contenido" (href="#main", antes del nav) -->
         <main id="main">
             <slot />
         </main>

@@ -31,6 +31,12 @@ export const site = {
     avatar: "",
     /** Texto alternativo del avatar real (describe la imagen). */
     avatarAlt: "",
+
+    /**
+     * Opcional: CV en PDF. Ruta pública de un archivo dentro de public/
+     * (ej. "/cv.pdf"). Vacío: no se muestra el botón "Descargar CV".
+     */
+    cv: "",
 };
 
 /** Redes con valor, en el orden en que se muestran. */

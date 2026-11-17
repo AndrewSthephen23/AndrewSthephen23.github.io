@@ -167,28 +167,6 @@ body {
     outline-color: var(--t-box-ink);
 }
 
-/* ── Saltar al contenido ──
-   Clase para el enlace <a href="#main" class="skip-link"> que va antes del
-   nav: invisible hasta que recibe foco con el teclado. */
-.skip-link {
-    position: fixed;
-    top: 0.75rem;
-    left: 0.75rem;
-    z-index: 10000;
-    padding: 0.5rem 1rem;
-    font-family: var(--t-font-mono);
-    font-weight: 800;
-    background-color: var(--t-primary);
-    color: var(--t-on-accent);
-    border: 3px solid var(--t-ink);
-    box-shadow: var(--shadow-hard);
-    transform: translateY(-200%);
-}
-
-.skip-link:focus {
-    transform: none;
-}
-
 /* ── Animaciones ── */
 .marquee-container {
     overflow: hidden;

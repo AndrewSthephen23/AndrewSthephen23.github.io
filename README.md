@@ -36,13 +36,15 @@ npm run preview   # sirve dist/ localmente para revisar el build
 
 ```
 ├── docs/                  Planes y guías (roadmap, temas, cómo publicar)
-├── public/                Archivos servidos tal cual (favicon)
+├── public/                Archivos servidos tal cual (favicon, cv.pdf)
+├── scripts/               check-contrast.mjs: auditoría de contraste de los temas
 └── src/
     ├── components/        Secciones de la home (Skills, Experience, Contact…)
     │   └── mdx/           Componentes para posts: <Callout>, <Terminal>, <Flag>
     ├── content/blog/      Posts en .md / .mdx  ← aquí se escribe
     ├── content.config.ts  Schema (Zod) del frontmatter de los posts
-    ├── data/site.ts       Datos del perfil: alias, GitHub, email, redes, ubicación
+    ├── assets/            Imágenes propias optimizadas (avatar, projects/)
+    ├── data/              site.ts (perfil, avatar, CV), projects.ts, certs.ts
     ├── layouts/           Layout.astro: <head>, nav, footer y config de temas
     ├── lib/blog.ts        Utilidades del blog (orden, relacionados, tiempo de lectura)
     ├── pages/             Rutas: /, /blog, /blog/[slug] y la 404
@@ -57,6 +59,27 @@ Alias, enlaces y datos de contacto viven en un solo archivo:
 [`src/data/site.ts`](src/data/site.ts). Los campos opcionales vacíos no se
 muestran en la web (no quedan enlaces rotos). Por ejemplo, el formulario de
 contacto solo aparece cuando `email` tiene valor.
+
+### Imágenes, CV y certificaciones (opcionales)
+
+Nada de esto es obligatorio: mientras falte, la web muestra una alternativa
+diseñada (no un hueco) o simplemente no renderiza la sección.
+
+| Qué | Dónde va el archivo | Qué campo rellenar | Sin él |
+|-----|--------------------|--------------------|--------|
+| Captura de un proyecto | `src/assets/projects/mi-proyecto.png` | `image: "mi-proyecto.png"` (y opcional `imageAlt`) en [`src/data/projects.ts`](src/data/projects.ts) | Portada generada con los colores del tema (`accent`, `pattern`, `icon`) |
+| Foto/avatar de "Who am I?" | `src/assets/avatar.jpg` | `avatar: "avatar.jpg"` y `avatarAlt` en [`src/data/site.ts`](src/data/site.ts) | Avatar pixel-art generado |
+| CV en PDF | `public/cv.pdf` | `cv: "/cv.pdf"` en `src/data/site.ts` | No aparece el botón "Descargar CV" |
+| Certificaciones / badges | — | Entradas en [`src/data/certs.ts`](src/data/certs.ts) | No aparece la sección "Certs & Badges" |
+
+- Las imágenes de `src/assets/` se optimizan en el build con `<Image />` de
+  `astro:assets` (WebP, varios anchos, `loading="lazy"`). Sirven PNG, JPG,
+  WebP o AVIF; mejor de al menos 1200 px de ancho para las capturas.
+- Si un campo apunta a un archivo que no existe, el build falla con un
+  mensaje que dice cuál falta.
+- Escribe un `alt` que describa la imagen ("Panel de resultados del escáner
+  con 3 hallazgos críticos"), no solo el nombre del proyecto.
+- Revisa que las capturas no muestren credenciales, IPs internas ni flags.
 
 ## Publicar un post
 

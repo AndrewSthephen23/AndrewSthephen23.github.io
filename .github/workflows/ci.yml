@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Cancela ejecuciones obsoletas de la misma rama/PR.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Check & build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: astro check
+        run: npm run check
+
+      - name: astro build
+        run: npm run build
+
+      # El sitio compilado queda como artifact para que un futuro job de
+      # despliegue lo consuma sin volver a compilar.
+      - name: Subir dist/
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  # ─────────────────────────────────────────────────────────────────────
+  # CD (pendiente, Fase 6): el hosting aún no está decidido.
+  # Para desplegar, añadir aquí un job `deploy` del estilo:
+  #
+  #   deploy:
+  #     needs: build
+  #     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #     runs-on: ubuntu-latest
+  #     permissions: { contents: read }   # + los que pida el proveedor
+  #     environment: production
+  #     steps:
+  #       - uses: actions/download-artifact@v8
+  #         with: { name: dist, path: dist }
+  #       - run: <comando de despliegue del proveedor elegido>
+  #
+  # (Para previews por PR, el mismo job sin el filtro de rama.)
+  # ─────────────────────────────────────────────────────────────────────
+
+  placeholders:
+    name: Placeholders
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      # INFORMATIVO por ahora: hoy src/ todavía contiene placeholders y CDNs
+      # que elimina la Fase 0. Al fusionar la Fase 0, quitar
+      # `continue-on-error` para que este paso pase a ser BLOQUEANTE.
+      - name: Buscar placeholders en src/
+        continue-on-error: true
+        run: bash .github/scripts/check-placeholders.sh src

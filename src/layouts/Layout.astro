@@ -235,11 +235,12 @@ const themeColors = {
             >
                 <p>© 2026 // SYSTEM_END</p>
             </div>
+            <!-- Marca de agua decorativa: el texto va en ::before (no es
+                 contenido, así que no cuenta para el contraste de axe). -->
             <div
                 aria-hidden="true"
-                class="absolute bottom-0 left-0 w-full text-[20vw] font-black text-box-ink opacity-[0.03] leading-none select-none pointer-events-none text-center"
+                class="absolute bottom-0 left-0 w-full text-[20vw] font-black text-box-ink opacity-[0.03] leading-none select-none pointer-events-none text-center before:content-['BRUTAL']"
             >
-                BRUTAL
             </div>
         </footer>
 

@@ -87,6 +87,12 @@ body {
     -webkit-text-stroke: 3px var(--t-ink);
 }
 
+/* Contorno para titulares sobre rellenos de acento (p. ej. bg-primary):
+   on-accent garantiza contraste con el relleno en todos los temas. */
+.text-stroke-on-accent {
+    -webkit-text-stroke: 3px var(--t-on-accent);
+}
+
 /* Blend del hero: cada tema puede redefinirlo (ver hacker.css) */
 .blend-darken {
     mix-blend-mode: darken;

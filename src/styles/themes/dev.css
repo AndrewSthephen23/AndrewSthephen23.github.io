@@ -1,0 +1,44 @@
+/* ════════════════════════════════════════════════════════════
+   PIEZA LEGO: "DEV" — Neobrutalismo clásico (slot: light)
+   ────────────────────────────────────────────────────────────
+   Mood: crudo, juguetón, editorial. Fondo crema con rejilla,
+   bordes negros gruesos, sombras duras negras, acentos saturados.
+   Implementa el contrato de tokens --t-* (ver GUIA_TEMAS.md).
+   ════════════════════════════════════════════════════════════ */
+
+:root,
+[data-theme="dev"] {
+    color-scheme: light;
+
+    /* ── Estructura ── */
+    --t-surface: #FFFDF5;               /* fondo de página */
+    --t-panel: #FFFFFF;                 /* tarjetas y paneles */
+    --t-soft: #F1EFE6;                  /* rellenos neutros suaves (forms, placeholders) */
+    --t-ink: #121212;                   /* texto y bordes principales */
+    --t-muted: #4B5563;                 /* texto secundario */
+    --t-on-accent: #121212;             /* texto sobre rellenos de acento */
+
+    /* ── Bloques oscuros (terminal boxes, footer) ── */
+    --t-box: #121212;                   /* fondo de bloques destacados */
+    --t-box-ink: #FFFFFF;               /* texto principal sobre box */
+    --t-box-muted: #9CA3AF;             /* texto secundario sobre box */
+    --t-box-line: rgb(255 255 255 / 0.15); /* bordes/divisores sobre box */
+
+    /* ── Efectos ── */
+    --t-shadow: #000000;                /* color de la sombra dura */
+    --t-grid: #E5E5E5;                  /* líneas de la rejilla del fondo */
+    --t-grid-dot: #000000;              /* puntos de la rejilla */
+
+    /* ── Acentos (roles) ── */
+    --t-primary: #FBFF48;               /* highlight principal (amarillo) */
+    --t-secondary: #FF70A6;             /* acento secundario (rosa) */
+    --t-info: #3B82F6;                  /* informativo / marquee (azul) */
+    --t-success: #33FF57;               /* estado OK / terminal (verde) */
+    --t-special: #A855F7;               /* decorativo (púrpura) */
+    --t-warning: #FF9F1C;               /* aviso (naranja) */
+    --t-danger: #FF2A2A;                /* error / glitch (rojo) */
+
+    /* ── Tipografía ── */
+    --t-font-display: "Space Grotesk", sans-serif;
+    --t-font-mono: "JetBrains Mono", monospace;
+}

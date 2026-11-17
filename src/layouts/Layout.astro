@@ -6,6 +6,9 @@ interface Props {
 }
 
 const { title } = Astro.props;
+
+// Resalta el enlace del blog cuando estamos en /blog o /blog/*
+const onBlog = Astro.url.pathname.startsWith("/blog");
 ---
 
 <!doctype html>
@@ -19,18 +22,37 @@ const { title } = Astro.props;
             href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
             rel="stylesheet"
         />
+        <script is:inline>
+            // ══ CONFIG DE TEMAS (LEGO) ══════════════════════════════
+            // Cada slot apunta a una pieza de src/styles/themes/.
+            // Para cambiar de pieza: 1) importa el tema en global.css,
+            // 2) cambia el nombre del slot aquí. Ver GUIA_TEMAS.md.
+            const THEME_SLOTS = { light: "dev", dark: "hacker" };
+            // ════════════════════════════════════════════════════════
+
+            const root = document.documentElement;
+            root.dataset.themeLight = THEME_SLOTS.light;
+            root.dataset.themeDark = THEME_SLOTS.dark;
+
+            let theme = localStorage.getItem("theme");
+            if (theme !== THEME_SLOTS.light && theme !== THEME_SLOTS.dark) {
+                theme = window.matchMedia("(prefers-color-scheme: dark)")
+                    .matches
+                    ? THEME_SLOTS.dark
+                    : THEME_SLOTS.light;
+            }
+            root.dataset.theme = theme;
+            root.dataset.mode =
+                theme === THEME_SLOTS.dark ? "dark" : "light";
+        </script>
     </head>
     <body
-        class="text-neo-black font-display antialiased selection:bg-neo-black selection:text-neo-yellow"
+        class="font-display antialiased selection:bg-ink selection:text-surface"
     >
-        <div
-            id="cursor"
-            class="w-6 h-6 bg-white rounded-full border-2 border-black hidden lg:block"
-        >
-        </div>
+        <div id="cursor" class="hidden lg:block"></div>
 
         <div
-            class="fixed top-0 left-0 h-2 bg-neo-green z-[60] border-b-2 border-black"
+            class="fixed top-0 left-0 h-2 bg-success z-[60] border-b-2 border-ink"
             id="progressBar"
             style="width: 0%"
         >
@@ -42,44 +64,61 @@ const { title } = Astro.props;
             >
                 <a
                     href="/"
-                    class="bg-neo-white border-2 border-black px-4 py-1 text-2xl font-black shadow-hard hover:bg-neo-yellow transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none cursor-hover"
+                    class="bg-panel border-2 border-ink px-4 py-1 text-2xl font-black shadow-hard hover:bg-primary hover:text-on-accent transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none cursor-hover"
                 >
                     M3ow5N0IR.exe
                 </a>
 
-                <div
-                    class="hidden md:flex gap-4 bg-white border-2 border-black p-2 shadow-hard"
-                >
-                    <a
-                        href="#about"
-                        class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover"
-                        >/ABOUT</a
+                <div class="flex items-center gap-3">
+                    <div
+                        class="hidden md:flex gap-4 bg-panel border-2 border-ink p-2 shadow-hard"
                     >
-                    <a
-                        href="#skills"
-                        class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover"
-                        >/SKILLS</a
+                        <a
+                            href="/#about"
+                            class="px-3 py-1 font-mono font-bold text-sm hover:bg-ink hover:text-surface transition-colors cursor-hover"
+                            >/ABOUT</a
+                        >
+                        <a
+                            href="/#skills"
+                            class="px-3 py-1 font-mono font-bold text-sm hover:bg-ink hover:text-surface transition-colors cursor-hover"
+                            >/SKILLS</a
+                        >
+                        <a
+                            href="/#experience"
+                            class="px-3 py-1 font-mono font-bold text-sm hover:bg-ink hover:text-surface transition-colors cursor-hover"
+                            >/LOGS</a
+                        >
+                        <a
+                            href="/#projects"
+                            class="px-3 py-1 font-mono font-bold text-sm hover:bg-ink hover:text-surface transition-colors cursor-hover"
+                            >/WORK</a
+                        >
+                        <a
+                            href="/blog"
+                            aria-current={onBlog ? "page" : undefined}
+                            class:list={[
+                                "px-3 py-1 font-mono font-bold text-sm transition-colors cursor-hover",
+                                onBlog
+                                    ? "bg-ink text-surface"
+                                    : "hover:bg-ink hover:text-surface",
+                            ]}
+                            >/BLOG</a
+                        >
+                        <a
+                            href="/#contact"
+                            class="px-3 py-1 font-mono font-bold text-sm bg-primary text-on-accent border border-ink hover:bg-secondary transition-colors cursor-hover"
+                            >HIRE ME</a
+                        >
+                    </div>
+
+                    <button
+                        id="theme-toggle"
+                        aria-label="Cambiar tema"
+                        class="bg-panel border-2 border-ink px-3 py-2 font-mono font-bold text-sm shadow-hard hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
                     >
-                    <a
-                        href="#experience"
-                        class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover"
-                        >/LOGS</a
-                    >
-                    <a
-                        href="#projects"
-                        class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover"
-                        >/WORK</a
-                    >
-                    <!--<a
-                        href="#reports"
-                        class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover"
-                        >/REPORTS</a
-                    >-->
-                    <a
-                        href="#contact"
-                        class="px-3 py-1 font-mono font-bold text-sm bg-neo-yellow border border-black hover:bg-neo-pink transition-colors cursor-hover"
-                        >HIRE ME</a
-                    >
+                        <span data-mode-label="light">☀ DEV</span>
+                        <span data-mode-label="dark">☾ HACKER</span>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -87,84 +126,85 @@ const { title } = Astro.props;
         <slot />
 
         <footer
-            class="bg-black text-white py-16 px-4 border-t-8 border-neo-green font-mono relative overflow-hidden"
+            class="bg-box text-box-ink py-16 px-4 border-t-8 border-success font-mono relative overflow-hidden"
         >
             <div
                 class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10"
             >
                 <div class="col-span-1 md:col-span-2">
                     <h2 class="text-4xl font-black mb-6">CTF_HACKER.</h2>
-                    <p class="text-gray-400 max-w-sm">
+                    <p class="text-box-muted max-w-sm">
                         Resolviendo máquinas y construyendo sistemas con
                         estética cruda y código limpio.
                     </p>
                 </div>
                 <div>
                     <h3
-                        class="font-bold text-neo-green mb-4 border-b border-gray-700 pb-2"
+                        class="font-bold text-success mb-4 border-b border-box-line pb-2"
                     >
                         SOCIALS
                     </h3>
                     <div class="flex gap-4">
                         <a
                             href="#"
-                            class="text-2xl hover:text-neo-blue transition-colors cursor-hover"
+                            class="text-2xl hover:text-info transition-colors cursor-hover"
                             ><i class="ri-code-fill"></i></a
                         >
                         <a
                             href="#"
-                            class="text-2xl hover:text-neo-yellow transition-colors cursor-hover"
+                            class="text-2xl hover:text-primary transition-colors cursor-hover"
                             ><i class="ri-github-fill"></i></a
                         >
                     </div>
                 </div>
             </div>
             <div
-                class="text-center mt-16 pt-8 border-t border-gray-800 text-gray-500 text-sm"
+                class="text-center mt-16 pt-8 border-t border-box-line text-box-muted text-sm"
             >
                 <p>© 2026 // SYSTEM_END</p>
             </div>
             <div
-                class="absolute bottom-0 left-0 w-full text-[20vw] font-black text-white opacity-[0.03] leading-none select-none pointer-events-none text-center"
+                class="absolute bottom-0 left-0 w-full text-[20vw] font-black text-box-ink opacity-[0.03] leading-none select-none pointer-events-none text-center"
             >
                 BRUTAL
             </div>
         </footer>
 
         <script>
-            // Lógica del Cursor
-            const cursor = document.getElementById("cursor");
+            // ── Toggle de tema (los slots vienen del script inline del head)
+            const rootEl = document.documentElement;
+            const themeToggle = document.getElementById("theme-toggle");
+            themeToggle?.addEventListener("click", () => {
+                const light = rootEl.dataset.themeLight ?? "dev";
+                const dark = rootEl.dataset.themeDark ?? "hacker";
+                const next = rootEl.dataset.theme === dark ? light : dark;
+                rootEl.dataset.theme = next;
+                rootEl.dataset.mode = next === dark ? "dark" : "light";
+                localStorage.setItem("theme", next);
+            });
 
-            // Astro maneja el DOM diferente a veces, nos aseguramos de que los elementos existan
+            // ── Cursor personalizado (los colores viven en CSS/temas)
+            const cursor = document.getElementById("cursor");
             if (cursor) {
                 document.addEventListener("mousemove", (e) => {
                     cursor.style.left = e.clientX + "px";
                     cursor.style.top = e.clientY + "px";
-                    cursor.style.transform = `translate(-50%, -50%)`;
                 });
 
                 const hoverElements = document.querySelectorAll(
                     ".cursor-hover, a, button, input, textarea",
                 );
                 hoverElements.forEach((el) => {
-                    el.addEventListener("mouseenter", () => {
-                        cursor.style.width = "60px";
-                        cursor.style.height = "60px";
-                        cursor.style.backgroundColor = "#FBFF48";
-                        cursor.style.mixBlendMode = "normal";
-                        cursor.style.border = "2px solid black";
-                    });
-                    el.addEventListener("mouseleave", () => {
-                        cursor.style.width = "24px";
-                        cursor.style.height = "24px";
-                        cursor.style.backgroundColor = "#fff";
-                        cursor.style.mixBlendMode = "difference";
-                        cursor.style.border = "none";
-                    });
+                    el.addEventListener("mouseenter", () =>
+                        cursor.classList.add("is-hover"),
+                    );
+                    el.addEventListener("mouseleave", () =>
+                        cursor.classList.remove("is-hover"),
+                    );
                 });
             }
 
-            // Lógica del Scroll Reveal
+            // ── Scroll Reveal
             const revealElements = document.querySelectorAll(".reveal");
             const revealObserver = new IntersectionObserver(
                 (entries) => {
@@ -178,7 +218,7 @@ const { title } = Astro.props;
             );
             revealElements.forEach((el) => revealObserver.observe(el));
 
-            // Barra de progreso
+            // ── Barra de progreso
             window.addEventListener("scroll", () => {
                 let winScroll =
                     document.body.scrollTop ||

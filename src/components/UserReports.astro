@@ -1,62 +1,62 @@
 ---
 // Definimos los testimonios.
-// Usamos los colores originales (green, blue, pink, purple, orange) para cada tarjeta.
+// Los colores usan SOLO utilidades semánticas del sistema de temas (GUIA_TEMAS.md).
 const reports = [
     {
         id: "REPORT_001.log",
         from: "CTF Teammate @ HackTheBox",
         quote: '"Demostró que sin importar la presión o el tiempo límite, logra comprometer la máquina y documentar el proceso de forma sobresaliente."',
-        lineColor: "bg-neo-green",
-        textColor: "text-neo-green",
-        hoverBorder: "hover:border-neo-green/50",
-        starColor: "text-neo-green/60",
+        lineColor: "bg-success",
+        textColor: "text-success",
+        hoverBorder: "hover:border-success/50",
+        starColor: "text-success/60",
     },
     {
         id: "REPORT_002.log",
         from: "Client @ Freelance",
         quote: '"Rápido, confiable y realmente tiene buen gusto para el diseño. Una combinación rara en el mundo del desarrollo."',
-        lineColor: "bg-neo-blue",
-        textColor: "text-neo-blue",
-        hoverBorder: "hover:border-neo-blue/50",
-        starColor: "text-neo-blue/60",
+        lineColor: "bg-info",
+        textColor: "text-info",
+        hoverBorder: "hover:border-info/50",
+        starColor: "text-info/60",
     },
     {
         id: "REPORT_003.log",
         from: "Lead Dev @ Startup",
         quote: '"El código más limpio que he visto en años. Sabe perfectamente cómo manejar arquitecturas complejas y mantener la seguridad."',
-        lineColor: "bg-neo-pink",
-        textColor: "text-neo-pink",
-        hoverBorder: "hover:border-neo-pink/50",
-        starColor: "text-neo-pink/60",
+        lineColor: "bg-secondary",
+        textColor: "text-secondary",
+        hoverBorder: "hover:border-secondary/50",
+        starColor: "text-secondary/60",
     },
     {
         id: "REPORT_004.log",
         from: "Project Manager @ TechFlow",
         quote: '"Ideas de diseño muy creativas, entregó una experiencia UI única manteniendo la estética brutalista a la perfección."',
-        lineColor: "bg-neo-purple",
-        textColor: "text-neo-purple",
-        hoverBorder: "hover:border-neo-purple/50",
-        starColor: "text-neo-purple/60",
+        lineColor: "bg-special",
+        textColor: "text-special",
+        hoverBorder: "hover:border-special/50",
+        starColor: "text-special/60",
     },
     {
         id: "REPORT_005.log",
         from: "Admin @ Indusegur",
         quote: '"Una experiencia de usuario altamente intuitiva para nuestros dashboards. Entregó exactamente lo que necesitábamos."',
-        lineColor: "bg-neo-orange",
-        textColor: "text-neo-orange",
-        hoverBorder: "hover:border-neo-orange/50",
-        starColor: "text-neo-orange/60",
+        lineColor: "bg-warning",
+        textColor: "text-warning",
+        hoverBorder: "hover:border-warning/50",
+        starColor: "text-warning/60",
     },
 ];
 ---
 
 <section
     id="reports"
-    class="py-24 bg-neo-black border-t-4 border-black overflow-hidden relative"
+    class="py-24 bg-box border-t-4 border-ink overflow-hidden relative"
 >
     <div class="max-w-7xl mx-auto px-4">
         <div
-            class="flex items-center gap-2 mb-16 bg-white/5 border-2 border-white/10 p-4 inline-flex shadow-hard shadow-neo-blue/20"
+            class="flex items-center gap-2 mb-16 bg-box-line border-2 border-box-line p-4 inline-flex shadow-hard shadow-info/20"
         >
             <div class="flex gap-2">
                 <div
@@ -73,12 +73,12 @@ const reports = [
                 </div>
             </div>
             <h2
-                class="font-mono text-white text-xl font-bold ml-4 tracking-tighter"
+                class="font-mono text-box-ink text-xl font-bold ml-4 tracking-tighter"
             >
                 USER_REPORTS.txt
             </h2>
             <div
-                class="ml-8 px-2 bg-neo-blue text-black text-[10px] font-black uppercase"
+                class="ml-8 px-2 bg-info text-white text-[10px] font-black uppercase"
             >
                 LIVE_FEED
             </div>
@@ -88,14 +88,14 @@ const reports = [
     <div class="marquee-container group cursor-hover">
         <div class="marquee-content flex gap-8 py-12 px-4 select-none">
             {
-                reports.map((report) => (
+                [...reports, ...reports].map((report) => (
                     <div
-                        class={`flex-shrink-0 w-[450px] bg-neo-black border-4 border-white/10 p-8 shadow-hard ${report.hoverBorder} hover:-translate-y-2 transition-all duration-500 relative group/card overflow-hidden text-left whitespace-normal`}
+                        class={`flex-shrink-0 w-[450px] bg-box border-4 border-box-line p-8 shadow-hard ${report.hoverBorder} hover:-translate-y-2 transition-all duration-500 relative group/card overflow-hidden text-left whitespace-normal`}
                     >
                         <div
                             class={`absolute top-0 left-0 w-full h-1 ${report.lineColor}`}
                         />
-                        <div class="absolute -top-4 -right-4 w-12 h-12 bg-white/5 rotate-45" />
+                        <div class="absolute -top-4 -right-4 w-12 h-12 bg-box-line rotate-45" />
 
                         <div class="flex justify-between items-start mb-6">
                             <div
@@ -103,56 +103,15 @@ const reports = [
                             >
                                 {report.id}
                             </div>
-                            <div class="text-[10px] font-mono text-gray-500">
+                            <div class="text-[10px] font-mono text-box-muted">
                                 2026.txt
                             </div>
                         </div>
 
-                        <div class="font-mono text-gray-400 text-[10px] mb-2 uppercase tracking-tight">
+                        <div class="font-mono text-box-muted text-[10px] mb-2 uppercase tracking-tight">
                             FROM: {report.from}
                         </div>
-                        <p class="font-bold text-xl leading-snug mb-6 text-white/90">
-                            {report.quote}
-                        </p>
-
-                        <div class={`flex ${report.starColor} gap-1 text-lg`}>
-                            <>
-                                <i class="ri-star-fill" />
-                                <i class="ri-star-fill" />
-                                <i class="ri-star-fill" />
-                                <i class="ri-star-fill" />
-                                <i class="ri-star-fill" />
-                            </>
-                        </div>
-                    </div>
-                ))
-            }
-
-            {
-                reports.map((report) => (
-                    <div
-                        class={`flex-shrink-0 w-[450px] bg-neo-black border-4 border-white/10 p-8 shadow-hard ${report.hoverBorder} hover:-translate-y-2 transition-all duration-500 relative group/card overflow-hidden text-left whitespace-normal`}
-                    >
-                        <div
-                            class={`absolute top-0 left-0 w-full h-1 ${report.lineColor}`}
-                        />
-                        <div class="absolute -top-4 -right-4 w-12 h-12 bg-white/5 rotate-45" />
-
-                        <div class="flex justify-between items-start mb-6">
-                            <div
-                                class={`font-mono ${report.textColor} text-xs font-bold tracking-widest uppercase`}
-                            >
-                                {report.id}
-                            </div>
-                            <div class="text-[10px] font-mono text-gray-500">
-                                2026.txt
-                            </div>
-                        </div>
-
-                        <div class="font-mono text-gray-400 text-[10px] mb-2 uppercase tracking-tight">
-                            FROM: {report.from}
-                        </div>
-                        <p class="font-bold text-xl leading-snug mb-6 text-white/90">
+                        <p class="font-bold text-xl leading-snug mb-6 text-box-ink/90">
                             {report.quote}
                         </p>
 

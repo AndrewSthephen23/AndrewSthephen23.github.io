@@ -1,130 +1,131 @@
 ---
-// Aquí definimos tu arsenal tecnológico
+// Aquí definimos tu arsenal tecnológico.
+// hover/textHover usan SOLO utilidades semánticas del sistema de temas (GUIA_TEMAS.md).
 const skills = [
     {
         category: ">_ OS",
         name: "KALI LINUX",
-        hover: "hover:bg-neo-blue",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-info",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ LANGUAGE",
         name: "PYTHON",
-        hover: "hover:bg-neo-yellow",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-primary",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ FRAMEWORK",
         name: "ASTRO",
-        hover: "hover:bg-neo-orange",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-warning",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ STYLING",
         name: "TAILWIND",
-        hover: "hover:bg-neo-blue",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-info",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ TOOL",
         name: "METASPLOIT",
-        hover: "hover:bg-neo-red",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-danger",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ RECON",
         name: "SHODAN",
-        hover: "hover:bg-neo-pink",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-secondary",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ PLATFORM",
         name: "HACK THE BOX",
-        hover: "hover:bg-neo-green",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-success",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ PLATFORM",
         name: "TRYHACKME",
-        hover: "hover:bg-white",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-panel",
+        textHover: "group-hover:text-ink",
     },
     {
         category: ">_ SERVER",
         name: "UBUNTU",
-        hover: "hover:bg-neo-orange",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-warning",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ Dev",
         name: "API's",
-        hover: "hover:bg-neo-purple",
-        textHover: "group-hover:text-white",
+        hover: "hover:bg-special",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ DATA",
         name: "POWER BI",
-        hover: "hover:bg-neo-yellow",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-primary",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ CTF",
         name: "OSINT",
-        hover: "hover:bg-neo-blue",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-info",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ DOCUMENT",
         name: "LATEX",
-        hover: "hover:bg-neo-green",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-success",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ WORKFLOW",
         name: "NOTION",
-        hover: "hover:bg-white",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-panel",
+        textHover: "group-hover:text-ink",
     },
     {
         category: ">_ VM",
         name: "VMWARE",
-        hover: "hover:bg-neo-orange",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-warning",
+        textHover: "group-hover:text-on-accent",
     },
     {
         category: ">_ CTF",
         name: "CRYPTO",
-        hover: "hover:bg-neo-pink",
-        textHover: "group-hover:text-black",
+        hover: "hover:bg-secondary",
+        textHover: "group-hover:text-on-accent",
     },
 ];
 ---
 
 <section
     id="skills"
-    class="py-20 bg-neo-black text-neo-white border-y-4 border-black relative overflow-hidden"
+    class="py-20 bg-box text-box-ink border-y-4 border-ink relative overflow-hidden"
 >
     <div
         class="absolute inset-0 opacity-20"
-        style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;"
+        style="background-image: linear-gradient(var(--t-box-line) 1px, transparent 1px), linear-gradient(90deg, var(--t-box-line) 1px, transparent 1px); background-size: 40px 40px;"
     >
     </div>
 
     <div class="max-w-[1400px] mx-auto px-4 relative z-10">
         <div
-            class="flex flex-col md:flex-row justify-between items-end mb-12 border-b-4 border-white pb-4"
+            class="flex flex-col md:flex-row justify-between items-end mb-12 border-b-4 border-box-ink pb-4"
         >
             <h2
-                class="text-6xl md:text-8xl font-black uppercase text-white tracking-tighter"
+                class="text-6xl md:text-8xl font-black uppercase text-box-ink tracking-tighter"
             >
-                TECH<span class="text-neo-green">_STACK</span>
+                TECH<span class="text-success">_STACK</span>
             </h2>
             <div class="flex items-center gap-2 mb-2 md:mb-4">
                 <div
-                    class="w-3 h-3 bg-red-500 rounded-full animate-pulse border border-black"
+                    class="w-3 h-3 bg-red-500 rounded-full animate-pulse border border-ink"
                 >
                 </div>
-                <p class="font-mono text-neo-green text-sm font-bold">
+                <p class="font-mono text-success text-sm font-bold">
                     /// SYSTEM_OPTIMIZED
                 </p>
             </div>
@@ -134,15 +135,15 @@ const skills = [
             {
                 skills.map((skill) => (
                     <div
-                        class={`group w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-[12.5%] h-24 border-r-2 border-b-2 border-white/20 bg-neo-black transition-all duration-0 hover:z-10 relative cursor-hover flex flex-col items-center justify-center p-2 ${skill.hover}`}
+                        class={`group w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-[12.5%] h-24 border-r-2 border-b-2 border-box-line bg-box transition-all duration-0 hover:z-10 relative cursor-hover flex flex-col items-center justify-center p-2 ${skill.hover}`}
                     >
                         <div
-                            class={`text-neo-green font-mono text-xs mb-1 opacity-50 ${skill.textHover}`}
+                            class={`text-success font-mono text-xs mb-1 opacity-50 ${skill.textHover}`}
                         >
                             {skill.category}
                         </div>
                         <div
-                            class={`text-white font-black font-display text-xl uppercase text-center ${skill.textHover}`}
+                            class={`text-box-ink font-black font-display text-xl uppercase text-center ${skill.textHover}`}
                         >
                             {skill.name}
                         </div>
@@ -152,7 +153,7 @@ const skills = [
         </div>
 
         <div
-            class="border-t-4 border-white mt-8 pt-4 flex justify-between font-mono text-xs text-gray-500"
+            class="border-t-4 border-box-ink mt-8 pt-4 flex justify-between font-mono text-xs text-box-muted"
         >
             <span>TOTAL_NODES: {skills.length}</span>
             <span>MEMORY_USAGE: 32GB RAM // CORE i5</span>

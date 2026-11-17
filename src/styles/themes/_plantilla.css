@@ -1,0 +1,55 @@
+/* ════════════════════════════════════════════════════════════
+   PLANTILLA DE PIEZA LEGO — copia este archivo para crear un tema
+   ────────────────────────────────────────────────────────────
+   1. Copia:  _plantilla.css  →  mi-tema.css   (nombre en kebab-case)
+   2. Cambia el selector [data-theme="mi-tema"] (mismo nombre del archivo).
+   3. Rellena TODOS los tokens (el contrato es obligatorio, ninguno
+      puede faltar; si faltara uno, heredaría del tema por defecto y
+      se verá roto).
+   4. Importa el archivo en src/styles/global.css.
+   5. Encájalo en un slot en THEME_SLOTS (src/layouts/Layout.astro).
+   Guía completa y spec de diseño: GUIA_TEMAS.md
+   ════════════════════════════════════════════════════════════ */
+
+[data-theme="mi-tema"] {
+    /* "light" o "dark": afecta scrollbars y controles nativos */
+    color-scheme: light;
+
+    /* ── Estructura ── */
+    --t-surface: #FFFFFF;               /* fondo de página */
+    --t-panel: #FFFFFF;                 /* tarjetas y paneles */
+    --t-soft: #F5F5F5;                  /* rellenos neutros suaves */
+    --t-ink: #111111;                   /* texto y bordes principales */
+    --t-muted: #555555;                 /* texto secundario */
+    --t-on-accent: #111111;             /* texto sobre rellenos de acento */
+
+    /* ── Bloques oscuros (terminal boxes, footer) ── */
+    --t-box: #111111;                   /* fondo de bloques destacados */
+    --t-box-ink: #FFFFFF;               /* texto principal sobre box */
+    --t-box-muted: #999999;             /* texto secundario sobre box */
+    --t-box-line: rgb(255 255 255 / 0.15); /* bordes/divisores sobre box */
+
+    /* ── Efectos ── */
+    --t-shadow: #000000;                /* color de la sombra dura */
+    --t-grid: #EEEEEE;                  /* líneas de la rejilla del fondo */
+    --t-grid-dot: #000000;              /* puntos de la rejilla */
+
+    /* ── Acentos (roles) ── */
+    --t-primary: #FFDD00;               /* highlight principal */
+    --t-secondary: #FF70A6;             /* acento secundario */
+    --t-info: #3B82F6;                  /* informativo / marquee */
+    --t-success: #22C55E;               /* estado OK / terminal */
+    --t-special: #A855F7;               /* decorativo */
+    --t-warning: #FF9F1C;               /* aviso */
+    --t-danger: #EF4444;                /* error / glitch */
+
+    /* ── Tipografía (recuerda importar la fuente si es nueva) ── */
+    --t-font-display: "Space Grotesk", sans-serif;
+    --t-font-mono: "JetBrains Mono", monospace;
+}
+
+/* ── Overrides de sabor (OPCIONALES) ──
+   Si tu tema necesita re-vestir una pieza concreta (texturas,
+   scanlines, marquee, cursor), hazlo aquí, SIEMPRE con el prefijo
+   [data-theme="mi-tema"]. Nunca edites los componentes. Ejemplos
+   reales en hacker.css. */

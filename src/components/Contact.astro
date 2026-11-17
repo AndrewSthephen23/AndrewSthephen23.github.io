@@ -5,10 +5,10 @@ const email = "tu-correo@gmail.com";
 
 <section id="contact" class="py-24 px-4 max-w-5xl mx-auto mb-20">
     <div
-        class="bg-white border-4 border-black shadow-hard-xl p-8 md:p-12 relative reveal mt-12"
+        class="bg-panel border-4 border-ink shadow-hard-xl p-8 md:p-12 relative reveal mt-12"
     >
         <div
-            class="absolute -top-10 -left-6 bg-neo-yellow border-4 border-black px-6 py-2 shadow-hard rotate-[-5deg]"
+            class="absolute -top-10 -left-6 bg-primary text-on-accent border-4 border-ink px-6 py-2 shadow-hard rotate-[-5deg]"
         >
             <span class="font-black text-2xl">INICIAR CONEXIÓN</span>
         </div>
@@ -18,26 +18,26 @@ const email = "tu-correo@gmail.com";
                 <h2 class="text-6xl font-black uppercase mb-6 leading-[0.85]">
                     Let's<br />Talk<br />Code.
                 </h2>
-                <p class="font-mono text-lg mb-8 text-gray-600">
+                <p class="font-mono text-lg mb-8 text-muted">
                     Actualmente estoy disponible para colaboraciones, auditorías
                     de seguridad y desarrollo de proyectos.
                 </p>
                 <div class="space-y-4">
                     <div class="flex items-center gap-4">
                         <div
-                            class="w-12 h-12 bg-neo-black text-white flex items-center justify-center border-2 border-black"
+                            class="w-12 h-12 bg-box text-box-ink flex items-center justify-center border-2 border-ink"
                         >
                             <i class="ri-mail-line text-xl"></i>
                         </div>
                         <a
                             href={`mailto:${email}`}
-                            class="text-xl font-bold hover:bg-neo-blue cursor-hover transition-colors"
+                            class="text-xl font-bold hover:bg-info hover:text-white cursor-hover transition-colors"
                             >{email}</a
                         >
                     </div>
                     <div class="flex items-center gap-4">
                         <div
-                            class="w-12 h-12 bg-neo-black text-white flex items-center justify-center border-2 border-black"
+                            class="w-12 h-12 bg-box text-box-ink flex items-center justify-center border-2 border-ink"
                         >
                             <i class="ri-map-pin-line text-xl"></i>
                         </div>
@@ -48,7 +48,7 @@ const email = "tu-correo@gmail.com";
 
             <form
                 id="contact-form"
-                class="space-y-6 bg-gray-50 p-6 border-2 border-black"
+                class="space-y-6 bg-soft p-6 border-2 border-ink"
             >
                 <div class="flex flex-col">
                     <label class="font-mono font-bold mb-1 uppercase text-xs"
@@ -58,7 +58,7 @@ const email = "tu-correo@gmail.com";
                         type="text"
                         placeholder="NOMBRE / ALIAS"
                         required
-                        class="bg-white border-2 border-black p-3 font-bold focus:outline-none focus:bg-neo-yellow focus:shadow-hard-sm transition-all cursor-hover"
+                        class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all cursor-hover"
                     />
                 </div>
 
@@ -70,7 +70,7 @@ const email = "tu-correo@gmail.com";
                         type="email"
                         placeholder="CORREO ELECTRÓNICO"
                         required
-                        class="bg-white border-2 border-black p-3 font-bold focus:outline-none focus:bg-neo-yellow focus:shadow-hard-sm transition-all cursor-hover"
+                        class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all cursor-hover"
                     />
                 </div>
 
@@ -82,13 +82,13 @@ const email = "tu-correo@gmail.com";
                         rows="4"
                         placeholder="DETALLES DEL PROYECTO O VULNERABILIDAD..."
                         required
-                        class="bg-white border-2 border-black p-3 font-bold focus:outline-none focus:bg-neo-yellow focus:shadow-hard-sm transition-all resize-none cursor-hover"
+                        class="bg-panel border-2 border-ink p-3 font-bold focus:outline-none focus:bg-primary focus:text-on-accent focus:shadow-hard-sm transition-all resize-none cursor-hover"
                     ></textarea>
                 </div>
 
                 <button
                     type="submit"
-                    class="w-full bg-neo-blue text-white font-black text-xl py-4 border-2 border-black shadow-hard hover:bg-neo-black hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
+                    class="w-full bg-info text-white font-black text-xl py-4 border-2 border-ink shadow-hard hover:bg-box hover:text-box-ink hover:translate-y-1 hover:shadow-none transition-all cursor-hover"
                 >
                     TRANSMIT DATA
                 </button>
@@ -106,7 +106,7 @@ const email = "tu-correo@gmail.com";
             e.preventDefault();
             form.innerHTML = `
         <div class="py-20 text-center">
-          <i class="ri-checkbox-circle-fill text-6xl text-neo-green mb-4 block"></i>
+          <i class="ri-checkbox-circle-fill text-6xl text-success mb-4 block"></i>
           <h3 class="text-2xl font-black uppercase">Transmission Received</h3>
           <p class="font-mono text-sm mt-2">Sistema inicializado. Me pondré en contacto pronto.</p>
         </div>

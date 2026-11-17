@@ -1,51 +1,122 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-@theme {
-    /* Paleta NeoBrutalista del template */
-    --color-neo-yellow: #FBFF48;
-    --color-neo-pink: #FF70A6;
-    --color-neo-blue: #3B82F6;
-    --color-neo-green: #33FF57;
-    --color-neo-purple: #A855F7;
-    --color-neo-orange: #FF9F1C;
-    --color-neo-red: #FF2A2A;
-    --color-neo-white: #FFFDF5;
-    --color-neo-black: #121212;
+/* ════════════════════════════════════════════════════════════
+   SISTEMA DE TEMAS TIPO LEGO
+   ────────────────────────────────────────────────────────────
+   Cada tema es una "pieza" en src/styles/themes/ que implementa
+   el contrato de tokens --t-*. Para cambiar una pieza:
+     1. Crea/importa el archivo del tema aquí abajo.
+     2. Encájalo en un slot en THEME_SLOTS (Layout.astro).
+   Los componentes NUNCA usan colores directos: solo utilidades
+   semánticas (bg-surface, text-ink, border-ink, shadow-hard...).
+   Guía completa: GUIA_TEMAS.md
+   ════════════════════════════════════════════════════════════ */
+@import "./themes/dev.css";
+@import "./themes/hacker.css";
 
-    /* Fuentes del template */
-    --font-display: "Space Grotesk", sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
+/* ── PUENTE: contrato de tokens → utilidades Tailwind ──
+   NO tocar al crear temas nuevos. Si añades un token al contrato,
+   añádelo aquí Y en TODOS los archivos de tema. */
+@theme inline {
+    /* Estructura */
+    --color-surface: var(--t-surface);
+    --color-panel: var(--t-panel);
+    --color-soft: var(--t-soft);
+    --color-ink: var(--t-ink);
+    --color-muted: var(--t-muted);
+    --color-on-accent: var(--t-on-accent);
 
-    /* Sombras Duras NeoBrutalistas */
-    --shadow-hard: 4px 4px 0px 0px #000;
-    --shadow-hard-sm: 2px 2px 0px 0px #000;
-    --shadow-hard-lg: 8px 8px 0px 0px #000;
-    --shadow-hard-xl: 12px 12px 0px 0px #000;
+    /* Bloques oscuros */
+    --color-box: var(--t-box);
+    --color-box-ink: var(--t-box-ink);
+    --color-box-muted: var(--t-box-muted);
+    --color-box-line: var(--t-box-line);
+
+    /* Acentos */
+    --color-primary: var(--t-primary);
+    --color-secondary: var(--t-secondary);
+    --color-info: var(--t-info);
+    --color-success: var(--t-success);
+    --color-special: var(--t-special);
+    --color-warning: var(--t-warning);
+    --color-danger: var(--t-danger);
+
+    /* Tipografía */
+    --font-display: var(--t-font-display);
+    --font-mono: var(--t-font-mono);
+
+    /* Sombras duras (el color lo decide el tema) */
+    --shadow-hard: 4px 4px 0px 0px var(--t-shadow);
+    --shadow-hard-sm: 2px 2px 0px 0px var(--t-shadow);
+    --shadow-hard-lg: 8px 8px 0px 0px var(--t-shadow);
+    --shadow-hard-xl: 12px 12px 0px 0px var(--t-shadow);
 }
 
-/* Base Styles del Template */
+/* ── Base ── */
+html {
+    /* Evita que los anchors (#seccion, TOC del blog) queden ocultos
+       bajo el nav fijo al saltar a ellos. */
+    scroll-padding-top: 6rem;
+}
+
 body {
     cursor: none;
-    /* Oculta el cursor de Windows para usar el personalizado */
-    background-color: var(--color-neo-white);
+    /* Oculta el cursor del SO para usar el personalizado */
+    color: var(--t-ink);
+    background-color: var(--t-surface);
     background-image:
-        radial-gradient(#000 1px, transparent 1px),
-        linear-gradient(to right, #e5e5e5 1px, transparent 1px),
-        linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);
+        radial-gradient(var(--t-grid-dot) 1px, transparent 1px),
+        linear-gradient(to right, var(--t-grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--t-grid) 1px, transparent 1px);
     background-size: 40px 40px, 100px 100px, 100px 100px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Custom Cursor */
+/* ── Utilidades temáticas ── */
+
+/* Contorno de texto (letras huecas) con el color de tinta del tema */
+.text-stroke-ink {
+    -webkit-text-stroke: 3px var(--t-ink);
+}
+
+/* Blend del hero: cada tema puede redefinirlo (ver hacker.css) */
+.blend-darken {
+    mix-blend-mode: darken;
+}
+
+/* Etiquetas del botón de tema: muestra solo la del modo activo */
+:root:not([data-mode="dark"]) [data-mode-label="dark"] {
+    display: none;
+}
+
+[data-mode="dark"] [data-mode-label="light"] {
+    display: none;
+}
+
+/* ── Cursor personalizado ── */
 #cursor {
-    pointer-events: none;
     position: fixed;
+    width: 24px;
+    height: 24px;
     z-index: 9999;
+    pointer-events: none;
+    border-radius: 9999px;
+    background-color: #fff;
     mix-blend-mode: difference;
-    transition: width 0.2s, height 0.2s, background-color 0.2s, transform 0.1s;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
 }
 
-/* Animations del Template */
+#cursor.is-hover {
+    width: 60px;
+    height: 60px;
+    background-color: var(--t-primary);
+    mix-blend-mode: normal;
+    border: 2px solid var(--t-ink);
+}
+
+/* ── Animaciones ── */
 .marquee-container {
     overflow: hidden;
 }
@@ -83,10 +154,159 @@ body {
     transform: translateY(0);
 }
 
+/* ════════════════════════════════════════════════════════════
+   PROSA NEOBRUTALISTA — estilos del contenido de los posts
+   (todo con tokens del sistema de temas: funciona en dev y hacker)
+   ════════════════════════════════════════════════════════════ */
+.prose-neo {
+    font-family: var(--t-font-mono);
+    color: var(--t-ink);
+    line-height: 1.75;
+    font-size: 1.0625rem;
+}
+
+.prose-neo > * + * {
+    margin-top: 1.25rem;
+}
+
+.prose-neo h2 {
+    font-family: var(--t-font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 2rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 4px solid var(--t-ink);
+}
+
+.prose-neo h3 {
+    font-family: var(--t-font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--t-danger);
+}
+
+.prose-neo a:not(.heading-anchor) {
+    color: var(--t-info);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+/* Anchors de headings (rehype-autolink): heredan el estilo del título */
+.prose-neo .heading-anchor {
+    color: inherit;
+    text-decoration: none;
+}
+
+.prose-neo strong {
+    font-weight: 800;
+    background-color: var(--t-primary);
+    color: var(--t-on-accent);
+    padding: 0 0.25rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+/* Código inline (los bloques los maneja Expressive Code) */
+.prose-neo :not(pre) > code {
+    font-family: var(--t-font-mono);
+    background-color: var(--t-soft);
+    border: 1px solid var(--t-ink);
+    padding: 0.1rem 0.35rem;
+    font-size: 0.9em;
+    font-weight: 700;
+}
+
+.prose-neo blockquote {
+    background-color: var(--t-panel);
+    border: 2px solid var(--t-ink);
+    border-left-width: 8px;
+    box-shadow: var(--shadow-hard);
+    padding: 1rem 1.25rem;
+    font-style: normal;
+}
+
+.prose-neo blockquote > * {
+    margin: 0;
+}
+
+.prose-neo ul,
+.prose-neo ol {
+    padding-left: 1.5rem;
+}
+
+.prose-neo ul {
+    list-style: none;
+}
+
+.prose-neo ul > li {
+    position: relative;
+    padding-left: 1.25rem;
+}
+
+.prose-neo ul > li::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: var(--t-success);
+    font-weight: 800;
+}
+
+.prose-neo ol {
+    list-style: decimal;
+}
+
+.prose-neo li + li {
+    margin-top: 0.4rem;
+}
+
+.prose-neo img {
+    border: 4px solid var(--t-ink);
+    box-shadow: var(--shadow-hard);
+    max-width: 100%;
+    height: auto;
+}
+
+.prose-neo table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid var(--t-ink);
+    font-size: 0.9rem;
+}
+
+.prose-neo th,
+.prose-neo td {
+    border: 2px solid var(--t-ink);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+}
+
+.prose-neo th {
+    background-color: var(--t-box);
+    color: var(--t-box-ink);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.prose-neo hr {
+    border: none;
+    border-top: 4px dashed var(--t-muted);
+    margin: 2.5rem 0;
+}
+
 /* Glitch Effect on Hover */
 .glitch-hover:hover {
     animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-    color: var(--color-neo-red);
+    color: var(--t-danger);
 }
 
 @keyframes glitch-anim {

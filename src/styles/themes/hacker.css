@@ -1,0 +1,83 @@
+/* ════════════════════════════════════════════════════════════
+   PIEZA LEGO: "HACKER" — Terminal phosphor (slot: dark)
+   ────────────────────────────────────────────────────────────
+   Mood: terminal CRT, verde fósforo sobre negro, sombras duras
+   VERDES, scanlines sutiles, cursor de bloque.
+   Implementa el contrato de tokens --t-* (ver GUIA_TEMAS.md).
+   ════════════════════════════════════════════════════════════ */
+
+[data-theme="hacker"] {
+    color-scheme: dark;
+
+    /* ── Estructura ── */
+    --t-surface: #0A0E0A;
+    --t-panel: #0F150F;
+    --t-soft: #131C13;
+    --t-ink: #D8FFDB;
+    --t-muted: #7FA886;
+    --t-on-accent: #04120A;
+
+    /* ── Bloques oscuros ── */
+    --t-box: #000000;
+    --t-box-ink: #33FF57;
+    --t-box-muted: #4E7A55;
+    --t-box-line: rgb(51 255 87 / 0.22);
+
+    /* ── Efectos ── */
+    --t-shadow: #33FF57;                /* sombras duras verdes = identidad hacker */
+    --t-grid: #10240F;
+    --t-grid-dot: #1C3A20;
+
+    /* ── Acentos (roles) ── */
+    --t-primary: #33FF57;               /* el verde fósforo es el protagonista */
+    --t-secondary: #FF4DA6;             /* magenta neón */
+    --t-info: #1FA8FF;
+    --t-success: #33FF57;
+    --t-special: #B36BFF;
+    --t-warning: #FFB020;
+    --t-danger: #FF3B3B;
+
+    /* ── Tipografía ── */
+    --t-font-display: "Space Grotesk", sans-serif;
+    --t-font-mono: "JetBrains Mono", monospace;
+}
+
+/* ── Overrides de sabor propios de este tema (opcionales) ──
+   Un tema puede re-vestir piezas concretas de la UI cuando los
+   tokens no bastan para expresar su identidad. */
+
+/* Scanlines CRT sutiles sobre toda la página */
+[data-theme="hacker"] body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        0deg,
+        rgb(0 0 0 / 0.14) 0px,
+        rgb(0 0 0 / 0.14) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+}
+
+/* El marquee azul se vuelve barra de terminal negra con texto verde */
+[data-theme="hacker"] .marquee-bar {
+    background-color: #000000;
+    color: var(--t-primary);
+    border-color: var(--t-box-line);
+}
+
+/* El blend "darken" del hero no funciona sobre fondo oscuro: se invierte */
+[data-theme="hacker"] .blend-darken {
+    mix-blend-mode: lighten;
+}
+
+/* Cursor custom: de círculo blanco a bloque de terminal verde */
+[data-theme="hacker"] #cursor {
+    border-radius: 0;
+    mix-blend-mode: normal;
+    background-color: var(--t-primary);
+    opacity: 0.85;
+}

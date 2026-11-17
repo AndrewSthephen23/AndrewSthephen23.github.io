@@ -13,15 +13,15 @@ export const site = {
     github: "https://github.com/AndrewSthephen23",
 
     // TODO: rellenar con el correo público; vacío oculta el email y el formulario de contacto.
-    email: "",
+    email: "andrei.trujillo.a@uni.pe",
 
     /** Opcionales: URLs completas de perfil. */
-    linkedin: "",
-    hackthebox: "",
-    tryhackme: "",
+    linkedin: "https://www.linkedin.com/in/andreitrujillo-uhc/",
+    hackthebox: "https://profile.hackthebox.com/profile/01a0c5ff-8b97-7354-8f02-c5516867956f?utm_medium=copy_url",
+    tryhackme: "https://tryhackme.com/p/M3ow5N0IR",
 
     /** Opcional: ubicación a mostrar (ej. "Lima, PE / Remoto"). */
-    location: "",
+    location: "Lima, PE / Remoto",
 };
 
 /** Redes con valor, en el orden en que se muestran. */

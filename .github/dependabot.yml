@@ -11,6 +11,11 @@ updates:
     groups:
       npm-minor-patch:
         update-types: [minor, patch]
+    # Los saltos de versión mayor (p. ej. Astro 5 → 7) se hacen a mano como
+    # una fase propia del roadmap, no mediante PRs automáticos.
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /

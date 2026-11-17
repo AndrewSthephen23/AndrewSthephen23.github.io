@@ -1,14 +1,46 @@
 ---
 import "../styles/global.css";
+import type { ImageMetadata } from "astro";
 import { Icon } from "astro-icon/components";
+import SEO from "../components/SEO.astro";
 import { site, socials } from "../data/site";
 import { seo } from "../data/seo";
+import { themeToken } from "../lib/theme";
 
 interface Props {
+    /** Título de la página; la plantilla añade " // alias". */
     title: string;
+    /** Description propia de la página (SEO y tarjetas al compartir). */
+    description?: string;
+    /** Imagen OG (portada de astro:assets o ruta); por defecto la del sitio. */
+    image?: ImageMetadata | string;
+    imageAlt?: string;
+    type?: "website" | "article";
+    publishedTime?: Date;
+    modifiedTime?: Date;
+    tags?: string[];
+    noindex?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, ...seoProps } = Astro.props;
+
+// ══ CONFIG DE TEMAS (LEGO) ══════════════════════════════════════
+// Cada slot apunta a una pieza de src/styles/themes/.
+// Para cambiar de pieza: 1) importa el tema en global.css,
+// 2) cambia el nombre del slot aquí. Ver docs/GUIA_TEMAS.md.
+const THEME_SLOTS = { light: "dev", dark: "hacker" };
+// ════════════════════════════════════════════════════════════════
+
+// Color de superficie de cada slot, leído del token --t-surface de su pieza.
+function surfaceOf(theme: string): string {
+    const color = themeToken(theme, "surface");
+    if (!color) throw new Error(`El tema "${theme}" no define --t-surface`);
+    return color;
+}
+const themeColors = {
+    light: surfaceOf(THEME_SLOTS.light),
+    dark: surfaceOf(THEME_SLOTS.dark),
+};
 
 // Resalta el enlace del blog cuando estamos en /blog o /blog/*
 const onBlog = Astro.url.pathname.startsWith("/blog");
@@ -24,15 +56,9 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <title>{title}</title>
-        <script is:inline>
-            // ══ CONFIG DE TEMAS (LEGO) ══════════════════════════════
-            // Cada slot apunta a una pieza de src/styles/themes/.
-            // Para cambiar de pieza: 1) importa el tema en global.css,
-            // 2) cambia el nombre del slot aquí. Ver docs/GUIA_TEMAS.md.
-            const THEME_SLOTS = { light: "dev", dark: "hacker" };
-            // ════════════════════════════════════════════════════════
-
+        <SEO title={title} themeColors={themeColors} {...seoProps} />
+        <!-- Anti-FOUC: fija el tema antes de pintar (los slots vienen del frontmatter). -->
+        <script is:inline define:vars={{ THEME_SLOTS }}>
             const root = document.documentElement;
             root.dataset.themeLight = THEME_SLOTS.light;
             root.dataset.themeDark = THEME_SLOTS.dark;
@@ -44,9 +70,14 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
                     ? THEME_SLOTS.dark
                     : THEME_SLOTS.light;
             }
+            const mode = theme === THEME_SLOTS.dark ? "dark" : "light";
             root.dataset.theme = theme;
-            root.dataset.mode =
-                theme === THEME_SLOTS.dark ? "dark" : "light";
+            root.dataset.mode = mode;
+
+            // theme-color del tema activo (valores en data-light / data-dark).
+            document
+                .querySelectorAll('meta[name="theme-color"]')
+                .forEach((m) => m.setAttribute("content", m.dataset[mode]));
         </script>
     </head>
     <body

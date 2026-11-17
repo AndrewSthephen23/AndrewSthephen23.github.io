@@ -1,6 +1,5 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { site } from "../../data/site";
 import {
     getPublishedPosts,
     readingMinutes,
@@ -19,7 +18,10 @@ const counts = {
 };
 ---
 
-<Layout title={`Blog & Write-Ups // ${site.alias}`}>
+<Layout
+    title="Blog & Write-Ups"
+    description="Write-ups de máquinas retiradas de Hack The Box y TryHackMe, retos CTF y proyectos de seguridad: enumeración, explotación y lecciones aprendidas."
+>
     <section class="pt-32 pb-16 px-4 max-w-7xl mx-auto">
         <!-- Cabecera tipo terminal -->
         <div class="reveal mb-4 font-mono text-sm text-muted">

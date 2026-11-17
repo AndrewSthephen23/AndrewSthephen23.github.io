@@ -16,9 +16,9 @@
 | 1 | Sistema de temas | 🟨 | Todo implementado; falta el QA visual. |
 | 2 | Blog: infraestructura | ✅ | |
 | 3 | Blog: lectura avanzada | ✅ | |
-| 6 | Despliegue | ⬜ | Se adelanta: va justo después de la Fase 0. |
-| 4 | Móvil, SEO, descubribilidad | ⬜ | |
-| 5 | Accesibilidad, rendimiento, pulido | ⬜ | |
+| 6 | Despliegue | ⬜ | **Siguiente.** Falta elegir hosting y sustituir los posts de ejemplo. |
+| 4 | Móvil, SEO, descubribilidad | ✅ | Hecha y fusionada (2026-11-16). Las OG cards se validan tras el deploy. |
+| 5 | Accesibilidad, rendimiento, pulido | 🟨 | Hecha y fusionada (2026-11-16) salvo materiales propios: capturas, foto, CV y certificaciones. |
 | 7 | Extras (backlog) | ⬜ | |
 
 `npm run check` y `npm run build` pasan (6 páginas) y el CI de GitHub Actions los ejecuta en cada push y PR. El seguimiento tarea a tarea está en los issues y milestones del repo. Los números de fase se conservan porque otros documentos
@@ -27,7 +27,9 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 
 ### Pendiente antes de publicar
 
-1. **Imágenes de Unsplash y `/NO_IMAGE_YET/`** (Fase 5) y **los 3 posts de ejemplo** (Fase 6).
+1. **Materiales propios:** capturas de proyectos (`src/assets/projects/`), foto o avatar, CV en PDF y certificaciones (`src/data/certs.ts`).
+2. **Los 3 posts de ejemplo:** sustituirlos por writeups reales o marcarlos `draft: true`.
+3. **Hosting y dominio** (Fase 6), y hacer público el repo para poder proteger `main`.
 
 ---
 
@@ -47,7 +49,7 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 
 - ✅ Instalar `@astrojs/check` + `typescript` y añadir el script `"check": "astro check"`.
 - ✅ GitHub Action `ci.yml`: en cada push y PR ejecuta `npm ci`, `npm run check` y `npm run build`.
-- 🟨 (hoy solo avisa: queda Unsplash, Fase 5) Paso de CI que falle si reaparecen placeholders (`tu-usuario`, `href="#"`, `unsplash`) — convierte el criterio de salida de la Fase 0 en algo verificado por máquina.
+- ✅ Paso de CI que falle si reaparecen placeholders (`tu-usuario`, `href="#"`, `unsplash`) — convierte el criterio de salida de la Fase 0 en algo verificado por máquina.
 - ✅ Dependabot (`.github/dependabot.yml`) para npm y para las propias Actions, agrupado y semanal.
 - 🟨 (GitHub lo exige público o Pro; issue #12) Proteger `main`: exigir que el CI pase antes de fusionar.
 
@@ -151,13 +153,13 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 
 *Objetivo: sitio usable en móvil y visible para buscadores.*
 
-- ⬜ Menú hamburguesa móvil full-screen (hoy el nav es `hidden md:flex`: en móvil no hay navegación), con el toggle de tema incluido.
-- ⬜ Componente SEO en `Layout.astro`: title template, description por página, canonical, Open Graph, Twitter card, `theme-color` por tema.
-- ⬜ El frontmatter de los posts alimenta su propio SEO (description, imagen OG).
-- ⬜ `@astrojs/sitemap` + `robots.txt`.
-- ⬜ `@astrojs/rss`: feed `/rss.xml` + link en el footer.
-- ⬜ Imagen OG por defecto del sitio.
-- ⬜ Favicon completo (SVG + PNG + apple-touch-icon); los actuales son los de la plantilla de Astro.
+- ✅ Menú hamburguesa móvil full-screen (hoy el nav es `hidden md:flex`: en móvil no hay navegación), con el toggle de tema incluido.
+- ✅ Componente SEO en `Layout.astro`: title template, description por página, canonical, Open Graph, Twitter card, `theme-color` por tema.
+- ✅ El frontmatter de los posts alimenta su propio SEO (description, imagen OG).
+- ✅ `@astrojs/sitemap` + `robots.txt`.
+- ✅ `@astrojs/rss`: feed `/rss.xml` + link en el footer.
+- ✅ Imagen OG por defecto del sitio.
+- ✅ Favicon completo (SVG + PNG + apple-touch-icon); los actuales son los de la plantilla de Astro.
 
 **Criterio de salida:** compartir cualquier URL en Discord/Twitter/LinkedIn muestra la card correcta; nav usable en un móvil real.
 
@@ -167,14 +169,14 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 
 *Objetivo: calidad profesional medible.*
 
-- ⬜ `prefers-reduced-motion`: pausar marquee, bounce, glitch y cursor custom (hoy no hay ninguna regla).
-- ⬜ Cursor custom solo con `@media (pointer: fine)` y con fallback nativo (`global.css` aplica `cursor: none` de forma global).
-- ⬜ Auditoría de contraste en ambos temas.
-- ⬜ Jerarquía de headings y labels/aria en nav, toggle y menú móvil.
-- ⬜ Imágenes propias optimizadas con `<Image />` en Selected Works (hoy son 4 URLs de Unsplash) y avatar real en "Who am I?".
-- ⬜ Lighthouse ≥95 en las 4 categorías (home y un post), medido sobre la preview del PR; opcional: Lighthouse CI como Action.
-- ⬜ Resolver `UserReports`: testimonios reales, convertirlo en "Certs & Badges", o eliminarlo.
-- ⬜ CV descargable (PDF) enlazado en Contact/nav.
+- ✅ `prefers-reduced-motion`: pausar marquee, bounce, glitch y cursor custom (hoy no hay ninguna regla).
+- ✅ Cursor custom solo con `@media (pointer: fine)` y con fallback nativo (`global.css` aplica `cursor: none` de forma global).
+- ✅ Auditoría de contraste en ambos temas.
+- ✅ Jerarquía de headings y labels/aria en nav, toggle y menú móvil.
+- 🟨 (hay portadas y avatar generados; faltan las capturas y la foto reales) Imágenes propias optimizadas con `<Image />` en Selected Works (hoy son 4 URLs de Unsplash) y avatar real en "Who am I?".
+- ✅ (2026-11-16, móvil: home 99/100/100/100, post 98/100/100/100) Lighthouse ≥95 en las 4 categorías (home y un post), medido sobre la preview del PR; opcional: Lighthouse CI como Action.
+- 🟨 (convertido en "Certs & Badges"; faltan las entradas en `src/data/certs.ts`) Resolver `UserReports`: testimonios reales, convertirlo en "Certs & Badges", o eliminarlo.
+- 🟨 (botón listo; falta el PDF en `public/cv.pdf`) CV descargable (PDF) enlazado en Contact/nav.
 
 **Criterio de salida:** reportes Lighthouse ≥95 archivados; cero contenido placeholder visible.
 

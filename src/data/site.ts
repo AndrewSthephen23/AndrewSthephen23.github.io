@@ -22,6 +22,15 @@ export const site = {
 
     /** Opcional: ubicación a mostrar (ej. "Lima, PE / Remoto"). */
     location: "Lima, PE / Remoto",
+
+    /**
+     * Opcional: foto/avatar de "Who am I?". Nombre de un archivo dentro de
+     * src/assets/ (ej. "avatar.jpg"); se optimiza con astro:assets.
+     * Vacío: se dibuja un avatar generado (pixel-art) con los colores del tema.
+     */
+    avatar: "",
+    /** Texto alternativo del avatar real (describe la imagen). */
+    avatarAlt: "",
 };
 
 /** Redes con valor, en el orden en que se muestran. */

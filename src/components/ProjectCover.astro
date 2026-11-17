@@ -1,0 +1,102 @@
+---
+// ProjectCover — portada generada para un proyecto sin captura real.
+// HTML + SVG con tokens del tema: fondo box (oscuro en ambos temas),
+// patrón en box-line, bloque de acento con icono y el nombre en grande.
+// Es decorativa (aria-hidden): el título real va en el <h3> de la tarjeta.
+import { Icon } from "astro-icon/components";
+import type { Accent, CoverPattern } from "../data/projects";
+
+interface Props {
+    title: string;
+    category: string;
+    icon: string;
+    accent: Accent;
+    pattern: CoverPattern;
+    /** Identificador único en la página (para el id del <pattern> SVG). */
+    id: string;
+}
+
+const { title, category, icon, accent, pattern, id } = Astro.props;
+
+// Clases literales para que Tailwind las detecte (no se construyen con strings).
+const ACCENT_BG: Record<Accent, string> = {
+    primary: "bg-primary",
+    secondary: "bg-secondary",
+    info: "bg-info",
+    success: "bg-success",
+    special: "bg-special",
+    warning: "bg-warning",
+    danger: "bg-danger",
+};
+
+const patternId = `cover-${id}`;
+---
+
+<div
+    class="@container absolute inset-0 bg-box text-box-ink overflow-hidden"
+    aria-hidden="true"
+>
+    <!-- Patrón de fondo (distinto por proyecto) -->
+    <svg class="absolute inset-0 w-full h-full text-box-line" focusable="false">
+        <defs>
+            {
+                pattern === "grid" && (
+                    <pattern id={patternId} width="24" height="24" patternUnits="userSpaceOnUse">
+                        <path d="M24 0H0V24" fill="none" stroke="currentColor" stroke-width="1" />
+                    </pattern>
+                )
+            }
+            {
+                pattern === "dots" && (
+                    <pattern id={patternId} width="16" height="16" patternUnits="userSpaceOnUse">
+                        <circle cx="2" cy="2" r="1.6" fill="currentColor" />
+                    </pattern>
+                )
+            }
+            {
+                pattern === "stripes" && (
+                    <pattern
+                        id={patternId}
+                        width="14"
+                        height="14"
+                        patternUnits="userSpaceOnUse"
+                        patternTransform="rotate(45)"
+                    >
+                        <rect width="5" height="14" fill="currentColor" />
+                    </pattern>
+                )
+            }
+            {
+                pattern === "scan" && (
+                    <pattern id={patternId} width="8" height="6" patternUnits="userSpaceOnUse">
+                        <rect width="8" height="2" fill="currentColor" />
+                    </pattern>
+                )
+            }
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${patternId})`}></rect>
+    </svg>
+
+    <!-- Bloque de acento con el icono del proyecto -->
+    <div
+        class:list={[
+            "absolute -right-4 -top-4 w-[34%] aspect-square border-4 border-box-ink rotate-6 flex items-center justify-center",
+            ACCENT_BG[accent],
+        ]}
+    >
+        <Icon name={icon} class="text-on-accent text-[16cqw] -rotate-6" />
+    </div>
+
+    <!-- Nombre y categoría en tipografía grande -->
+    <div class="absolute left-4 right-4 bottom-4 md:left-6 md:bottom-6">
+        <p class="font-mono text-xs font-bold text-box-muted mb-2">
+            // {category}
+        </p>
+        <p
+            class="font-display font-black uppercase leading-[0.85] tracking-tighter text-[clamp(1.25rem,8.5cqw,3.25rem)]"
+        >
+            {title}
+        </p>
+        <div class:list={["mt-3 h-2 w-16", ACCENT_BG[accent]]}></div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import Experience from "../components/Experience.astro";
 import SelectedWorks from "../components/SelectedWorks.astro";
 import UserReports from "../components/UserReports.astro";
 import Contact from "../components/Contact.astro";
+import Avatar from "../components/Avatar.astro";
 import { Icon } from "astro-icon/components";
 import { site } from "../data/site";
 ---
@@ -92,19 +93,7 @@ import { site } from "../data/site";
 	>
 		<div class="grid grid-cols-1 md:grid-cols-12 gap-12">
 			<div class="md:col-span-4 reveal">
-				<div
-					class="aspect-square bg-soft border-4 border-ink relative shadow-hard overflow-hidden group"
-				>
-					<div
-						class="w-full h-full bg-box text-success flex items-center justify-center font-mono"
-					>
-						/NO_IMAGE_YET/
-					</div>
-					<span
-						class="absolute top-2 left-2 bg-danger text-on-accent px-2 font-mono text-xs border border-ink z-10"
-						>ROOT.JPG</span
-					>
-				</div>
+				<Avatar />
 			</div>
 			<div class="md:col-span-8 flex flex-col justify-center reveal">
 				<h2 class="text-6xl font-black uppercase mb-6">Who am I?</h2>

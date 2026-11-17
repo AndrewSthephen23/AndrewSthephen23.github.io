@@ -1,45 +1,29 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { Icon } from "astro-icon/components";
+import ProjectCover from "./ProjectCover.astro";
 import { site } from "../data/site";
+import { projects } from "../data/projects";
 
-// Definimos tus proyectos aquí. Puedes cambiar las imágenes más adelante.
-// `link` es opcional: sin él, la flecha lleva al perfil de GitHub (src/data/site.ts).
-// hoverColor usa SOLO utilidades semánticas del sistema de temas (docs/GUIA_TEMAS.md).
-const projects = [
-    {
-        title: "MCPSafetyScanner",
-        description:
-            "Herramienta de escaneo de seguridad y automatización. Diseñada para auditorías rápidas y reportes técnicos.",
-        image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de código/hacker
-        tags: ["Python", "Security", "Automation"],
-        hoverColor: "group-hover:text-danger",
-    },
-    {
-        title: "Odoo API Sync",
-        description:
-            "Sincronización bidireccional entre servidores externos y Odoo ERP mediante XML-RPC para automatización comercial.",
-        image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de servidor
-        tags: ["Python", "XML-RPC", "Ubuntu Server"],
-        hoverColor: "group-hover:text-info",
-    },
-    {
-        title: "Indusegur Analytics",
-        description:
-            "Dashboard interactivo de inteligencia de negocios (BI) para la visualización de métricas y limpieza de bases de datos.",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de datos
-        tags: ["Power BI", "Data Analysis", "SQL"],
-        hoverColor: "group-hover:text-secondary",
-    },
-    {
-        title: "CTF Write-Ups",
-        description:
-            "Colección documentada de resolución de máquinas vulnerables (HackTheBox & TryHackMe) aplicando técnicas de pentesting.",
-        image: "https://images.unsplash.com/photo-1510511459019-5d6450c2807e?q=80&w=800&auto=format&fit=crop", // Imagen placeholder de terminal
-        tags: ["Pentesting", "CTF", "Markdown"],
-        link: "/blog",
-        hoverColor: "group-hover:text-warning",
-    },
-];
+// Los proyectos se editan en src/data/projects.ts.
+// Capturas reales (opcionales): archivos en src/assets/projects/ referenciados
+// por nombre en el campo `image`. Sin captura, se dibuja una portada generada.
+const captures = import.meta.glob<{ default: ImageMetadata }>(
+    "/src/assets/projects/*.{png,jpg,jpeg,webp,avif}",
+    { eager: true },
+);
+
+function captureFor(file: string | undefined): ImageMetadata | undefined {
+    if (!file) return undefined;
+    const mod = captures[`/src/assets/projects/${file}`];
+    if (!mod) {
+        throw new Error(
+            `[projects] No existe src/assets/projects/${file} (campo "image" en src/data/projects.ts).`,
+        );
+    }
+    return mod.default;
+}
 ---
 
 <section
@@ -55,25 +39,44 @@ const projects = [
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
             {
-                projects.map((project, index) => (
+                projects.map((project, index) => {
+                    const capture = captureFor(project.image);
+                    return (
                     <article
                         class={`reveal group bg-panel border-4 border-ink p-4 shadow-hard ${index % 2 !== 0 ? "md:mt-20" : ""}`}
                     >
                         <div class="bg-box border-2 border-ink aspect-video relative overflow-hidden mb-6 group-hover:shadow-none transition-all">
-                            <div class="absolute top-2 left-2 bg-box text-box-ink px-2 py-1 font-mono text-xs border border-box-line z-10">
+                            <div
+                                class="absolute top-2 left-2 bg-box text-box-ink px-2 py-1 font-mono text-xs border border-box-line z-10"
+                                aria-hidden="true"
+                            >
                                 PROYECTO_0{index + 1}
                             </div>
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0 duration-500"
-                            />
+                            {capture ? (
+                                <Image
+                                    src={capture}
+                                    alt={project.imageAlt ?? `Captura de ${project.title}`}
+                                    widths={[400, 800, 1200]}
+                                    sizes="(max-width: 768px) 100vw, 600px"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0 duration-500"
+                                />
+                            ) : (
+                                <ProjectCover
+                                    id={`p${index + 1}`}
+                                    title={project.title}
+                                    category={project.category}
+                                    icon={project.icon}
+                                    accent={project.accent}
+                                    pattern={project.pattern}
+                                />
+                            )}
                         </div>
 
                         <div class="flex justify-between items-start">
-                            <div>
+                            <div class="min-w-0">
                                 <h3
-                                    class={`text-4xl font-black uppercase mb-2 transition-colors glitch-hover ${project.hoverColor}`}
+                                    class="text-2xl sm:text-4xl font-black uppercase mb-2 transition-colors glitch-hover wrap-break-word"
                                 >
                                     {project.title}
                                 </h3>
@@ -102,7 +105,8 @@ const projects = [
                             </a>
                         </div>
                     </article>
-                ))
+                    );
+                })
             }
         </div>
 

@@ -126,7 +126,10 @@ const onBlog = Astro.url.pathname.startsWith("/blog");
             </div>
         </nav>
 
-        <slot />
+        <!-- Destino del enlace "Saltar al contenido" (.skip-link en global.css) -->
+        <main id="main">
+            <slot />
+        </main>
 
         <footer
             class="bg-box text-box-ink py-16 px-4 border-t-8 border-success font-mono relative overflow-hidden"

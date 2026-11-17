@@ -154,6 +154,41 @@ body {
     }
 }
 
+/* ── Foco visible ──
+   Anillo grueso con la tinta del tema (estilo neobrutalista), solo con
+   teclado. Dentro de bloques oscuros (box) usa la tinta de box para no
+   desaparecer (en dev, ink y box son el mismo negro). */
+:focus-visible {
+    outline: 3px solid var(--t-ink);
+    outline-offset: 3px;
+}
+
+.bg-box :focus-visible {
+    outline-color: var(--t-box-ink);
+}
+
+/* ── Saltar al contenido ──
+   Clase para el enlace <a href="#main" class="skip-link"> que va antes del
+   nav: invisible hasta que recibe foco con el teclado. */
+.skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 10000;
+    padding: 0.5rem 1rem;
+    font-family: var(--t-font-mono);
+    font-weight: 800;
+    background-color: var(--t-primary);
+    color: var(--t-on-accent);
+    border: 3px solid var(--t-ink);
+    box-shadow: var(--shadow-hard);
+    transform: translateY(-200%);
+}
+
+.skip-link:focus {
+    transform: none;
+}
+
 /* ── Animaciones ── */
 .marquee-container {
     overflow: hidden;

@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Claude Code: worktrees de agentes y ajustes locales
+.claude/worktrees/
+.claude/settings.local.json

@@ -96,12 +96,25 @@ diseñada (no un hueco) o simplemente no renderiza la sección.
    son opcionales.
 3. Revísalo con `npm run dev` en `/blog`, en ambos temas.
 4. Haz commit en una rama (`post/htb-nombre`) y abre un PR.
+5. Cuando el CI pase, fusiona el PR: el post queda publicado en unos minutos.
 
 Solo se publican máquinas y retos **retirados**; mientras sigan activos, el
 post se queda con `draft: true`.
 
 Guía completa (campos, componentes MDX, errores comunes):
 [docs/COMO_PUBLICAR.md](docs/COMO_PUBLICAR.md).
+
+## Despliegue
+
+El sitio se publica en GitHub Pages: <https://andrewsthephen23.github.io>.
+
+Cada push a `main` ejecuta el workflow [`ci.yml`](.github/workflows/ci.yml):
+`astro check`, `astro build` y la verificación de placeholders; si todo pasa,
+el job `deploy` publica `dist/`. En los PRs no se despliega: el sitio
+compilado queda como artifact descargable.
+
+La URL sale de `site` en `astro.config.mjs`; para usar un dominio propio se
+configura en Pages y se cambia esa línea.
 
 ## Sistema de temas
 

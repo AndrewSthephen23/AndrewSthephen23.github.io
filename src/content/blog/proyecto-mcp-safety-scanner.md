@@ -4,7 +4,7 @@ description: "Herramienta propia en Python para escanear configuraciones de serv
 pubDate: 2026-07-01
 category: proyecto
 tags: ["python", "security", "automation", "tooling", "mcp"]
-draft: false
+draft: true
 ---
 
 **MCPSafetyScanner** es una herramienta que desarrollé para automatizar auditorías

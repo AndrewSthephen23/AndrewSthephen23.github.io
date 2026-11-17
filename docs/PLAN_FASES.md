@@ -16,7 +16,7 @@
 | 1 | Sistema de temas | 🟨 | Todo implementado; falta el QA visual. |
 | 2 | Blog: infraestructura | ✅ | |
 | 3 | Blog: lectura avanzada | ✅ | |
-| 6 | Despliegue | ⬜ | **Siguiente.** Falta elegir hosting y sustituir los posts de ejemplo. |
+| 6 | Despliegue | ✅ | GitHub Pages: <https://andrewsthephen23.github.io>. Falta validar las OG cards al compartir. |
 | 4 | Móvil, SEO, descubribilidad | ✅ | Hecha y fusionada (2026-11-16). Las OG cards se validan tras el deploy. |
 | 5 | Accesibilidad, rendimiento, pulido | 🟨 | Hecha y fusionada (2026-11-16) salvo materiales propios: capturas, foto, CV y certificaciones. |
 | 7 | Extras (backlog) | ⬜ | |
@@ -28,8 +28,7 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 ### Pendiente antes de publicar
 
 1. **Materiales propios:** capturas de proyectos (`src/assets/projects/`), foto o avatar, CV en PDF y certificaciones (`src/data/certs.ts`).
-2. **Los 3 posts de ejemplo:** sustituirlos por writeups reales o marcarlos `draft: true`.
-3. **Hosting y dominio** (Fase 6), y hacer público el repo para poder proteger `main`.
+2. **Contenido del blog:** los 3 posts de ejemplo están en borrador; falta el primer writeup real.
 
 ---
 
@@ -51,7 +50,7 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 - ✅ GitHub Action `ci.yml`: en cada push y PR ejecuta `npm ci`, `npm run check` y `npm run build`.
 - ✅ Paso de CI que falle si reaparecen placeholders (`tu-usuario`, `href="#"`, `unsplash`) — convierte el criterio de salida de la Fase 0 en algo verificado por máquina.
 - ✅ Dependabot (`.github/dependabot.yml`) para npm y para las propias Actions, agrupado y semanal.
-- 🟨 (GitHub lo exige público o Pro; issue #12) Proteger `main`: exigir que el CI pase antes de fusionar.
+- ✅ Proteger `main`: exigir que el CI pase antes de fusionar.
 
 **G.3 — Flujo de trabajo**
 
@@ -60,7 +59,7 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 - ✅ Pasar este roadmap a GitHub: un **milestone por fase** y un **issue por tarea**; este archivo queda como visión general y deja de mantenerse casilla a casilla.
 - ✅ Plantilla de PR con el checklist de publicación (ambos temas revisados, `draft: false`, máquina retirada, sin credenciales en capturas).
 - ✅ `LICENSE`: MIT para el código y CC BY-NC 4.0 para el contenido de `src/content/`.
-- 🟨 (falta URL del sitio y fijarlo en el perfil) Metadatos del repo: descripción, topics (`astro`, `portfolio`, `ctf-writeups`), URL del sitio, y fijarlo en el perfil.
+- 🟨 (falta fijarlo en el perfil) Metadatos del repo: descripción, topics (`astro`, `portfolio`, `ctf-writeups`), URL del sitio, y fijarlo en el perfil.
 
 **Criterio de salida:** `git status` limpio, `main` en GitHub, CI en verde, y abrir un PR ejecuta el build solo.
 
@@ -70,7 +69,7 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 
 *Objetivo: dejar el proyecto listo para crecer sin deuda técnica.*
 
-- 🟨 `site` en `astro.config.mjs`: hay un valor provisional (`m3ow5n0ir.pages.dev`); confirmarlo al desplegar (Fase 6).
+- ✅ `site` en `astro.config.mjs` (URL de GitHub Pages desde la Fase 6).
 - ✅ Self-host de fuentes: instalar `@fontsource-variable/space-grotesk` + `@fontsource/jetbrains-mono`, importarlas en `global.css`, eliminar el `@import` de Google Fonts (línea 1).
 - ✅ Reemplazar RemixIcon CDN (`Layout.astro`) por `astro-icon` con `@iconify-json/ri`.
 - ✅ `rel="noopener noreferrer"` en todo `target="_blank"` (hoy: `SelectedWorks.astro`); ningún link interno con `target="_blank"`.
@@ -133,19 +132,22 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 
 ---
 
-## Fase 6 — Despliegue (adelantada: va tras la Fase 0)
+## Fase 6 — Despliegue
 
-*Objetivo: publicar y que publicar sea trivial. Se adelanta porque, con el repo en GitHub, cada PR posterior obtiene una URL de preview donde revisar SEO, móvil y Lighthouse de verdad.*
+*Objetivo: publicar y que publicar sea trivial.*
 
-- ⬜ Elegir hosting (decisión abierta, ver PLAN_MEJORAS §5):
-  - **Cloudflare Pages (recomendado):** se conecta al repo de GitHub, despliega `main` y genera una preview por PR; el `site` provisional ya apunta a `*.pages.dev`.
-  - **GitHub Pages:** todo dentro de GitHub (Action oficial `withastro/action`), pero sin previews por PR y exige `base` si el repo no es `usuario.github.io`.
-- ⬜ Antes del primer deploy: reemplazar los posts de ejemplo por contenido real o marcarlos `draft: true`.
-- ⬜ Configurar dominio (si hay) y actualizar `site`.
-- ⬜ Documentar en el README el flujo "publicar un writeup en 3 pasos": rama → `.md` → PR y merge.
-- ⬜ Verificación post-deploy: ambos temas, y (cuando exista la Fase 4) RSS, sitemap y OG cards.
+> **Decisión (2026-11-16): GitHub Pages**, con el repo renombrado a `AndrewSthephen23.github.io`
+> para servir el sitio en la raíz (sin `base`) en <https://andrewsthephen23.github.io>.
+> El repo pasa a ser público (Pages lo exige en el plan gratuito).
 
-**Criterio de salida:** `git push` a `main` → sitio actualizado en minutos; cada PR muestra su preview.
+- ✅ Hosting: GitHub Pages desplegado desde GitHub Actions (job `deploy` de `ci.yml`, solo en `main` y solo si pasan build y placeholders).
+- ✅ Los 3 posts de ejemplo quedan con `draft: true`; `/blog` muestra un aviso de "en construcción" mientras no haya posts publicados.
+- ✅ `site` actualizado a la URL de GitHub Pages.
+- ✅ README con el flujo de publicación y despliegue.
+- 🟨 Verificación post-deploy: rutas, RSS, sitemap y assets comprobados; faltan las OG cards al compartir en Discord/X/LinkedIn y un móvil real.
+- ⬜ Dominio propio (opcional): configurarlo en Pages y cambiar `site`.
+
+**Criterio de salida:** fusionar un PR en `main` → sitio actualizado en minutos.
 
 ---
 
@@ -201,8 +203,8 @@ y comentarios del código los referencian; **el orden de ejecución es el de est
 ## Orden y dependencias
 
 ```
-Fase G ──► Fase 0 ──► Fase 6 ──► Fase 4 ──► Fase 5 ──► Fase 7
-(GitHub)   (limpieza)  (deploy)   (SEO/móvil) (pulido)   (extras)
+Fase G ──► Fase 0 ──► Fase 4 + Fase 5 ──► Fase 6 ──► Fase 7
+(GitHub)   (limpieza)  (SEO/móvil, pulido)  (deploy)   (extras)
               │
               └─ QA de Fase 1 (se cierra en paralelo)
 
@@ -211,8 +213,7 @@ Hechas: Fase 1 (temas, salvo QA) · Fase 2 (blog) · Fase 3 (lectura)
 
 - **Fase G antes que todo:** primero se respalda el trabajo; después cada fase es un PR con CI.
 - **Fase 0 antes del deploy:** no publicar con placeholders ni CDNs.
-- **Fase 6 antes que 4 y 5:** las previews por PR son donde se validan OG cards, móvil real y Lighthouse.
-- **Fases 4 y 5 pueden solaparse** (son independientes).
+- **Fases 4 y 5 se hicieron en paralelo** y el deploy (Fase 6) se dejó para el final, con el sitio ya completo.
 
 ## Regla de publicación de writeups
 

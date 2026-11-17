@@ -11,10 +11,10 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO(Fase 4/6): reemplazar por el dominio real cuando se despliegue.
+  // Sitio en GitHub Pages (repo AndrewSthephen23.github.io, servido en la raíz).
   // Todo lo absoluto (canonical, Open Graph, sitemap, robots.txt, RSS) se
   // deriva de aquí: cambiar de dominio es cambiar esta línea.
-  site: 'https://m3ow5n0ir.pages.dev',
+  site: 'https://andrewsthephen23.github.io',
 
   // expressiveCode DEBE ir antes de mdx.
   integrations: [

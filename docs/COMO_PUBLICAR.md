@@ -95,7 +95,7 @@ git commit -m "post: writeup de NombreMáquina"
 git push
 ```
 
-(El deploy automático llega en la Fase 6; por ahora `git push` versiona el post.)
+Al fusionar el PR en `main`, GitHub Actions compila y publica el sitio en GitHub Pages en unos minutos.
 
 ---
 
